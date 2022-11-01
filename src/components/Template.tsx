@@ -110,9 +110,6 @@ const Template: React.FC<Props> = ({ children }) => {
         <Content style={{ margin: '0 16px' }}>
           <div style={{ minHeight: 360, padding: 16 }}>{children}</div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>
-          Telkom ©2022 Created by devsam
-        </Footer>
       </Layout>
     </Layout>
   );
