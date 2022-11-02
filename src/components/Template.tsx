@@ -1,13 +1,14 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useContext } from 'react';
 import {
   PieChartOutlined,
   UserOutlined,
   LogoutOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Image, MenuProps, Dropdown } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Outlet } from 'react-router-dom';
+import { AuthContext } from '../contexts/AuthContext';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -32,12 +33,11 @@ const generateItem = (navigate: any) => {
   ] as MenuItem[];
 };
 
-interface Props {
-  children: any;
-}
+interface Props {}
 
-const Template: React.FC<Props> = ({ children }) => {
+const Template: React.FC<Props> = () => {
   const navigate = useNavigate();
+  const { logout } = useContext(AuthContext);
 
   const [collapsed, setCollapsed] = useState(false);
   const [selectedKeys, setSelectedKeys] = useState(['1']);
@@ -49,6 +49,7 @@ const Template: React.FC<Props> = ({ children }) => {
             key: '1',
             label: 'Logout',
             icon: <LogoutOutlined />,
+            onClick: logout,
           },
         ]}
       />
@@ -108,7 +109,9 @@ const Template: React.FC<Props> = ({ children }) => {
           </Dropdown>
         </Header>
         <Content style={{ margin: '0 16px' }}>
-          <div style={{ minHeight: 360, padding: 16 }}>{children}</div>
+          <div style={{ minHeight: 360, padding: 16 }}>
+            <Outlet />
+          </div>
         </Content>
       </Layout>
     </Layout>
