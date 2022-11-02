@@ -1,5 +1,5 @@
 # Description
-add dashboard template
+Input your description here
 
 Fixes # (issue)
 
@@ -8,5 +8,5 @@ Fixes # (issue)
 Please delete options that are not relevant.
 
 - [ ] Bug fix (non-breaking change which fixes an issue)
-- [x] New feature (non-breaking change which adds functionality)
+- [ ] New feature (non-breaking change which adds functionality)
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
