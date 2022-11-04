@@ -1,11 +1,12 @@
 import React, { useContext, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import 'antd/dist/antd.min.css';
+
 import Template from './components/Template';
 import Login from './pages/Login';
 import { AuthContext } from './contexts/AuthContext';
 import { Spin } from 'antd';
 import Dashboard from './pages/Admin/Dashboard';
+import User from './pages/Admin/User';
 
 const App: React.FC = () => {
   const navigate = useNavigate();
@@ -41,6 +42,7 @@ const App: React.FC = () => {
       {isLogin && (
         <Route path="admin" element={<Template />}>
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="user" element={<User />} />
         </Route>
       )}
     </Routes>
