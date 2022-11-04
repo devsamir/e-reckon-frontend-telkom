@@ -13,7 +13,11 @@ interface Props extends InputProps {
   defaultValue?: string;
 }
 
-const FInput: React.FC<Props> = ({ name, defaultValue = '', ...props }) => {
+const FInputPassword: React.FC<Props> = ({
+  name,
+  defaultValue = '',
+  ...props
+}) => {
   const {
     formState: { errors },
 
@@ -51,4 +55,4 @@ const FInput: React.FC<Props> = ({ name, defaultValue = '', ...props }) => {
   );
 };
 
-export default FInput;
+export default FInputPassword;

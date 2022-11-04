@@ -40,7 +40,7 @@ const Template: React.FC<Props> = () => {
   const { logout } = useContext(AuthContext);
 
   const [collapsed, setCollapsed] = useState(false);
-  const [selectedKeys, setSelectedKeys] = useState(['1']);
+  const [selectedKeys, setSelectedKeys] = useState([]);
   const menu = useMemo(
     () => (
       <Menu
@@ -92,7 +92,7 @@ const Template: React.FC<Props> = () => {
           }}
         >
           <Dropdown overlay={menu} trigger={['click']}>
-            <button className="h-full m-4 flex items-center gap-4">
+            <button className="h-full m-4 flex items-center gap-4 border-none bg-white cursor-pointer">
               <div className="flex flex-col justify-end text-right sm:hidden">
                 <span className="font-medium text-base text-gray-800 tracking-wide leading-4 text-right">
                   John Doe

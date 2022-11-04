@@ -15,3 +15,8 @@ html {
 body {
   background-color: #f2f5fa;
 }
+
+.ant-table-thead .ant-table-cell {
+  background-color: rgb(5, 63, 156) !important;
+  color: #fff;
+}
