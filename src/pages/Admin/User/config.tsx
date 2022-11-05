@@ -53,12 +53,18 @@ export const createUserSchema = (formStatus) => {
   return yup.object().shape({
     ...(formStatus === 'create' || formStatus === 'update'
       ? {
-          username: yup.string().required('Username lengkap harus diisi'),
+          username: yup
+            .string()
+            .typeError('Username lengkap harus diisi')
+            .required('Username lengkap harus diisi'),
           level: yup
             .number()
             .typeError('Role harus diisi')
             .required('Role harus diisi'),
-          fullname: yup.string().required('Fullname lengkap harus diisi'),
+          fullname: yup
+            .string()
+            .typeError('Fullname lengkap harus diisi')
+            .required('Fullname lengkap harus diisi'),
           password: yup
             .string()
             .nullable()

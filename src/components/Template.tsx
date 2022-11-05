@@ -3,6 +3,7 @@ import {
   PieChartOutlined,
   UserOutlined,
   LogoutOutlined,
+  SettingOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Image, MenuProps, Dropdown } from 'antd';
 import { useNavigate, Outlet } from 'react-router-dom';
@@ -23,8 +24,22 @@ const generateItem = (navigate: any) => {
       },
     },
     {
-      label: 'User',
+      label: 'Common',
       key: '2',
+      icon: <SettingOutlined />,
+      children: [
+        {
+          label: 'Unit',
+          key: '2-1',
+          onClick: () => {
+            navigate('/admin/common/unit');
+          },
+        },
+      ],
+    },
+    {
+      label: 'User',
+      key: '3',
       icon: <UserOutlined />,
       onClick: () => {
         navigate('/admin/user');

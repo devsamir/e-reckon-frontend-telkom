@@ -1,59 +1,58 @@
 import React, { useState } from 'react';
 import { Breadcrumb, Button, Modal, notification } from 'antd';
 import { useForm, FormProvider } from 'react-hook-form';
-import FilterUser from './partials/FilterUser';
+import FilterUnit from './partials/FilterUnit';
 import TableExtended from 'src/components/TableExtended';
 import Pagination, { usePagination } from 'src/components/Pagination';
-import { createUserSchema, useUserColumns } from './config';
-import { useUserService } from 'src/services/user.service';
+import { unitSchema, useUnitColumns } from './config';
 import FInput from 'src/components/form/FInput';
 import { yupResolver } from '@hookform/resolvers/yup';
 import FInputPassword from 'src/components/form/FInputPassword';
 import { useQueryClient } from '@tanstack/react-query';
+import { useUnitService } from 'src/services/unit.service';
 import { removeFalsyValue } from 'src/helpers/utils';
 
-const User = () => {
+const Unit = () => {
   const pagination = usePagination();
   const queryClient = useQueryClient();
-  const { qUser, createMutation, updateMutation, deleteMutation } =
-    useUserService(pagination);
+  const { qUnit, createMutation, updateMutation, deleteMutation } =
+    useUnitService(pagination);
   const [id, setId] = useState();
   const [showModal, setShowModal] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
-  const userSchema = createUserSchema(id ? 'update' : 'create');
-  const form = useForm({ resolver: yupResolver(userSchema) });
+  const form = useForm({ resolver: yupResolver(unitSchema) });
 
+  // Function for Crud Preparation
   const prepareCreate = () => {
     setShowModal(true);
     setId(null);
-    form.reset({ username: null, fullname: null, level: null });
+    form.reset({ unit_name: '' });
   };
   const prepareEdit = (record) => {
     setShowModal(true);
     setId(record?.id);
     form.reset({
-      username: record?.username,
-      fullname: record?.fullname,
-      level: record?.level,
+      unit_name: record?.unit_name,
     });
   };
   const prepareDelete = (record) => {
     setConfirmDelete(true);
     setId(record?.id);
   };
+  const columns = useUnitColumns(prepareEdit, prepareDelete);
 
-  const columns = useUserColumns(prepareEdit, prepareDelete);
+  // Function for Crud Action
   const onSubmit = async (values) => {
-    // Remove Null Value
     const newValues: any = removeFalsyValue(values);
+
     if (!!id) {
       await updateMutation.mutateAsync(
         { ...newValues, id },
         {
           onSuccess: () => {
-            queryClient.invalidateQueries(['getAllUser']);
-            notification.success({ message: 'Berhasil update user' });
+            queryClient.invalidateQueries(['getAllUnit']);
+            notification.success({ message: 'Berhasil update unit' });
             setShowModal(false);
           },
           onError: (error: any) => {
@@ -66,8 +65,8 @@ const User = () => {
     } else {
       await createMutation.mutateAsync(newValues, {
         onSuccess: () => {
-          queryClient.invalidateQueries(['getAllUser']);
-          notification.success({ message: 'Berhasil tambah user' });
+          queryClient.invalidateQueries(['getAllUnit']);
+          notification.success({ message: 'Berhasil tambah unit' });
           setShowModal(false);
         },
         onError: (error: any) => {
@@ -81,8 +80,8 @@ const User = () => {
   const handleDelete = async () => {
     await deleteMutation.mutateAsync(id, {
       onSuccess: () => {
-        queryClient.invalidateQueries(['getAllUser']);
-        notification.success({ message: 'Berhasil hapus user' });
+        queryClient.invalidateQueries(['getAllUnit']);
+        notification.success({ message: 'Berhasil hapus unit' });
       },
       onError: (error: any) => {
         notification.error({
@@ -98,13 +97,14 @@ const User = () => {
     <>
       <Breadcrumb>
         <Breadcrumb.Item>Admin</Breadcrumb.Item>
-        <Breadcrumb.Item>User</Breadcrumb.Item>
+        <Breadcrumb.Item>Common</Breadcrumb.Item>
+        <Breadcrumb.Item>Unit</Breadcrumb.Item>
       </Breadcrumb>
-      <FilterUser setDomain={pagination.setDomain} />
+      <FilterUnit setDomain={pagination.setDomain} />
       <div className="flex justify-between items-center gap-4 flex-wrap">
         <Pagination
           page={pagination.page}
-          total={qUser.length}
+          total={qUnit.length}
           limit={pagination.limit}
           onChange={pagination.onChangePagination}
         />
@@ -114,14 +114,14 @@ const User = () => {
       </div>
       <TableExtended
         columns={columns}
-        dataSource={qUser.data}
-        loading={qUser.isLoading || qUser.isFetching}
+        dataSource={qUnit.data}
+        loading={qUnit.isLoading || qUnit.isFetching}
         setSorter={pagination.setSort}
         rowKey="id"
       />
       <FormProvider {...form}>
         <Modal
-          title={!!id ? 'Edit User' : 'Tambah User'}
+          title={!!id ? 'Edit Unit' : 'Tambah Unit'}
           okText={!!id ? 'Update' : 'Create'}
           open={showModal}
           onOk={form.handleSubmit(onSubmit)}
@@ -129,25 +129,13 @@ const User = () => {
           onCancel={setShowModal.bind(this, false)}
         >
           <div className="flex flex-col gap-1 mb-4">
-            <label className="text-sm font-medium">Username</label>
-            <FInput name="username" placeholder="Input" />
-          </div>
-          <div className="flex flex-col gap-1 mb-4">
-            <label className="text-sm font-medium">Nama Lengkap</label>
-            <FInput name="fullname" placeholder="Input" />
-          </div>
-          <div className="flex flex-col gap-1 mb-4">
-            <label className="text-sm font-medium">Level</label>
-            <FInput type="number" name="level" placeholder="Input" />
-          </div>
-          <div className="flex flex-col gap-1 mb-4">
-            <label className="text-sm font-medium">Password</label>
-            <FInputPassword name="password" placeholder="Input" />
+            <label className="text-sm font-medium">Unit</label>
+            <FInput name="unit_name" placeholder="Input" />
           </div>
         </Modal>
       </FormProvider>
       <Modal
-        title={'Delete User'}
+        title={'Delete Unit'}
         okText={'Delete'}
         open={confirmDelete}
         okButtonProps={{
@@ -157,10 +145,10 @@ const User = () => {
         confirmLoading={deleteMutation.isLoading}
         onCancel={setConfirmDelete.bind(this, false)}
       >
-        Yakin hapus data user ?
+        Yakin hapus data unit ?
       </Modal>
     </>
   );
 };
 
-export default User;
+export default Unit;

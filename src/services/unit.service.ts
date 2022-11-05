@@ -3,18 +3,15 @@ import { notification } from 'antd';
 import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { usePaginationProps } from 'src/components/Pagination';
-import useGetUser from 'src/data/useGetUser';
+import useUnitSearchRead from 'src/data/useUnitSearchRead';
 import ApiCall from './ApiCall';
 
-interface UserData {
+interface UnitData {
   id?: number;
-  username: string;
-  password: string;
-  fullname: string;
-  level: number;
+  unit_name: string;
 }
 
-export const useUserService = ({
+export const useUnitService = ({
   limit,
   offset,
   domain,
@@ -22,7 +19,7 @@ export const useUserService = ({
 }: usePaginationProps) => {
   const [cookies] = useCookies();
 
-  const qUser = useGetUser({
+  const qUnit = useUnitSearchRead({
     limit,
     offset,
     domain,
@@ -30,33 +27,33 @@ export const useUserService = ({
   });
 
   const createMutation = useMutation({
-    mutationFn: (data: UserData) =>
-      ApiCall.post('/user/create', data, {
+    mutationFn: (data: UnitData) =>
+      ApiCall.post('/unit/create', data, {
         headers: { token: cookies?.['token'] },
       }),
   });
 
   const updateMutation = useMutation({
-    mutationFn: (data: UserData) =>
-      ApiCall.patch(`/user/write/${data?.id}`, data, {
+    mutationFn: (data: UnitData) =>
+      ApiCall.patch(`/unit/write/${data?.id}`, data, {
         headers: { token: cookies?.['token'] },
       }),
   });
 
   const deleteMutation = useMutation({
     mutationFn: (id: number) =>
-      ApiCall.delete(`/user/delete/${id}`, {
+      ApiCall.delete(`/unit/delete/${id}`, {
         headers: { token: cookies?.['token'] },
       }),
   });
 
   useEffect(() => {
-    if (qUser.error) {
+    if (qUnit.error) {
       notification.error({
-        message: qUser.error?.response?.data?.message as string,
+        message: qUnit.error?.response?.data?.message as string,
       });
     }
-  }, [qUser.error]);
+  }, [qUnit.error]);
 
-  return { qUser, createMutation, updateMutation, deleteMutation };
+  return { qUnit, createMutation, updateMutation, deleteMutation };
 };
