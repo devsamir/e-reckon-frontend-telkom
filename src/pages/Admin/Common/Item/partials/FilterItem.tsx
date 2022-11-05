@@ -9,9 +9,8 @@ interface Props {
   setDomain: any;
 }
 
-const FilterUser: React.FC<Props> = ({ setDomain }) => {
+const FilterItem: React.FC<Props> = ({ setDomain }) => {
   const handleSearch = (values) => {
-    console.log(values);
     const newDomain = generateDomain({
       domain: values,
       like: ['item_code', 'material_designator', 'service_designator'],
@@ -70,4 +69,4 @@ const FilterUser: React.FC<Props> = ({ setDomain }) => {
   );
 };
 
-export default FilterUser;
+export default FilterItem;

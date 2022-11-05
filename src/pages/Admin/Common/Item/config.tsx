@@ -105,7 +105,7 @@ export const useItemColumns = (prepareEdit, prepareDelete) => {
           ],
         },
       ] as ColumnsType<any>,
-    []
+    [prepareEdit, prepareDelete]
   );
 
   return columns;

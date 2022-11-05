@@ -7,26 +7,31 @@ interface Props {
   setDomain: any;
 }
 
-const FilterUnit: React.FC<Props> = ({ setDomain }) => {
+const FilterMitra: React.FC<Props> = ({ setDomain }) => {
   const handleSearch = (values) => {
+    console.log(values);
     const newDomain = generateDomain({
       domain: values,
-      like: ['unit_name'],
+      like: ['shortname', 'fullname'],
     });
     setDomain(newDomain);
   };
   return (
     <FilterContainer
-      title="Filter Unit"
+      title="Filter Mitra"
       onFind={handleSearch}
       filterFields={[
         {
-          label: 'Nama Unit',
-          component: <FInput name="unit_name" placeholder="Input" allowClear />,
+          label: 'Nama Pendek Mitra',
+          component: <FInput name="shortname" placeholder="Input" allowClear />,
+        },
+        {
+          label: 'Nama Mitra',
+          component: <FInput name="fullname" placeholder="Input" allowClear />,
         },
       ]}
     />
   );
 };
 
-export default FilterUnit;
+export default FilterMitra;
