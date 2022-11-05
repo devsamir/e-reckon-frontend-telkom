@@ -115,7 +115,13 @@ const User = () => {
       <TableExtended
         columns={columns}
         dataSource={qUser.data}
-        loading={qUser.isLoading || qUser.isFetching}
+        loading={
+          qUser.isLoading ||
+          qUser.isFetching ||
+          createMutation.isLoading ||
+          updateMutation.isLoading ||
+          deleteMutation.isLoading
+        }
         setSorter={pagination.setSort}
         rowKey="id"
       />

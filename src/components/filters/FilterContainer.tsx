@@ -33,16 +33,17 @@ const FilterContainer: React.FC<Props> = ({
         <div>
           <h4 className="text-sm tracking-wide uppercase font-bold">{title}</h4>
           <Row className="w-full" gutter={[16, 16]}>
-            <Col span={24} lg={18} xl={20}>
-              <Row className="w-full" gutter={[8, 8]}>
+            <Col span={24}>
+              <Row className="w-full" gutter={[10, 10]}>
                 {filterFields.map((filterField, index) => {
                   return (
                     <Col
                       span={24}
                       md={8}
                       style={{
-                        display: index > 2 && !expand ? 'none' : 'block',
+                        display: index > 2 && !expand ? 'none' : 'flex',
                       }}
+                      className="flex-col gap-1"
                       key={index}
                     >
                       <span>{filterField.label}</span>
@@ -52,7 +53,7 @@ const FilterContainer: React.FC<Props> = ({
                 })}
               </Row>
             </Col>
-            <Col span={24} lg={6} xl={4}>
+            <Col span={24}>
               <div className="flex gap-2 flex-wrap items-center mt-5">
                 {filterFields.length > 3 && (
                   <Button

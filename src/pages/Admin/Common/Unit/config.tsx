@@ -9,15 +9,10 @@ export const useUnitColumns = (prepareEdit, prepareDelete) => {
     () =>
       [
         {
-          key: 'unit_name',
-          dataIndex: 'unit_name',
-          title: 'Nama Unit',
-          sorter: true,
-        },
-
-        {
           key: 'action',
           title: 'Action',
+          width: 125,
+          fixed: 'left',
           render: (_, record) => {
             return (
               <div className="flex items-center gap-2 flex-wrap">
@@ -31,8 +26,14 @@ export const useUnitColumns = (prepareEdit, prepareDelete) => {
             );
           },
         },
+        {
+          key: 'unit_name',
+          dataIndex: 'unit_name',
+          title: 'Nama Unit',
+          sorter: true,
+        },
       ] as ColumnsType<any>,
-    []
+    [prepareEdit, prepareDelete]
   );
 
   return columns;

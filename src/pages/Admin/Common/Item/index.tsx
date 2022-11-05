@@ -1,45 +1,65 @@
 import React, { useState } from 'react';
 import { Breadcrumb, Button, Modal, notification } from 'antd';
 import { useForm, FormProvider } from 'react-hook-form';
-import FilterUnit from './partials/FilterUnit';
+import FilterItem from './partials/FilterItem';
 import TableExtended from 'src/components/TableExtended';
 import Pagination, { usePagination } from 'src/components/Pagination';
-import { unitSchema, useUnitColumns } from './config';
+import { itemSchema, useItemColumns } from './config';
 import FInput from 'src/components/form/FInput';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useQueryClient } from '@tanstack/react-query';
-import { useUnitService } from 'src/services/unit.service';
-import { removeFalsyValue } from 'src/helpers/utils';
+import { pick, removeFalsyValue } from 'src/helpers/utils';
+import { useItemService } from 'src/services/item.service';
+import UnitSelector from 'src/components/filters/UnitSelector';
+import FInputNumber from 'src/components/form/FInputNumber';
 
-const Unit = () => {
+const Item = () => {
   const pagination = usePagination();
   const queryClient = useQueryClient();
-  const { qUnit, createMutation, updateMutation, deleteMutation } =
-    useUnitService(pagination);
+  const { qItem, createMutation, updateMutation, deleteMutation } =
+    useItemService(pagination);
   const [id, setId] = useState();
   const [showModal, setShowModal] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
-  const form = useForm({ resolver: yupResolver(unitSchema) });
+  const form = useForm({ resolver: yupResolver(itemSchema) });
 
   // Function for Crud Preparation
   const prepareCreate = () => {
     setShowModal(true);
     setId(null);
-    form.reset({ unit_name: '' });
+    form.reset({
+      item_code: '',
+      material_designator: '',
+      service_designator: '',
+      unit_id: '',
+      material_price_telkom: '',
+      service_price_telkom: '',
+      material_price_mitra: '',
+      service_price_mitra: '',
+    });
   };
   const prepareEdit = (record) => {
     setShowModal(true);
     setId(record?.id);
-    form.reset({
-      unit_name: record?.unit_name,
-    });
+    form.reset(
+      pick(record, [
+        'item_code',
+        'material_designator',
+        'service_designator',
+        'unit_id',
+        'material_price_telkom',
+        'service_price_telkom',
+        'material_price_mitra',
+        'service_price_mitra',
+      ])
+    );
   };
   const prepareDelete = (record) => {
     setConfirmDelete(true);
     setId(record?.id);
   };
-  const columns = useUnitColumns(prepareEdit, prepareDelete);
+  const columns = useItemColumns(prepareEdit, prepareDelete);
 
   // Function for Crud Action
   const onSubmit = async (values) => {
@@ -50,8 +70,8 @@ const Unit = () => {
         { ...newValues, id },
         {
           onSuccess: () => {
-            queryClient.invalidateQueries(['getAllUnit']);
-            notification.success({ message: 'Berhasil update unit' });
+            queryClient.invalidateQueries(['getAllItem']);
+            notification.success({ message: 'Berhasil update item' });
             setShowModal(false);
           },
           onError: (error: any) => {
@@ -64,8 +84,8 @@ const Unit = () => {
     } else {
       await createMutation.mutateAsync(newValues, {
         onSuccess: () => {
-          queryClient.invalidateQueries(['getAllUnit']);
-          notification.success({ message: 'Berhasil tambah unit' });
+          queryClient.invalidateQueries(['getAllItem']);
+          notification.success({ message: 'Berhasil tambah item' });
           setShowModal(false);
         },
         onError: (error: any) => {
@@ -79,8 +99,8 @@ const Unit = () => {
   const handleDelete = async () => {
     await deleteMutation.mutateAsync(id, {
       onSuccess: () => {
-        queryClient.invalidateQueries(['getAllUnit']);
-        notification.success({ message: 'Berhasil hapus unit' });
+        queryClient.invalidateQueries(['getAllItem']);
+        notification.success({ message: 'Berhasil hapus item' });
       },
       onError: (error: any) => {
         notification.error({
@@ -97,13 +117,13 @@ const Unit = () => {
       <Breadcrumb>
         <Breadcrumb.Item>Admin</Breadcrumb.Item>
         <Breadcrumb.Item>Common</Breadcrumb.Item>
-        <Breadcrumb.Item>Unit</Breadcrumb.Item>
+        <Breadcrumb.Item>Item</Breadcrumb.Item>
       </Breadcrumb>
-      <FilterUnit setDomain={pagination.setDomain} />
+      <FilterItem setDomain={pagination.setDomain} />
       <div className="flex justify-between items-center gap-4 flex-wrap">
         <Pagination
           page={pagination.page}
-          total={qUnit.length}
+          total={qItem.length}
           limit={pagination.limit}
           onChange={pagination.onChangePagination}
         />
@@ -113,10 +133,10 @@ const Unit = () => {
       </div>
       <TableExtended
         columns={columns}
-        dataSource={qUnit.data}
+        dataSource={qItem.data}
         loading={
-          qUnit.isLoading ||
-          qUnit.isFetching ||
+          qItem.isLoading ||
+          qItem.isFetching ||
           createMutation.isLoading ||
           updateMutation.isLoading ||
           deleteMutation.isLoading
@@ -126,7 +146,7 @@ const Unit = () => {
       />
       <FormProvider {...form}>
         <Modal
-          title={!!id ? 'Edit Unit' : 'Tambah Unit'}
+          title={!!id ? 'Edit Item' : 'Tambah Item'}
           okText={!!id ? 'Update' : 'Create'}
           open={showModal}
           onOk={form.handleSubmit(onSubmit)}
@@ -134,13 +154,53 @@ const Unit = () => {
           onCancel={setShowModal.bind(this, false)}
         >
           <div className="flex flex-col gap-1 mb-4">
+            <label className="text-sm font-medium">Kode Item</label>
+            <FInput name="item_code" placeholder="Input" />
+          </div>
+          <div className="flex flex-col gap-1 mb-4">
+            <label className="text-sm font-medium">Material Designator</label>
+            <FInput name="material_designator" placeholder="Input" />
+          </div>
+          <div className="flex flex-col gap-1 mb-4">
+            <label className="text-sm font-medium">Service Designator</label>
+            <FInput name="service_designator" placeholder="Input" />
+          </div>
+          <div className="flex flex-col gap-1 mb-4">
             <label className="text-sm font-medium">Unit</label>
-            <FInput name="unit_name" placeholder="Input" />
+            <UnitSelector name="unit_id" placeholder="Select" />
+          </div>
+          <div className="flex flex-col gap-1 mb-4">
+            <label className="text-sm font-medium">Harga Material Telkom</label>
+            <FInputNumber
+              name="material_price_telkom"
+              placeholder="Input Number"
+            />
+          </div>
+          <div className="flex flex-col gap-1 mb-4">
+            <label className="text-sm font-medium">Harga Service Telkom</label>
+            <FInputNumber
+              name="service_price_telkom"
+              placeholder="Input Number"
+            />
+          </div>
+          <div className="flex flex-col gap-1 mb-4">
+            <label className="text-sm font-medium">Harga Material Mitra</label>
+            <FInputNumber
+              name="material_price_mitra"
+              placeholder="Input Number"
+            />
+          </div>
+          <div className="flex flex-col gap-1 mb-4">
+            <label className="text-sm font-medium">Harga Service Mitra</label>
+            <FInputNumber
+              name="service_price_mitra"
+              placeholder="Input Number"
+            />
           </div>
         </Modal>
       </FormProvider>
       <Modal
-        title={'Delete Unit'}
+        title={'Delete Item'}
         okText={'Delete'}
         open={confirmDelete}
         okButtonProps={{
@@ -150,10 +210,10 @@ const Unit = () => {
         confirmLoading={deleteMutation.isLoading}
         onCancel={setConfirmDelete.bind(this, false)}
       >
-        Yakin hapus data unit ?
+        Yakin hapus data item ?
       </Modal>
     </>
   );
 };
 
-export default Unit;
+export default Item;
