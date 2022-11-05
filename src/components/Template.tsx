@@ -6,47 +6,12 @@ import {
   SettingOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Image, MenuProps, Dropdown } from 'antd';
-import { useNavigate, Outlet } from 'react-router-dom';
+import { useNavigate, Outlet, Link } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 
 const { Header, Content, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
-
-const generateItem = (navigate: any) => {
-  return [
-    {
-      label: 'Dashboard',
-      key: '1',
-      icon: <PieChartOutlined />,
-      onClick: () => {
-        navigate('/admin/dashboard');
-      },
-    },
-    {
-      label: 'Common',
-      key: '2',
-      icon: <SettingOutlined />,
-      children: [
-        {
-          label: 'Unit',
-          key: '2-1',
-          onClick: () => {
-            navigate('/admin/common/unit');
-          },
-        },
-      ],
-    },
-    {
-      label: 'User',
-      key: '3',
-      icon: <UserOutlined />,
-      onClick: () => {
-        navigate('/admin/user');
-      },
-    },
-  ] as MenuItem[];
-};
 
 interface Props {}
 
@@ -71,7 +36,6 @@ const Template: React.FC<Props> = () => {
     ),
     []
   );
-
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider
@@ -89,12 +53,25 @@ const Template: React.FC<Props> = () => {
           )}
         </div>
         <Menu
-          defaultSelectedKeys={['1']}
           selectedKeys={selectedKeys}
           onSelect={(e) => setSelectedKeys(e.keyPath)}
           mode="inline"
-          items={generateItem(navigate)}
-        />
+        >
+          <Menu.Item icon={<PieChartOutlined />} key="1">
+            <Link to={'/admin/dashboard'}>Dashboard</Link>
+          </Menu.Item>
+          <Menu.SubMenu title="Common" icon={<SettingOutlined />} key="2">
+            <Menu.Item key="2-1">
+              <Link to={'/admin/common/unit'}>Unit</Link>
+            </Menu.Item>
+            <Menu.Item key="2-2">
+              <Link to={'/admin/common/item'}>Item</Link>
+            </Menu.Item>
+          </Menu.SubMenu>
+          <Menu.Item icon={<UserOutlined />} key="3">
+            <Link to={'/admin/user'}>User</Link>
+          </Menu.Item>
+        </Menu>
       </Sider>
       <Layout>
         <Header

@@ -8,6 +8,7 @@ import { Spin } from 'antd';
 import Dashboard from './pages/Admin/Dashboard';
 import User from './pages/Admin/User';
 import Unit from './pages/Admin/Common/Unit';
+import Item from './pages/Admin/Common/Item';
 
 const App: React.FC = () => {
   const navigate = useNavigate();
@@ -46,6 +47,7 @@ const App: React.FC = () => {
           <Route path="user" element={<User />} />
           {/* COMMON */}
           <Route path="common/unit" element={<Unit />} />
+          <Route path="common/item" element={<Item />} />
         </Route>
       )}
     </Routes>

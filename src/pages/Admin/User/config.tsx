@@ -9,6 +9,24 @@ export const useUserColumns = (prepareEdit, prepareDelete) => {
     () =>
       [
         {
+          key: 'action',
+          title: 'Action',
+          width: 125,
+          fixed: 'left',
+          render: (_, record) => {
+            return (
+              <div className="flex items-center gap-2 flex-wrap">
+                <Button type="warning" onClick={() => prepareEdit(record)}>
+                  <EditFilled />
+                </Button>
+                <Button type="danger" onClick={() => prepareDelete(record)}>
+                  <DeleteFilled />
+                </Button>
+              </div>
+            );
+          },
+        },
+        {
           key: 'username',
           dataIndex: 'username',
           title: 'Username',
@@ -26,24 +44,8 @@ export const useUserColumns = (prepareEdit, prepareDelete) => {
           title: 'Role',
           sorter: true,
         },
-        {
-          key: 'action',
-          title: 'Action',
-          render: (_, record) => {
-            return (
-              <div className="flex items-center gap-2 flex-wrap">
-                <Button type="warning" onClick={() => prepareEdit(record)}>
-                  <EditFilled />
-                </Button>
-                <Button type="danger" onClick={() => prepareDelete(record)}>
-                  <DeleteFilled />
-                </Button>
-              </div>
-            );
-          },
-        },
       ] as ColumnsType<any>,
-    []
+    [prepareEdit, prepareDelete]
   );
 
   return columns;
