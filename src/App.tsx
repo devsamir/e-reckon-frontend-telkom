@@ -7,6 +7,7 @@ import { AuthContext } from './contexts/AuthContext';
 import { Spin } from 'antd';
 import Dashboard from './pages/Admin/Dashboard';
 import User from './pages/Admin/User';
+import Unit from './pages/Admin/Common/Unit';
 
 const App: React.FC = () => {
   const navigate = useNavigate();
@@ -43,6 +44,8 @@ const App: React.FC = () => {
         <Route path="admin" element={<Template />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="user" element={<User />} />
+          {/* COMMON */}
+          <Route path="common/unit" element={<Unit />} />
         </Route>
       )}
     </Routes>
