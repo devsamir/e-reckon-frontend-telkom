@@ -9,6 +9,7 @@ import Dashboard from './pages/Admin/Dashboard';
 import User from './pages/Admin/User';
 import Unit from './pages/Admin/Common/Unit';
 import Item from './pages/Admin/Common/Item';
+import Mitra from './pages/Admin/Common/Mitra';
 
 const App: React.FC = () => {
   const navigate = useNavigate();
@@ -48,6 +49,7 @@ const App: React.FC = () => {
           {/* COMMON */}
           <Route path="common/unit" element={<Unit />} />
           <Route path="common/item" element={<Item />} />
+          <Route path="common/mitra" element={<Mitra />} />
         </Route>
       )}
     </Routes>

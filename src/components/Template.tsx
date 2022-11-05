@@ -67,6 +67,9 @@ const Template: React.FC<Props> = () => {
             <Menu.Item key="2-2">
               <Link to={'/admin/common/item'}>Item</Link>
             </Menu.Item>
+            <Menu.Item key="2-3">
+              <Link to={'/admin/common/mitra'}>Mitra</Link>
+            </Menu.Item>
           </Menu.SubMenu>
           <Menu.Item icon={<UserOutlined />} key="3">
             <Link to={'/admin/user'}>User</Link>
