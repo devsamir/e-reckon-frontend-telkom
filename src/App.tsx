@@ -1,15 +1,16 @@
-import React, { useContext, useEffect } from 'react';
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import React, { useContext, useEffect } from "react";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 
-import Template from './components/Template';
-import Login from './pages/Login';
-import { AuthContext } from './contexts/AuthContext';
-import { Spin } from 'antd';
-import Dashboard from './pages/Admin/Dashboard';
-import User from './pages/Admin/User';
-import Unit from './pages/Admin/Common/Unit';
-import Item from './pages/Admin/Common/Item';
-import Mitra from './pages/Admin/Common/Mitra';
+import { Spin } from "antd";
+
+import Template from "./components/Template";
+import { AuthContext } from "./contexts/AuthContext";
+import Item from "./pages/Admin/Common/Item";
+import Mitra from "./pages/Admin/Common/Mitra";
+import Unit from "./pages/Admin/Common/Unit";
+import Dashboard from "./pages/Admin/Dashboard";
+import User from "./pages/Admin/User";
+import Login from "./pages/Login";
 
 const App: React.FC = () => {
   const navigate = useNavigate();
@@ -18,15 +19,15 @@ const App: React.FC = () => {
   const { initialLoading, isLogin } = useContext(AuthContext);
 
   useEffect(() => {
-    if (pathname === '/') {
-      navigate('/login');
+    if (pathname === "/") {
+      navigate("/login");
     }
     if (initialLoading === false) {
-      if (pathname.startsWith('/admin')) {
-        if (!isLogin) navigate('/login');
+      if (pathname.startsWith("/admin")) {
+        if (!isLogin) navigate("/login");
       }
-      if (pathname === '/login') {
-        if (isLogin) navigate('/admin/dashboard');
+      if (pathname === "/login") {
+        if (isLogin) navigate("/admin/dashboard");
       }
     }
   }, [pathname, navigate, isLogin, initialLoading]);

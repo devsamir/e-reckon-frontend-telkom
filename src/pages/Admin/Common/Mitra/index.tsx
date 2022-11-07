@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
-import { Breadcrumb, Button, Modal, notification } from 'antd';
-import { useForm, FormProvider } from 'react-hook-form';
-import FilterMitra from './partials/FilterMitra';
-import TableExtended from 'src/components/TableExtended';
-import Pagination, { usePagination } from 'src/components/Pagination';
-import { itemSchema, useItemColumns } from './config';
-import FInput from 'src/components/form/FInput';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useQueryClient } from '@tanstack/react-query';
-import { pick, removeFalsyValue } from 'src/helpers/utils';
-import { useMitraService } from 'src/services/mitra.service';
+import React, { useState } from "react";
+import { useForm, FormProvider } from "react-hook-form";
+
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useQueryClient } from "@tanstack/react-query";
+import { Breadcrumb, Button, Modal, notification } from "antd";
+import Pagination, { usePagination } from "src/components/Pagination";
+import TableExtended from "src/components/TableExtended";
+import FInput from "src/components/form/FInput";
+import { pick, removeFalsyValue } from "src/helpers/utils";
+import { useMitraService } from "src/services/mitra.service";
+
+import { itemSchema, useItemColumns } from "./config";
+import FilterMitra from "./partials/FilterMitra";
 
 const Mitra = () => {
   const pagination = usePagination();
@@ -27,14 +29,14 @@ const Mitra = () => {
     setShowModal(true);
     setId(null);
     form.reset({
-      shortname: '',
-      fullname: '',
+      shortname: "",
+      fullname: "",
     });
   };
   const prepareEdit = (record) => {
     setShowModal(true);
     setId(record?.id);
-    form.reset(pick(record, ['shortname', 'fullname']));
+    form.reset(pick(record, ["shortname", "fullname"]));
   };
   const prepareDelete = (record) => {
     setConfirmDelete(true);
@@ -51,8 +53,8 @@ const Mitra = () => {
         { ...newValues, id },
         {
           onSuccess: () => {
-            queryClient.invalidateQueries(['getAllMitra']);
-            notification.success({ message: 'Berhasil update mitra' });
+            queryClient.invalidateQueries(["getAllMitra"]);
+            notification.success({ message: "Berhasil update mitra" });
             setShowModal(false);
           },
           onError: (error: any) => {
@@ -65,8 +67,8 @@ const Mitra = () => {
     } else {
       await createMutation.mutateAsync(newValues, {
         onSuccess: () => {
-          queryClient.invalidateQueries(['getAllMitra']);
-          notification.success({ message: 'Berhasil tambah mitra' });
+          queryClient.invalidateQueries(["getAllMitra"]);
+          notification.success({ message: "Berhasil tambah mitra" });
           setShowModal(false);
         },
         onError: (error: any) => {
@@ -80,8 +82,8 @@ const Mitra = () => {
   const handleDelete = async () => {
     await deleteMutation.mutateAsync(id, {
       onSuccess: () => {
-        queryClient.invalidateQueries(['getAllMitra']);
-        notification.success({ message: 'Berhasil hapus mitra' });
+        queryClient.invalidateQueries(["getAllMitra"]);
+        notification.success({ message: "Berhasil hapus mitra" });
       },
       onError: (error: any) => {
         notification.error({
@@ -127,8 +129,8 @@ const Mitra = () => {
       />
       <FormProvider {...form}>
         <Modal
-          title={!!id ? 'Edit Mitra' : 'Tambah Mitra'}
-          okText={!!id ? 'Update' : 'Create'}
+          title={!!id ? "Edit Mitra" : "Tambah Mitra"}
+          okText={!!id ? "Update" : "Create"}
           open={showModal}
           onOk={form.handleSubmit(onSubmit)}
           confirmLoading={createMutation.isLoading || updateMutation.isLoading}
@@ -145,11 +147,11 @@ const Mitra = () => {
         </Modal>
       </FormProvider>
       <Modal
-        title={'Delete Mitra'}
-        okText={'Delete'}
+        title={"Delete Mitra"}
+        okText={"Delete"}
         open={confirmDelete}
         okButtonProps={{
-          style: { background: 'rgb(239 68 68)', border: 'none' },
+          style: { background: "rgb(239 68 68)", border: "none" },
         }}
         onOk={handleDelete}
         confirmLoading={deleteMutation.isLoading}

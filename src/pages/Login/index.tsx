@@ -1,13 +1,15 @@
-import React, { useContext } from 'react';
-import { Button, notification } from 'antd';
-import FInput from 'src/components/form/FInput';
-import { useForm, FormProvider } from 'react-hook-form';
-import { useCookies } from 'react-cookie';
-import { yupResolver } from '@hookform/resolvers/yup';
-import FInputPassword from '../../components/form/FInputPassword';
-import { loginSchema } from './config';
-import { useLoginService } from '../../services/login.service';
-import { AuthContext } from '../../contexts/AuthContext';
+import React, { useContext } from "react";
+import { useCookies } from "react-cookie";
+import { useForm, FormProvider } from "react-hook-form";
+
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Button, notification } from "antd";
+import FInput from "src/components/form/FInput";
+
+import FInputPassword from "../../components/form/FInputPassword";
+import { AuthContext } from "../../contexts/AuthContext";
+import { useLoginService } from "../../services/login.service";
+import { loginSchema } from "./config";
 
 const Login = () => {
   const { setIsLogin } = useContext(AuthContext);
@@ -19,9 +21,9 @@ const Login = () => {
   const handleSubmit = (values) => {
     loginMutation.mutateAsync(values, {
       onSuccess: (res) => {
-        setCookie('token', res.data.token, { path: '/' });
+        setCookie("token", res.data.token, { path: "/" });
         setIsLogin(true);
-        notification.success({ message: 'Berhasil login' });
+        notification.success({ message: "Berhasil login" });
       },
       onError: (error: any) => {
         notification.error({
@@ -36,7 +38,7 @@ const Login = () => {
       <div className="w-full max-w-lg md:max-w-md p-4 bg-white rounded-lg mx-2">
         <div className="flex items-center my-4 gap-2 px-16">
           <img
-            src={require('../../assets/telkom_logo.png')}
+            src={require("../../assets/telkom_logo.png")}
             alt="Logo Telkom"
             className="w-32 p-4"
           />

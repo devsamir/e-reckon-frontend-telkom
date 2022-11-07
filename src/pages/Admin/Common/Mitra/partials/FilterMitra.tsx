@@ -1,7 +1,8 @@
-import React from 'react';
-import FInput from 'src/components/form/FInput';
-import FilterContainer from 'src/components/filters/FilterContainer';
-import generateDomain from 'src/helpers/generateDomain';
+import React from "react";
+
+import FilterContainer from "src/components/filters/FilterContainer";
+import FInput from "src/components/form/FInput";
+import generateDomain from "src/helpers/generateDomain";
 
 interface Props {
   setDomain: any;
@@ -12,7 +13,7 @@ const FilterMitra: React.FC<Props> = ({ setDomain }) => {
     console.log(values);
     const newDomain = generateDomain({
       domain: values,
-      like: ['shortname', 'fullname'],
+      like: ["shortname", "fullname"],
     });
     setDomain(newDomain);
   };
@@ -22,11 +23,11 @@ const FilterMitra: React.FC<Props> = ({ setDomain }) => {
       onFind={handleSearch}
       filterFields={[
         {
-          label: 'Nama Pendek Mitra',
+          label: "Nama Pendek Mitra",
           component: <FInput name="shortname" placeholder="Input" allowClear />,
         },
         {
-          label: 'Nama Mitra',
+          label: "Nama Mitra",
           component: <FInput name="fullname" placeholder="Input" allowClear />,
         },
       ]}

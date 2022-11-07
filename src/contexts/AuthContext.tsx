@@ -1,7 +1,8 @@
-import { notification } from 'antd';
-import { createContext, useCallback, useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
-import ApiCall from 'src/services/ApiCall';
+import { createContext, useEffect, useState, useCallback } from "react";
+import { useCookies } from "react-cookie";
+
+import { notification } from "antd";
+import ApiCall from "src/services/ApiCall";
 
 const AuthContext = createContext<any>(null);
 
@@ -10,35 +11,36 @@ const AuthProvider = ({ children }) => {
   const [initialLoading, setInitialLoading] = useState(true);
   const [isLogin, setIsLogin] = useState(false);
 
-  const checkIsLogin = async () => {
+  const checkIsLogin = useCallback(async () => {
     try {
       setInitialLoading(true);
-      await ApiCall.get('/user/me', {
-        headers: { token: cookies['token'] },
+      await ApiCall.get("/user/me", {
+        headers: { token: cookies["token"] },
       });
       setIsLogin(true);
     } catch (err) {
     } finally {
       setInitialLoading(false);
     }
-  };
+  }, [cookies]);
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     try {
-      removeCookie('token', { path: '/' });
+      removeCookie("token", { path: "/" });
       setIsLogin(false);
     } catch (err) {
       notification.error({ message: err.message });
     }
-  };
+  }, [removeCookie]);
+
   useEffect(() => {
     checkIsLogin();
-  }, []);
+  }, [checkIsLogin]);
 
   return (
     <AuthContext.Provider
       value={{
-        token: cookies['token'],
+        token: cookies["token"],
         initialLoading,
         isLogin,
         setIsLogin,

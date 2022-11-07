@@ -9,8 +9,8 @@ const generateDomain = ({ domain, like = [], numberRange = [] }: Params) => {
     if (like.includes(key) && value) {
       acc[key] = { contains: value };
     } else if (numberRange.includes(key) && value) {
-      if (typeof value?.min === 'number') acc[key] = { gte: value?.min };
-      if (typeof value?.max === 'number')
+      if (typeof value?.min === "number") acc[key] = { gte: value?.min };
+      if (typeof value?.max === "number")
         acc[key] = { ...(acc[key] || {}), lte: value?.max };
       return acc;
     } else if (value) {

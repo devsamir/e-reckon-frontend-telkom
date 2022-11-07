@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
-import { Breadcrumb, Button, Modal, notification } from 'antd';
-import { useForm, FormProvider } from 'react-hook-form';
-import FilterItem from './partials/FilterItem';
-import TableExtended from 'src/components/TableExtended';
-import Pagination, { usePagination } from 'src/components/Pagination';
-import { itemSchema, useItemColumns } from './config';
-import FInput from 'src/components/form/FInput';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useQueryClient } from '@tanstack/react-query';
-import { pick, removeFalsyValue } from 'src/helpers/utils';
-import { useItemService } from 'src/services/item.service';
-import UnitSelector from 'src/components/filters/UnitSelector';
-import FInputNumber from 'src/components/form/FInputNumber';
+import React, { useState } from "react";
+import { useForm, FormProvider } from "react-hook-form";
+
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useQueryClient } from "@tanstack/react-query";
+import { Breadcrumb, Button, Modal, notification } from "antd";
+import Pagination, { usePagination } from "src/components/Pagination";
+import TableExtended from "src/components/TableExtended";
+import UnitSelector from "src/components/filters/UnitSelector";
+import FInput from "src/components/form/FInput";
+import FInputNumber from "src/components/form/FInputNumber";
+import { pick, removeFalsyValue } from "src/helpers/utils";
+import { useItemService } from "src/services/item.service";
+
+import { itemSchema, useItemColumns } from "./config";
+import FilterItem from "./partials/FilterItem";
 
 const Item = () => {
   const pagination = usePagination();
@@ -29,14 +31,14 @@ const Item = () => {
     setShowModal(true);
     setId(null);
     form.reset({
-      item_code: '',
-      material_designator: '',
-      service_designator: '',
-      unit_id: '',
-      material_price_telkom: '',
-      service_price_telkom: '',
-      material_price_mitra: '',
-      service_price_mitra: '',
+      item_code: "",
+      material_designator: "",
+      service_designator: "",
+      unit_id: "",
+      material_price_telkom: "",
+      service_price_telkom: "",
+      material_price_mitra: "",
+      service_price_mitra: "",
     });
   };
   const prepareEdit = (record) => {
@@ -44,14 +46,14 @@ const Item = () => {
     setId(record?.id);
     form.reset(
       pick(record, [
-        'item_code',
-        'material_designator',
-        'service_designator',
-        'unit_id',
-        'material_price_telkom',
-        'service_price_telkom',
-        'material_price_mitra',
-        'service_price_mitra',
+        "item_code",
+        "material_designator",
+        "service_designator",
+        "unit_id",
+        "material_price_telkom",
+        "service_price_telkom",
+        "material_price_mitra",
+        "service_price_mitra",
       ])
     );
   };
@@ -70,8 +72,8 @@ const Item = () => {
         { ...newValues, id },
         {
           onSuccess: () => {
-            queryClient.invalidateQueries(['getAllItem']);
-            notification.success({ message: 'Berhasil update item' });
+            queryClient.invalidateQueries(["getAllItem"]);
+            notification.success({ message: "Berhasil update item" });
             setShowModal(false);
           },
           onError: (error: any) => {
@@ -84,8 +86,8 @@ const Item = () => {
     } else {
       await createMutation.mutateAsync(newValues, {
         onSuccess: () => {
-          queryClient.invalidateQueries(['getAllItem']);
-          notification.success({ message: 'Berhasil tambah item' });
+          queryClient.invalidateQueries(["getAllItem"]);
+          notification.success({ message: "Berhasil tambah item" });
           setShowModal(false);
         },
         onError: (error: any) => {
@@ -99,8 +101,8 @@ const Item = () => {
   const handleDelete = async () => {
     await deleteMutation.mutateAsync(id, {
       onSuccess: () => {
-        queryClient.invalidateQueries(['getAllItem']);
-        notification.success({ message: 'Berhasil hapus item' });
+        queryClient.invalidateQueries(["getAllItem"]);
+        notification.success({ message: "Berhasil hapus item" });
       },
       onError: (error: any) => {
         notification.error({
@@ -146,8 +148,8 @@ const Item = () => {
       />
       <FormProvider {...form}>
         <Modal
-          title={!!id ? 'Edit Item' : 'Tambah Item'}
-          okText={!!id ? 'Update' : 'Create'}
+          title={!!id ? "Edit Item" : "Tambah Item"}
+          okText={!!id ? "Update" : "Create"}
           open={showModal}
           onOk={form.handleSubmit(onSubmit)}
           confirmLoading={createMutation.isLoading || updateMutation.isLoading}
@@ -200,11 +202,11 @@ const Item = () => {
         </Modal>
       </FormProvider>
       <Modal
-        title={'Delete Item'}
-        okText={'Delete'}
+        title={"Delete Item"}
+        okText={"Delete"}
         open={confirmDelete}
         okButtonProps={{
-          style: { background: 'rgb(239 68 68)', border: 'none' },
+          style: { background: "rgb(239 68 68)", border: "none" },
         }}
         onOk={handleDelete}
         confirmLoading={deleteMutation.isLoading}

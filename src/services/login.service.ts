@@ -1,5 +1,6 @@
-import { useMutation } from '@tanstack/react-query';
-import ApiCall from './ApiCall';
+import { useMutation } from "@tanstack/react-query";
+
+import ApiCall from "./ApiCall";
 
 interface LoginData {
   username: string;
@@ -8,7 +9,7 @@ interface LoginData {
 
 export const useLoginService = () => {
   const loginMutation = useMutation({
-    mutationFn: (data: LoginData) => ApiCall.post('/auth/login', data),
+    mutationFn: (data: LoginData) => ApiCall.post("/auth/login", data),
   });
   return { loginMutation };
 };
