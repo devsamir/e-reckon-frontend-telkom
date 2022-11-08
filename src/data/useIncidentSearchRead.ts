@@ -1,7 +1,6 @@
-import { useCookies } from "react-cookie";
-
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import ApiCall from "src/services/ApiCall";
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { useCookies } from 'react-cookie';
+import ApiCall from 'src/services/ApiCall';
 
 interface Params {
   domain?: any;
@@ -10,27 +9,37 @@ interface Params {
   sort?: string;
   fields?: string[];
   options?: UseQueryOptions<any>;
+  include?: string[];
 }
 
-const useMitraSearchRead = (params: Params) => {
+const useIncidentSearchRead = (params: Params) => {
   const [cookies] = useCookies();
-  const { domain, fields, limit, offset, sort, options } = params;
-  const queryKey = [`getAllMitra`, domain, limit, offset, sort, fields];
+  const { domain, fields, limit, offset, sort, options, include } = params;
+  const queryKey = [
+    `getAllIncident`,
+    domain,
+    limit,
+    offset,
+    sort,
+    fields,
+    include,
+  ];
 
   const query = useQuery(
     queryKey,
     () =>
       ApiCall.post(
-        "/mitra/search_read",
+        '/incident/search_read',
         {
           domain,
           fields,
           limit,
           offset,
           sort,
+          include,
         },
         {
-          headers: { token: cookies?.["token"] },
+          headers: { token: cookies?.['token'] },
         }
       ),
     { ...options }
@@ -43,4 +52,4 @@ const useMitraSearchRead = (params: Params) => {
   };
 };
 
-export default useMitraSearchRead;
+export default useIncidentSearchRead;

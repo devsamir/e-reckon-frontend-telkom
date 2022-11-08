@@ -33,7 +33,7 @@ const useUnitSearchRead = (params: Params) => {
           headers: { token: cookies?.["token"] },
         }
       ),
-    { keepPreviousData: true, ...options }
+    { ...options }
   );
   return {
     ...query,

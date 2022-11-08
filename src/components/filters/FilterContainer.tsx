@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { useForm, FormProvider } from "react-hook-form";
+import {
+  useForm,
+  FormProvider,
+  UseFormReturn,
+  FieldValues,
+} from "react-hook-form";
 
 import { UpOutlined, DownOutlined } from "@ant-design/icons";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,7 +13,9 @@ import * as yup from "yup";
 
 interface FilterFields {
   label: string;
-  component: JSX.Element;
+  component:
+    | JSX.Element
+    | ((form: UseFormReturn<FieldValues, any>) => JSX.Element);
 }
 
 interface Props {
@@ -48,7 +55,9 @@ const FilterContainer: React.FC<Props> = ({
                       key={index}
                     >
                       <span>{filterField.label}</span>
-                      {filterField.component}
+                      {typeof filterField.component === "function"
+                        ? filterField.component(form)
+                        : filterField.component}
                     </Col>
                   );
                 })}

@@ -27,9 +27,6 @@ const UnitSelector: React.FC<Props> = ({ name, ...props }) => {
     domain: {
       unit_name: { contains: search },
     },
-    options: {
-      keepPreviousData: true,
-    },
   });
 
   const selectedData = useUnitSearchRead({
@@ -39,7 +36,6 @@ const UnitSelector: React.FC<Props> = ({ name, ...props }) => {
     },
     options: {
       enabled: !!value,
-      keepPreviousData: true,
     },
   });
 
