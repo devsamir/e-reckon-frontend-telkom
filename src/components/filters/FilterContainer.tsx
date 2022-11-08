@@ -1,13 +1,21 @@
-import React, { useState } from 'react';
-import { UpOutlined, DownOutlined } from '@ant-design/icons';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm, FormProvider } from 'react-hook-form';
-import { Button, Col, Row, Space } from 'antd';
+import React, { useState } from "react";
+import {
+  useForm,
+  FormProvider,
+  UseFormReturn,
+  FieldValues,
+} from "react-hook-form";
+
+import { UpOutlined, DownOutlined } from "@ant-design/icons";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Button, Col, Row } from "antd";
+import * as yup from "yup";
 
 interface FilterFields {
   label: string;
-  component: JSX.Element;
+  component:
+    | JSX.Element
+    | ((form: UseFormReturn<FieldValues, any>) => JSX.Element);
 }
 
 interface Props {
@@ -20,7 +28,7 @@ interface Props {
 const FilterContainer: React.FC<Props> = ({
   schema,
   filterFields,
-  title = 'Filter',
+  title = "Filter",
   onFind,
 }) => {
   const form = useForm({
@@ -41,13 +49,15 @@ const FilterContainer: React.FC<Props> = ({
                       span={24}
                       md={8}
                       style={{
-                        display: index > 2 && !expand ? 'none' : 'flex',
+                        display: index > 2 && !expand ? "none" : "flex",
                       }}
                       className="flex-col gap-1"
                       key={index}
                     >
                       <span>{filterField.label}</span>
-                      {filterField.component}
+                      {typeof filterField.component === "function"
+                        ? filterField.component(form)
+                        : filterField.component}
                     </Col>
                   );
                 })}
@@ -58,7 +68,7 @@ const FilterContainer: React.FC<Props> = ({
                 {filterFields.length > 3 && (
                   <Button
                     onClick={setExpand.bind(this, !expand)}
-                    style={{ display: 'flex', alignItems: 'center' }}
+                    style={{ display: "flex", alignItems: "center" }}
                   >
                     {expand ? <UpOutlined /> : <DownOutlined />}
                     Expand

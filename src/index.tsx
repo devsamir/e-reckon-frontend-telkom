@@ -1,13 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { CookiesProvider } from 'react-cookie';
-import 'antd/dist/antd.min.css';
-import 'antd-button-color/dist/css/style.css';
-import './index.css';
-import App from './App';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { AuthProvider } from './contexts/AuthContext';
+import React from "react";
+import { CookiesProvider } from "react-cookie";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter as Router } from "react-router-dom";
+
+import "antd/dist/antd.min.css";
+
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import "antd-button-color/dist/css/style.css";
+
+import App from "./App";
+import { AuthProvider } from "./contexts/AuthContext";
+import "./index.css";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,7 +22,7 @@ const queryClient = new QueryClient({
   },
 });
 
-const root = ReactDOM.createRoot(document.getElementById('root') as any);
+const root = ReactDOM.createRoot(document.getElementById("root") as any);
 root.render(
   <CookiesProvider>
     <QueryClientProvider client={queryClient}>

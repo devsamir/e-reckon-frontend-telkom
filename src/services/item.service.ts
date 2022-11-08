@@ -1,10 +1,12 @@
-import { useMutation } from '@tanstack/react-query';
-import { notification } from 'antd';
-import { useEffect } from 'react';
-import { useCookies } from 'react-cookie';
-import { usePaginationProps } from 'src/components/Pagination';
-import useItemSearchRead from 'src/data/useItemSearchRead';
-import ApiCall from './ApiCall';
+import { useEffect } from "react";
+import { useCookies } from "react-cookie";
+
+import { useMutation } from "@tanstack/react-query";
+import { notification } from "antd";
+import { usePaginationProps } from "src/components/Pagination";
+import useItemSearchRead from "src/data/useItemSearchRead";
+
+import ApiCall from "./ApiCall";
 
 interface ItemData {
   id?: number;
@@ -31,27 +33,27 @@ export const useItemService = ({
     offset,
     domain,
     sort,
-    include: ['unit'],
+    include: ["unit"],
   });
 
   const createMutation = useMutation({
     mutationFn: (data: ItemData) =>
-      ApiCall.post('/item/create', data, {
-        headers: { token: cookies?.['token'] },
+      ApiCall.post("/item/create", data, {
+        headers: { token: cookies?.["token"] },
       }),
   });
 
   const updateMutation = useMutation({
     mutationFn: (data: ItemData) =>
       ApiCall.patch(`/item/write/${data?.id}`, data, {
-        headers: { token: cookies?.['token'] },
+        headers: { token: cookies?.["token"] },
       }),
   });
 
   const deleteMutation = useMutation({
     mutationFn: (id: number) =>
       ApiCall.delete(`/item/delete/${id}`, {
-        headers: { token: cookies?.['token'] },
+        headers: { token: cookies?.["token"] },
       }),
   });
 

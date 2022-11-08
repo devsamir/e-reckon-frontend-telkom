@@ -1,18 +1,20 @@
-import { useMemo } from 'react';
-import type { ColumnsType } from 'antd/es/table';
-import * as yup from 'yup';
-import { EditFilled, DeleteFilled } from '@ant-design/icons';
-import Button from 'antd-button-color';
+import { useMemo } from "react";
+
+import type { ColumnsType } from "antd/es/table";
+
+import { EditFilled, DeleteFilled } from "@ant-design/icons";
+import Button from "antd-button-color";
+import * as yup from "yup";
 
 export const useItemColumns = (prepareEdit, prepareDelete) => {
   const columns = useMemo(
     () =>
       [
         {
-          key: 'action',
-          title: 'Action',
+          key: "action",
+          title: "Action",
           width: 125,
-          fixed: 'left',
+          fixed: "left",
           render: (_, record) => {
             return (
               <div className="flex items-center gap-2 flex-wrap">
@@ -27,16 +29,16 @@ export const useItemColumns = (prepareEdit, prepareDelete) => {
           },
         },
         {
-          key: 'shortname',
-          dataIndex: 'shortname',
-          title: 'Nama Pendek Mitra',
+          key: "shortname",
+          dataIndex: "shortname",
+          title: "Nama Pendek Mitra",
           width: 150,
           sorter: true,
         },
         {
-          key: 'fullname',
-          dataIndex: 'fullname',
-          title: 'Nama Mitra',
+          key: "fullname",
+          dataIndex: "fullname",
+          title: "Nama Mitra",
           width: 175,
           sorter: true,
         },
@@ -50,12 +52,12 @@ export const useItemColumns = (prepareEdit, prepareDelete) => {
 export const itemSchema = yup.object().shape({
   shortname: yup
     .string()
-    .typeError('Nama Pendek Mitra harus diisi')
-    .required('Nama Pendek Mitra harus diisi')
-    .max(15, 'Nama Pendek Mitra tidak boleh lebih dari 15 karakter'),
+    .typeError("Nama Pendek Mitra harus diisi")
+    .required("Nama Pendek Mitra harus diisi")
+    .max(15, "Nama Pendek Mitra tidak boleh lebih dari 15 karakter"),
   fullname: yup
     .string()
-    .typeError('Nama Mitra harus diisi')
-    .required('Nama Mitra harus diisi')
-    .max(100, 'Nama Mitra tidak boleh lebih dari 100 karakter'),
+    .typeError("Nama Mitra harus diisi")
+    .required("Nama Mitra harus diisi")
+    .max(100, "Nama Mitra tidak boleh lebih dari 100 karakter"),
 });

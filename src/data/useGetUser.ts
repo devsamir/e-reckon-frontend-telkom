@@ -1,6 +1,7 @@
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { useCookies } from 'react-cookie';
-import ApiCall from 'src/services/ApiCall';
+import { useCookies } from "react-cookie";
+
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import ApiCall from "src/services/ApiCall";
 
 interface Params {
   domain?: any;
@@ -20,7 +21,7 @@ const useGetUser = (params: Params) => {
     queryKey,
     () =>
       ApiCall.post(
-        '/user/search_read',
+        "/user/search_read",
         {
           domain,
           fields,
@@ -29,10 +30,10 @@ const useGetUser = (params: Params) => {
           sort,
         },
         {
-          headers: { token: cookies?.['token'] },
+          headers: { token: cookies?.["token"] },
         }
       ),
-    { keepPreviousData: true, ...options }
+    { ...options }
   );
   return {
     ...query,

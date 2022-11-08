@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Pagination as AntdPagination } from 'antd';
+import React, { useState } from "react";
+
+import { Pagination as AntdPagination } from "antd";
 
 interface Props {
   total: number;
@@ -52,7 +53,7 @@ const Pagination: React.FC<Props> = ({ total, page, onChange, limit }) => {
   return (
     <AntdPagination
       size="small"
-      style={{ margin: '1rem 0' }}
+      style={{ margin: "1rem 0" }}
       current={page}
       total={total}
       pageSize={limit}

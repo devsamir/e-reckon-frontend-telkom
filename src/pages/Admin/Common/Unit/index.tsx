@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
-import { Breadcrumb, Button, Modal, notification } from 'antd';
-import { useForm, FormProvider } from 'react-hook-form';
-import FilterUnit from './partials/FilterUnit';
-import TableExtended from 'src/components/TableExtended';
-import Pagination, { usePagination } from 'src/components/Pagination';
-import { unitSchema, useUnitColumns } from './config';
-import FInput from 'src/components/form/FInput';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useQueryClient } from '@tanstack/react-query';
-import { useUnitService } from 'src/services/unit.service';
-import { removeFalsyValue } from 'src/helpers/utils';
+import React, { useState } from "react";
+import { useForm, FormProvider } from "react-hook-form";
+
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useQueryClient } from "@tanstack/react-query";
+import { Breadcrumb, Button, Modal, notification } from "antd";
+import Pagination, { usePagination } from "src/components/Pagination";
+import TableExtended from "src/components/TableExtended";
+import FInput from "src/components/form/FInput";
+import { removeFalsyValue } from "src/helpers/utils";
+import { useUnitService } from "src/services/unit.service";
+
+import { unitSchema, useUnitColumns } from "./config";
+import FilterUnit from "./partials/FilterUnit";
 
 const Unit = () => {
   const pagination = usePagination();
@@ -26,7 +28,7 @@ const Unit = () => {
   const prepareCreate = () => {
     setShowModal(true);
     setId(null);
-    form.reset({ unit_name: '' });
+    form.reset({ unit_name: "" });
   };
   const prepareEdit = (record) => {
     setShowModal(true);
@@ -50,8 +52,8 @@ const Unit = () => {
         { ...newValues, id },
         {
           onSuccess: () => {
-            queryClient.invalidateQueries(['getAllUnit']);
-            notification.success({ message: 'Berhasil update unit' });
+            queryClient.invalidateQueries(["getAllUnit"]);
+            notification.success({ message: "Berhasil update unit" });
             setShowModal(false);
           },
           onError: (error: any) => {
@@ -64,8 +66,8 @@ const Unit = () => {
     } else {
       await createMutation.mutateAsync(newValues, {
         onSuccess: () => {
-          queryClient.invalidateQueries(['getAllUnit']);
-          notification.success({ message: 'Berhasil tambah unit' });
+          queryClient.invalidateQueries(["getAllUnit"]);
+          notification.success({ message: "Berhasil tambah unit" });
           setShowModal(false);
         },
         onError: (error: any) => {
@@ -79,8 +81,8 @@ const Unit = () => {
   const handleDelete = async () => {
     await deleteMutation.mutateAsync(id, {
       onSuccess: () => {
-        queryClient.invalidateQueries(['getAllUnit']);
-        notification.success({ message: 'Berhasil hapus unit' });
+        queryClient.invalidateQueries(["getAllUnit"]);
+        notification.success({ message: "Berhasil hapus unit" });
       },
       onError: (error: any) => {
         notification.error({
@@ -126,8 +128,8 @@ const Unit = () => {
       />
       <FormProvider {...form}>
         <Modal
-          title={!!id ? 'Edit Unit' : 'Tambah Unit'}
-          okText={!!id ? 'Update' : 'Create'}
+          title={!!id ? "Edit Unit" : "Tambah Unit"}
+          okText={!!id ? "Update" : "Create"}
           open={showModal}
           onOk={form.handleSubmit(onSubmit)}
           confirmLoading={createMutation.isLoading || updateMutation.isLoading}
@@ -140,11 +142,11 @@ const Unit = () => {
         </Modal>
       </FormProvider>
       <Modal
-        title={'Delete Unit'}
-        okText={'Delete'}
+        title={"Delete Unit"}
+        okText={"Delete"}
         open={confirmDelete}
         okButtonProps={{
-          style: { background: 'rgb(239 68 68)', border: 'none' },
+          style: { background: "rgb(239 68 68)", border: "none" },
         }}
         onOk={handleDelete}
         confirmLoading={deleteMutation.isLoading}

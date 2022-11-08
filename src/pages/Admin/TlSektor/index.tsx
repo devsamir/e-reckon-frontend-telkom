@@ -9,59 +9,59 @@ import TableExtended from "src/components/TableExtended";
 import UnitSelector from "src/components/filters/UnitSelector";
 import FInput from "src/components/form/FInput";
 import FInputNumber from "src/components/form/FInputNumber";
+import FSelect from "src/components/form/FSelect";
 import { pick, removeFalsyValue } from "src/helpers/utils";
-import { useItemService } from "src/services/item.service";
+import { useFormTLService } from "src/services/formTL.service";
 
-import { itemSchema, useItemColumns } from "./config";
-import FilterItem from "./partials/FilterItem";
+import { formTLSchema, useFormTLColumns } from "./config";
+import FilterItem from "./partials/FilterTLSektor";
 
-const Item = () => {
+const jobTypeOpt = [
+  {
+    label: "PEMBENAHAN",
+    value: "PEMBENAHAN",
+  },
+  {
+    label: "GAMAS",
+    value: "GAMAS",
+  },
+  {
+    label: "LAINNYA",
+    value: "LAINNYA",
+  },
+];
+
+const TlSektor = () => {
   const pagination = usePagination();
   const queryClient = useQueryClient();
-  const { qItem, createMutation, updateMutation, deleteMutation } =
-    useItemService(pagination);
+  const { qIncident, createMutation, updateMutation, deleteMutation } =
+    useFormTLService(pagination);
   const [id, setId] = useState();
   const [showModal, setShowModal] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
-  const form = useForm({ resolver: yupResolver(itemSchema) });
+  const form = useForm({ resolver: yupResolver(formTLSchema) });
 
   // Function for Crud Preparation
   const prepareCreate = () => {
     setShowModal(true);
     setId(null);
     form.reset({
-      item_code: "",
-      material_designator: "",
-      service_designator: "",
-      unit_id: "",
-      material_price_telkom: "",
-      service_price_telkom: "",
-      material_price_mitra: "",
-      service_price_mitra: "",
+      incident: "",
+      summary: "",
+      job_type: "PEMBENAHAN",
     });
   };
   const prepareEdit = (record) => {
     setShowModal(true);
     setId(record?.id);
-    form.reset(
-      pick(record, [
-        "item_code",
-        "material_designator",
-        "service_designator",
-        "unit_id",
-        "material_price_telkom",
-        "service_price_telkom",
-        "material_price_mitra",
-        "service_price_mitra",
-      ])
-    );
+    form.reset(pick(record, ["incident", "summary", "job_type"]));
   };
   const prepareDelete = (record) => {
     setConfirmDelete(true);
     setId(record?.id);
   };
-  const columns = useItemColumns(prepareEdit, prepareDelete);
+  const columns = useFormTLColumns(prepareEdit, prepareDelete);
 
   // Function for Crud Action
   const onSubmit = async (values) => {
@@ -72,8 +72,8 @@ const Item = () => {
         { ...newValues, id },
         {
           onSuccess: () => {
-            queryClient.invalidateQueries(["getAllItem"]);
-            notification.success({ message: "Berhasil update item" });
+            queryClient.invalidateQueries(["getAllIncident"]);
+            notification.success({ message: "Berhasil update incident" });
             setShowModal(false);
           },
           onError: (error: any) => {
@@ -86,8 +86,8 @@ const Item = () => {
     } else {
       await createMutation.mutateAsync(newValues, {
         onSuccess: () => {
-          queryClient.invalidateQueries(["getAllItem"]);
-          notification.success({ message: "Berhasil tambah item" });
+          queryClient.invalidateQueries(["getAllIncident"]);
+          notification.success({ message: "Berhasil tambah incident" });
           setShowModal(false);
         },
         onError: (error: any) => {
@@ -101,8 +101,8 @@ const Item = () => {
   const handleDelete = async () => {
     await deleteMutation.mutateAsync(id, {
       onSuccess: () => {
-        queryClient.invalidateQueries(["getAllItem"]);
-        notification.success({ message: "Berhasil hapus item" });
+        queryClient.invalidateQueries(["getAllIncident"]);
+        notification.success({ message: "Berhasil hapus incident" });
       },
       onError: (error: any) => {
         notification.error({
@@ -118,14 +118,13 @@ const Item = () => {
     <>
       <Breadcrumb>
         <Breadcrumb.Item>Admin</Breadcrumb.Item>
-        <Breadcrumb.Item>Common</Breadcrumb.Item>
-        <Breadcrumb.Item>Item</Breadcrumb.Item>
+        <Breadcrumb.Item>Form TL Sektor</Breadcrumb.Item>
       </Breadcrumb>
       <FilterItem setDomain={pagination.setDomain} />
       <div className="flex justify-between items-center gap-4 flex-wrap">
         <Pagination
           page={pagination.page}
-          total={qItem.length}
+          total={qIncident.length}
           limit={pagination.limit}
           onChange={pagination.onChangePagination}
         />
@@ -135,10 +134,10 @@ const Item = () => {
       </div>
       <TableExtended
         columns={columns}
-        dataSource={qItem.data}
+        dataSource={qIncident.data}
         loading={
-          qItem.isLoading ||
-          qItem.isFetching ||
+          qIncident.isLoading ||
+          qIncident.isFetching ||
           createMutation.isLoading ||
           updateMutation.isLoading ||
           deleteMutation.isLoading
@@ -146,9 +145,10 @@ const Item = () => {
         setSorter={pagination.setSort}
         rowKey="id"
       />
+
       <FormProvider {...form}>
         <Modal
-          title={!!id ? "Edit Item" : "Tambah Item"}
+          title={!!id ? "Edit Incident" : "Tambah Incident"}
           okText={!!id ? "Update" : "Create"}
           open={showModal}
           onOk={form.handleSubmit(onSubmit)}
@@ -156,53 +156,25 @@ const Item = () => {
           onCancel={setShowModal.bind(this, false)}
         >
           <div className="flex flex-col gap-1 mb-4">
-            <label className="text-sm font-medium">Kode Item</label>
-            <FInput name="item_code" placeholder="Input" />
+            <label className="text-sm font-medium">Tiket Gamas</label>
+            <FInput name="incident" placeholder="Input" />
           </div>
           <div className="flex flex-col gap-1 mb-4">
-            <label className="text-sm font-medium">Material Designator</label>
-            <FInput name="material_designator" placeholder="Input" />
+            <label className="text-sm font-medium">Summary</label>
+            <FInput name="summary" placeholder="Input" isTextArea rows={3} />
           </div>
           <div className="flex flex-col gap-1 mb-4">
-            <label className="text-sm font-medium">Service Designator</label>
-            <FInput name="service_designator" placeholder="Input" />
-          </div>
-          <div className="flex flex-col gap-1 mb-4">
-            <label className="text-sm font-medium">Unit</label>
-            <UnitSelector name="unit_id" placeholder="Select" />
-          </div>
-          <div className="flex flex-col gap-1 mb-4">
-            <label className="text-sm font-medium">Harga Material Telkom</label>
-            <FInputNumber
-              name="material_price_telkom"
-              placeholder="Input Number"
-            />
-          </div>
-          <div className="flex flex-col gap-1 mb-4">
-            <label className="text-sm font-medium">Harga Service Telkom</label>
-            <FInputNumber
-              name="service_price_telkom"
-              placeholder="Input Number"
-            />
-          </div>
-          <div className="flex flex-col gap-1 mb-4">
-            <label className="text-sm font-medium">Harga Material Mitra</label>
-            <FInputNumber
-              name="material_price_mitra"
-              placeholder="Input Number"
-            />
-          </div>
-          <div className="flex flex-col gap-1 mb-4">
-            <label className="text-sm font-medium">Harga Service Mitra</label>
-            <FInputNumber
-              name="service_price_mitra"
-              placeholder="Input Number"
+            <label className="text-sm font-medium">Jenis Pekerjaan</label>
+            <FSelect
+              name="job_type"
+              placeholder="Select"
+              options={jobTypeOpt}
             />
           </div>
         </Modal>
       </FormProvider>
       <Modal
-        title={"Delete Item"}
+        title={"Delete Incident"}
         okText={"Delete"}
         open={confirmDelete}
         okButtonProps={{
@@ -212,10 +184,10 @@ const Item = () => {
         confirmLoading={deleteMutation.isLoading}
         onCancel={setConfirmDelete.bind(this, false)}
       >
-        Yakin hapus data item ?
+        Yakin hapus data Incident ?
       </Modal>
     </>
   );
 };
 
-export default Item;
+export default TlSektor;

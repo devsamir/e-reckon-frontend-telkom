@@ -1,18 +1,20 @@
-import { useMemo } from 'react';
-import type { ColumnsType } from 'antd/es/table';
-import * as yup from 'yup';
-import { EditFilled, DeleteFilled } from '@ant-design/icons';
-import Button from 'antd-button-color';
+import { useMemo } from "react";
+
+import type { ColumnsType } from "antd/es/table";
+
+import { EditFilled, DeleteFilled } from "@ant-design/icons";
+import Button from "antd-button-color";
+import * as yup from "yup";
 
 export const useUserColumns = (prepareEdit, prepareDelete) => {
   const columns = useMemo(
     () =>
       [
         {
-          key: 'action',
-          title: 'Action',
+          key: "action",
+          title: "Action",
           width: 125,
-          fixed: 'left',
+          fixed: "left",
           render: (_, record) => {
             return (
               <div className="flex items-center gap-2 flex-wrap">
@@ -27,21 +29,21 @@ export const useUserColumns = (prepareEdit, prepareDelete) => {
           },
         },
         {
-          key: 'username',
-          dataIndex: 'username',
-          title: 'Username',
+          key: "username",
+          dataIndex: "username",
+          title: "Username",
           sorter: true,
         },
         {
-          key: 'fullname',
-          dataIndex: 'fullname',
-          title: 'Full name',
+          key: "fullname",
+          dataIndex: "fullname",
+          title: "Full name",
           sorter: true,
         },
         {
-          key: 'level',
-          dataIndex: 'level',
-          title: 'Role',
+          key: "level",
+          dataIndex: "level",
+          title: "Role",
           sorter: true,
         },
       ] as ColumnsType<any>,
@@ -53,33 +55,33 @@ export const useUserColumns = (prepareEdit, prepareDelete) => {
 
 export const createUserSchema = (formStatus) => {
   return yup.object().shape({
-    ...(formStatus === 'create' || formStatus === 'update'
+    ...(formStatus === "create" || formStatus === "update"
       ? {
           username: yup
             .string()
-            .typeError('Username lengkap harus diisi')
-            .required('Username lengkap harus diisi'),
+            .typeError("Username lengkap harus diisi")
+            .required("Username lengkap harus diisi"),
           level: yup
             .number()
-            .typeError('Role harus diisi')
-            .required('Role harus diisi'),
+            .typeError("Role harus diisi")
+            .required("Role harus diisi"),
           fullname: yup
             .string()
-            .typeError('Fullname lengkap harus diisi')
-            .required('Fullname lengkap harus diisi'),
+            .typeError("Fullname lengkap harus diisi")
+            .required("Fullname lengkap harus diisi"),
           password: yup
             .string()
             .nullable()
-            .transform((o, c) => (o === '' ? null : c))
-            .min(6, 'Password minimal harus terdiri dari 6 karakter'),
+            .transform((o, c) => (o === "" ? null : c))
+            .min(6, "Password minimal harus terdiri dari 6 karakter"),
         }
       : {}),
-    ...(formStatus === 'create'
+    ...(formStatus === "create"
       ? {
           password: yup
             .string()
-            .required('Password harus diisi')
-            .min(6, 'Password minimal harus terdiri dari 6 karakter'),
+            .required("Password harus diisi")
+            .min(6, "Password minimal harus terdiri dari 6 karakter"),
         }
       : {}),
   });

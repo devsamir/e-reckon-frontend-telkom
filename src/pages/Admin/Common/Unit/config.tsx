@@ -1,18 +1,20 @@
-import { useMemo } from 'react';
-import type { ColumnsType } from 'antd/es/table';
-import * as yup from 'yup';
-import { EditFilled, DeleteFilled } from '@ant-design/icons';
-import Button from 'antd-button-color';
+import { useMemo } from "react";
+
+import type { ColumnsType } from "antd/es/table";
+
+import { EditFilled, DeleteFilled } from "@ant-design/icons";
+import Button from "antd-button-color";
+import * as yup from "yup";
 
 export const useUnitColumns = (prepareEdit, prepareDelete) => {
   const columns = useMemo(
     () =>
       [
         {
-          key: 'action',
-          title: 'Action',
+          key: "action",
+          title: "Action",
           width: 125,
-          fixed: 'left',
+          fixed: "left",
           render: (_, record) => {
             return (
               <div className="flex items-center gap-2 flex-wrap">
@@ -27,9 +29,9 @@ export const useUnitColumns = (prepareEdit, prepareDelete) => {
           },
         },
         {
-          key: 'unit_name',
-          dataIndex: 'unit_name',
-          title: 'Nama Unit',
+          key: "unit_name",
+          dataIndex: "unit_name",
+          title: "Nama Unit",
           sorter: true,
         },
       ] as ColumnsType<any>,
@@ -42,6 +44,6 @@ export const useUnitColumns = (prepareEdit, prepareDelete) => {
 export const unitSchema = yup.object().shape({
   unit_name: yup
     .string()
-    .typeError('Nama unit harus diisi')
-    .required('Nama unit harus diisi'),
+    .typeError("Nama unit harus diisi")
+    .required("Nama unit harus diisi"),
 });

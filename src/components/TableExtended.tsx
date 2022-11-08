@@ -1,17 +1,19 @@
-import { Table } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
-import React from 'react';
+import React from "react";
+
+import type { ColumnsType } from "antd/es/table";
+
+import { Table } from "antd";
 
 interface Props {
   dataSource: any[];
   columns: ColumnsType<any>;
   selection?: boolean;
-  selectionType?: 'checkbox' | 'radio';
+  selectionType?: "checkbox" | "radio";
   selectedRows?: string[] | number[];
   rowKey?: string;
   onSelect?: (selectedRowKeys?: React.Key[], selectedRows?: any[]) => void;
   setSorter?: any;
-  size?: 'small' | 'middle' | 'large';
+  size?: "small" | "middle" | "large";
   loading?: boolean;
   scroll?: {
     x?: string | number | true;
@@ -23,13 +25,13 @@ const TableExtended: React.FC<Props> = ({
   dataSource = [],
   columns,
   selection = true,
-  rowKey = 'id',
+  rowKey = "id",
   onSelect,
-  selectionType = 'checkbox',
+  selectionType = "checkbox",
   selectedRows,
   setSorter,
-  size = 'small',
-  scroll = { x: '100%', y: '70vh' },
+  size = "small",
+  scroll = { x: "100%", y: "70vh" },
   loading,
 }) => {
   const fixData = dataSource.map((item) => ({ ...item, key: item?.[rowKey] }));
@@ -45,7 +47,7 @@ const TableExtended: React.FC<Props> = ({
       onChange={(_pagination, _filters, sorter: any) => {
         if (setSorter && sorter?.column?.dataIndex)
           setSorter(
-            `${sorter?.column?.dataIndex} ${sorter?.order?.replace('end', '')}`
+            `${sorter?.column?.dataIndex} ${sorter?.order?.replace("end", "")}`
           );
       }}
       scroll={{ x: scroll.x, y: scroll.y }}
@@ -57,7 +59,7 @@ const TableExtended: React.FC<Props> = ({
                 return {
                   disabled: record?.isDisabled,
                   style: {
-                    ...(record?.isDisabled ? { display: 'none' } : {}),
+                    ...(record?.isDisabled ? { display: "none" } : {}),
                   },
                 };
               },

@@ -1,9 +1,11 @@
-import { SelectProps, Spin } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
-import useUnitSearchRead from 'src/data/useUnitSearchRead';
-import { transformList, uniqBy } from 'src/helpers/utils';
-import FSelect from '../form/FSelect';
+import React, { useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
+
+import { SelectProps, Spin } from "antd";
+import useUnitSearchRead from "src/data/useUnitSearchRead";
+import { transformList, uniqBy } from "src/helpers/utils";
+
+import FSelect from "../form/FSelect";
 
 interface Props extends SelectProps {
   name: string;
@@ -11,8 +13,8 @@ interface Props extends SelectProps {
 }
 
 const UnitSelector: React.FC<Props> = ({ name, ...props }) => {
-  const [searchText, setSearchText] = useState('');
-  const [search, setSearch] = useState('');
+  const [searchText, setSearchText] = useState("");
+  const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const { watch } = useFormContext();
@@ -20,24 +22,20 @@ const UnitSelector: React.FC<Props> = ({ name, ...props }) => {
   const value = watch(name);
 
   const searchedData = useUnitSearchRead({
-    fields: ['id', 'unit_name'],
+    fields: ["id", "unit_name"],
     limit: 20,
     domain: {
       unit_name: { contains: search },
     },
-    options: {
-      keepPreviousData: true,
-    },
   });
 
   const selectedData = useUnitSearchRead({
-    fields: ['id', 'unit_name'],
+    fields: ["id", "unit_name"],
     domain: {
       id: { in: [value] },
     },
     options: {
       enabled: !!value,
-      keepPreviousData: true,
     },
   });
 
@@ -47,10 +45,10 @@ const UnitSelector: React.FC<Props> = ({ name, ...props }) => {
         ...(searchedData.data || []),
         ...((!searchText && selectedData.data) || []),
       ],
-      'id',
-      'unit_name'
+      "id",
+      "unit_name"
     ),
-    'value'
+    "value"
   );
 
   const fetching =
@@ -74,7 +72,7 @@ const UnitSelector: React.FC<Props> = ({ name, ...props }) => {
       name={name}
       showSearch
       allowClear
-      onClear={() => setSearchText('')}
+      onClear={() => setSearchText("")}
       onSearch={(val) => setSearchText(val)}
       notFoundContent={fetching ? <Spin size="small" /> : null}
       filterOption={false}

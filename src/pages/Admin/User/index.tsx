@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
-import { Breadcrumb, Button, Modal, notification } from 'antd';
-import { useForm, FormProvider } from 'react-hook-form';
-import FilterUser from './partials/FilterUser';
-import TableExtended from 'src/components/TableExtended';
-import Pagination, { usePagination } from 'src/components/Pagination';
-import { createUserSchema, useUserColumns } from './config';
-import { useUserService } from 'src/services/user.service';
-import FInput from 'src/components/form/FInput';
-import { yupResolver } from '@hookform/resolvers/yup';
-import FInputPassword from 'src/components/form/FInputPassword';
-import { useQueryClient } from '@tanstack/react-query';
-import { removeFalsyValue } from 'src/helpers/utils';
+import React, { useState } from "react";
+import { useForm, FormProvider } from "react-hook-form";
+
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useQueryClient } from "@tanstack/react-query";
+import { Breadcrumb, Button, Modal, notification } from "antd";
+import Pagination, { usePagination } from "src/components/Pagination";
+import TableExtended from "src/components/TableExtended";
+import FInput from "src/components/form/FInput";
+import FInputPassword from "src/components/form/FInputPassword";
+import { removeFalsyValue } from "src/helpers/utils";
+import { useUserService } from "src/services/user.service";
+
+import { createUserSchema, useUserColumns } from "./config";
+import FilterUser from "./partials/FilterUser";
 
 const User = () => {
   const pagination = usePagination();
@@ -21,7 +23,7 @@ const User = () => {
   const [showModal, setShowModal] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
-  const userSchema = createUserSchema(id ? 'update' : 'create');
+  const userSchema = createUserSchema(id ? "update" : "create");
   const form = useForm({ resolver: yupResolver(userSchema) });
 
   const prepareCreate = () => {
@@ -52,8 +54,8 @@ const User = () => {
         { ...newValues, id },
         {
           onSuccess: () => {
-            queryClient.invalidateQueries(['getAllUser']);
-            notification.success({ message: 'Berhasil update user' });
+            queryClient.invalidateQueries(["getAllUser"]);
+            notification.success({ message: "Berhasil update user" });
             setShowModal(false);
           },
           onError: (error: any) => {
@@ -66,8 +68,8 @@ const User = () => {
     } else {
       await createMutation.mutateAsync(newValues, {
         onSuccess: () => {
-          queryClient.invalidateQueries(['getAllUser']);
-          notification.success({ message: 'Berhasil tambah user' });
+          queryClient.invalidateQueries(["getAllUser"]);
+          notification.success({ message: "Berhasil tambah user" });
           setShowModal(false);
         },
         onError: (error: any) => {
@@ -81,8 +83,8 @@ const User = () => {
   const handleDelete = async () => {
     await deleteMutation.mutateAsync(id, {
       onSuccess: () => {
-        queryClient.invalidateQueries(['getAllUser']);
-        notification.success({ message: 'Berhasil hapus user' });
+        queryClient.invalidateQueries(["getAllUser"]);
+        notification.success({ message: "Berhasil hapus user" });
       },
       onError: (error: any) => {
         notification.error({
@@ -127,8 +129,8 @@ const User = () => {
       />
       <FormProvider {...form}>
         <Modal
-          title={!!id ? 'Edit User' : 'Tambah User'}
-          okText={!!id ? 'Update' : 'Create'}
+          title={!!id ? "Edit User" : "Tambah User"}
+          okText={!!id ? "Update" : "Create"}
           open={showModal}
           onOk={form.handleSubmit(onSubmit)}
           confirmLoading={createMutation.isLoading || updateMutation.isLoading}
@@ -153,11 +155,11 @@ const User = () => {
         </Modal>
       </FormProvider>
       <Modal
-        title={'Delete User'}
-        okText={'Delete'}
+        title={"Delete User"}
+        okText={"Delete"}
         open={confirmDelete}
         okButtonProps={{
-          style: { background: 'rgb(239 68 68)', border: 'none' },
+          style: { background: "rgb(239 68 68)", border: "none" },
         }}
         onOk={handleDelete}
         confirmLoading={deleteMutation.isLoading}
