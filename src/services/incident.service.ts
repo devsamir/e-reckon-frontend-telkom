@@ -45,10 +45,14 @@ export const useIncidentService = ({
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id: number) =>
-      ApiCall.delete(`/incident/delete/${id}`, {
-        headers: { token: cookies?.["token"] },
-      }),
+    mutationFn: (ids: number[]) =>
+      ApiCall.post(
+        `/incident/delete`,
+        { ids },
+        {
+          headers: { token: cookies?.["token"] },
+        }
+      ),
   });
 
   useEffect(() => {
