@@ -79,7 +79,7 @@ const Unit = () => {
     }
   };
   const handleDelete = async () => {
-    await deleteMutation.mutateAsync(id, {
+    await deleteMutation.mutateAsync([id], {
       onSuccess: () => {
         queryClient.invalidateQueries(["getAllUnit"]);
         notification.success({ message: "Berhasil hapus unit" });
