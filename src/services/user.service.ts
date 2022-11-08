@@ -46,10 +46,14 @@ export const useUserService = ({
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id: number) =>
-      ApiCall.delete(`/user/delete/${id}`, {
-        headers: { token: cookies?.["token"] },
-      }),
+    mutationFn: (ids: number[]) =>
+      ApiCall.post(
+        `/user/delete`,
+        { ids },
+        {
+          headers: { token: cookies?.["token"] },
+        }
+      ),
   });
 
   useEffect(() => {

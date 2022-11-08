@@ -80,7 +80,7 @@ const Mitra = () => {
     }
   };
   const handleDelete = async () => {
-    await deleteMutation.mutateAsync(id, {
+    await deleteMutation.mutateAsync([id], {
       onSuccess: () => {
         queryClient.invalidateQueries(["getAllMitra"]);
         notification.success({ message: "Berhasil hapus mitra" });

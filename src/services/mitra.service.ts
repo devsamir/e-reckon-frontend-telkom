@@ -44,10 +44,14 @@ export const useMitraService = ({
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id: number) =>
-      ApiCall.delete(`/mitra/delete/${id}`, {
-        headers: { token: cookies?.["token"] },
-      }),
+    mutationFn: (ids: number[]) =>
+      ApiCall.post(
+        `/mitra/delete`,
+        { ids },
+        {
+          headers: { token: cookies?.["token"] },
+        }
+      ),
   });
 
   useEffect(() => {

@@ -99,7 +99,7 @@ const Item = () => {
     }
   };
   const handleDelete = async () => {
-    await deleteMutation.mutateAsync(id, {
+    await deleteMutation.mutateAsync([id], {
       onSuccess: () => {
         queryClient.invalidateQueries(["getAllItem"]);
         notification.success({ message: "Berhasil hapus item" });

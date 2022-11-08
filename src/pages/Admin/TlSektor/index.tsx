@@ -6,9 +6,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Breadcrumb, Button, Modal, notification } from "antd";
 import Pagination, { usePagination } from "src/components/Pagination";
 import TableExtended from "src/components/TableExtended";
-import UnitSelector from "src/components/filters/UnitSelector";
 import FInput from "src/components/form/FInput";
-import FInputNumber from "src/components/form/FInputNumber";
 import FSelect from "src/components/form/FSelect";
 import { pick, removeFalsyValue } from "src/helpers/utils";
 import { useFormTLService } from "src/services/formTL.service";
@@ -99,7 +97,7 @@ const TlSektor = () => {
     }
   };
   const handleDelete = async () => {
-    await deleteMutation.mutateAsync(id, {
+    await deleteMutation.mutateAsync([id], {
       onSuccess: () => {
         queryClient.invalidateQueries(["getAllIncident"]);
         notification.success({ message: "Berhasil hapus incident" });

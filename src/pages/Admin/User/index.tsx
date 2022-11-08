@@ -81,7 +81,7 @@ const User = () => {
     }
   };
   const handleDelete = async () => {
-    await deleteMutation.mutateAsync(id, {
+    await deleteMutation.mutateAsync([id], {
       onSuccess: () => {
         queryClient.invalidateQueries(["getAllUser"]);
         notification.success({ message: "Berhasil hapus user" });
