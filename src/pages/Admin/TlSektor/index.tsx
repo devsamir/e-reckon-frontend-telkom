@@ -9,10 +9,10 @@ import TableExtended from "src/components/TableExtended";
 import FInput from "src/components/form/FInput";
 import FSelect from "src/components/form/FSelect";
 import { pick, removeFalsyValue } from "src/helpers/utils";
-import { useFormTLService } from "src/services/formTL.service";
+import { useIncidentService } from "src/services/incident.service";
 
 import { formTLSchema, useFormTLColumns } from "./config";
-import FilterItem from "./partials/FilterTLSektor";
+import FilterTLSektor from "./partials/FilterTLSektor";
 
 const jobTypeOpt = [
   {
@@ -33,7 +33,7 @@ const TlSektor = () => {
   const pagination = usePagination();
   const queryClient = useQueryClient();
   const { qIncident, createMutation, updateMutation, deleteMutation } =
-    useFormTLService(pagination);
+    useIncidentService(pagination);
   const [id, setId] = useState();
   const [showModal, setShowModal] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -118,7 +118,7 @@ const TlSektor = () => {
         <Breadcrumb.Item>Admin</Breadcrumb.Item>
         <Breadcrumb.Item>Form TL Sektor</Breadcrumb.Item>
       </Breadcrumb>
-      <FilterItem setDomain={pagination.setDomain} />
+      <FilterTLSektor setDomain={pagination.setDomain} />
       <div className="flex justify-between items-center gap-4 flex-wrap">
         <Pagination
           page={pagination.page}

@@ -8,14 +8,14 @@ import useIncidentSearchRead from "src/data/useIncidentSearchRead";
 
 import ApiCall from "./ApiCall";
 
-interface FormTLData {
+interface IncidentData {
   id?: number;
   incident: string;
   summary: string;
   job_type: string;
 }
 
-export const useFormTLService = ({
+export const useIncidentService = ({
   limit,
   offset,
   domain,
@@ -31,28 +31,24 @@ export const useFormTLService = ({
   });
 
   const createMutation = useMutation({
-    mutationFn: (data: FormTLData) =>
+    mutationFn: (data: IncidentData) =>
       ApiCall.post("/incident/create", data, {
         headers: { token: cookies?.["token"] },
       }),
   });
 
   const updateMutation = useMutation({
-    mutationFn: (data: FormTLData) =>
+    mutationFn: (data: IncidentData) =>
       ApiCall.patch(`/incident/write/${data?.id}`, data, {
         headers: { token: cookies?.["token"] },
       }),
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (ids: number[]) =>
-      ApiCall.post(
-        `/incident/delete`,
-        { ids },
-        {
-          headers: { token: cookies?.["token"] },
-        }
-      ),
+    mutationFn: (id: number) =>
+      ApiCall.delete(`/incident/delete/${id}`, {
+        headers: { token: cookies?.["token"] },
+      }),
   });
 
   useEffect(() => {
