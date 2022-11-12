@@ -10,17 +10,24 @@ import ApiCall from "./ApiCall";
 
 interface IncidentData {
   id?: number;
-  incident: string;
-  summary: string;
-  job_type: string;
+  incident?: string;
+  summary?: string;
+  job_type?: string;
+  assigned_mitra?: number;
+  incident_details?: any[];
 }
+
+type UseIncidentParams = Partial<usePaginationProps> & {
+  enableFetch?: boolean;
+};
 
 export const useIncidentService = ({
   limit,
   offset,
   domain,
   sort,
-}: usePaginationProps) => {
+  enableFetch = true,
+}: UseIncidentParams) => {
   const [cookies] = useCookies();
 
   const qIncident = useIncidentSearchRead({
@@ -28,6 +35,9 @@ export const useIncidentService = ({
     offset,
     domain,
     sort,
+    options: {
+      enabled: enableFetch,
+    },
   });
 
   const createMutation = useMutation({
@@ -55,6 +65,17 @@ export const useIncidentService = ({
       ),
   });
 
+  const confirmFirstTierMutation = useMutation({
+    mutationFn: (id: number) =>
+      ApiCall.post(
+        `/incident/confirm-first-tier`,
+        { id },
+        {
+          headers: { token: cookies?.["token"] },
+        }
+      ),
+  });
+
   useEffect(() => {
     if (qIncident.error) {
       notification.error({
@@ -63,5 +84,11 @@ export const useIncidentService = ({
     }
   }, [qIncident.error]);
 
-  return { qIncident, createMutation, updateMutation, deleteMutation };
+  return {
+    qIncident,
+    createMutation,
+    updateMutation,
+    deleteMutation,
+    confirmFirstTierMutation,
+  };
 };

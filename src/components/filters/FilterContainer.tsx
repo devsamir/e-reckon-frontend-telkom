@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useImperativeHandle } from "react";
 import {
   useForm,
   FormProvider,
@@ -25,16 +25,21 @@ interface Props {
   onFind: any;
 }
 
-const FilterContainer: React.FC<Props> = ({
-  schema,
-  filterFields,
-  title = "Filter",
-  onFind,
-}) => {
+const FilterContainer = (
+  { schema, filterFields, title = "Filter", onFind }: Props,
+  ref: React.Ref<any>
+) => {
   const form = useForm({
     resolver: schema ? yupResolver(schema) : yupResolver(yup.object({})),
   });
   const [expand, setExpand] = useState(false);
+
+  useImperativeHandle(ref, () => ({
+    resetForm: () => {
+      form.reset(null);
+    },
+  }));
+
   return (
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onFind)} className="p-4 my-4 bg-white">
@@ -90,4 +95,4 @@ const FilterContainer: React.FC<Props> = ({
   );
 };
 
-export default FilterContainer;
+export default React.forwardRef(FilterContainer);

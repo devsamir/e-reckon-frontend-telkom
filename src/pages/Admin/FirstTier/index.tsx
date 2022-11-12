@@ -32,9 +32,6 @@ const FirstTier = () => {
           limit={pagination.limit}
           onChange={pagination.onChangePagination}
         />
-        <Link to={"/admin/first-tier/detail"}>
-          <Button type="primary">Tambah</Button>
-        </Link>
       </div>
       <TableExtended
         columns={columns}

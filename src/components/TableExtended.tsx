@@ -2,7 +2,7 @@ import React from "react";
 
 import type { ColumnsType } from "antd/es/table";
 
-import { Table } from "antd";
+import { Table, TablePaginationConfig } from "antd";
 
 interface Props {
   dataSource: any[];

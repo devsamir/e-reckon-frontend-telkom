@@ -7,7 +7,7 @@ import Button from "antd-button-color";
 import { formatCurrency } from "src/helpers/utils";
 import * as yup from "yup";
 
-export const useItemColumns = (prepareEdit, prepareDelete) => {
+export const useItemColumns = (prepareEdit?: any, prepareDelete?: any) => {
   const columns = useMemo(
     () =>
       [

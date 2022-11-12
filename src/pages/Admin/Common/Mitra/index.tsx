@@ -10,7 +10,7 @@ import FInput from "src/components/form/FInput";
 import { pick, removeFalsyValue } from "src/helpers/utils";
 import { useMitraService } from "src/services/mitra.service";
 
-import { itemSchema, useItemColumns } from "./config";
+import { itemSchema, useMitraColumn } from "./config";
 import FilterMitra from "./partials/FilterMitra";
 
 const Mitra = () => {
@@ -42,7 +42,7 @@ const Mitra = () => {
     setConfirmDelete(true);
     setId(record?.id);
   };
-  const columns = useItemColumns(prepareEdit, prepareDelete);
+  const columns = useMitraColumn(prepareEdit, prepareDelete);
 
   // Function for Crud Action
   const onSubmit = async (values) => {
