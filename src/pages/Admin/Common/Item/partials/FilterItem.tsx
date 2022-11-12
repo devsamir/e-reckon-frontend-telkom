@@ -10,7 +10,7 @@ interface Props {
   setDomain: any;
 }
 
-const FilterItem: React.FC<Props> = ({ setDomain }) => {
+const FilterItem = ({ setDomain }: Props, ref: React.Ref<any>) => {
   const handleSearch = (values) => {
     const newDomain = generateDomain({
       domain: values,
@@ -26,6 +26,7 @@ const FilterItem: React.FC<Props> = ({ setDomain }) => {
   };
   return (
     <FilterContainer
+      ref={ref}
       title="Filter Item"
       onFind={handleSearch}
       filterFields={[
@@ -70,4 +71,4 @@ const FilterItem: React.FC<Props> = ({ setDomain }) => {
   );
 };
 
-export default FilterItem;
+export default React.forwardRef(FilterItem);

@@ -6,7 +6,7 @@ import { EditFilled, DeleteFilled } from "@ant-design/icons";
 import Button from "antd-button-color";
 import * as yup from "yup";
 
-export const useItemColumns = (prepareEdit, prepareDelete) => {
+export const useMitraColumn = (prepareEdit, prepareDelete) => {
   const columns = useMemo(
     () =>
       [

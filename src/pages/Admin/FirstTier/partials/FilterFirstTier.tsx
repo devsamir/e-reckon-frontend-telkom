@@ -12,7 +12,7 @@ interface Props {
   setDomain: any;
 }
 
-const FilterTLSektor: React.FC<Props> = ({ setDomain }) => {
+const FilterFirstTier: React.FC<Props> = ({ setDomain }) => {
   const handleSearch = (values) => {
     const newValues = { ...values };
     if (newValues.on_tier) {
@@ -168,11 +168,11 @@ const FilterTLSektor: React.FC<Props> = ({ setDomain }) => {
 
   return (
     <FilterContainer
-      title="Filter Form TL Sektor"
+      title="Filter Tier 1"
       onFind={handleSearch}
       filterFields={filterFields}
     />
   );
 };
 
-export default FilterTLSektor;
+export default FilterFirstTier;

@@ -8,19 +8,26 @@ import useIncidentSearchRead from "src/data/useIncidentSearchRead";
 
 import ApiCall from "./ApiCall";
 
-interface FormTLData {
+interface IncidentData {
   id?: number;
-  incident: string;
-  summary: string;
-  job_type: string;
+  incident?: string;
+  summary?: string;
+  job_type?: string;
+  assigned_mitra?: number;
+  incident_details?: any[];
 }
 
-export const useFormTLService = ({
+type UseIncidentParams = Partial<usePaginationProps> & {
+  enableFetch?: boolean;
+};
+
+export const useIncidentService = ({
   limit,
   offset,
   domain,
   sort,
-}: usePaginationProps) => {
+  enableFetch = true,
+}: UseIncidentParams) => {
   const [cookies] = useCookies();
 
   const qIncident = useIncidentSearchRead({
@@ -28,17 +35,20 @@ export const useFormTLService = ({
     offset,
     domain,
     sort,
+    options: {
+      enabled: enableFetch,
+    },
   });
 
   const createMutation = useMutation({
-    mutationFn: (data: FormTLData) =>
+    mutationFn: (data: IncidentData) =>
       ApiCall.post("/incident/create", data, {
         headers: { token: cookies?.["token"] },
       }),
   });
 
   const updateMutation = useMutation({
-    mutationFn: (data: FormTLData) =>
+    mutationFn: (data: IncidentData) =>
       ApiCall.patch(`/incident/write/${data?.id}`, data, {
         headers: { token: cookies?.["token"] },
       }),
@@ -55,6 +65,17 @@ export const useFormTLService = ({
       ),
   });
 
+  const confirmFirstTierMutation = useMutation({
+    mutationFn: (id: number) =>
+      ApiCall.post(
+        `/incident/confirm-first-tier`,
+        { id },
+        {
+          headers: { token: cookies?.["token"] },
+        }
+      ),
+  });
+
   useEffect(() => {
     if (qIncident.error) {
       notification.error({
@@ -63,5 +84,11 @@ export const useFormTLService = ({
     }
   }, [qIncident.error]);
 
-  return { qIncident, createMutation, updateMutation, deleteMutation };
+  return {
+    qIncident,
+    createMutation,
+    updateMutation,
+    deleteMutation,
+    confirmFirstTierMutation,
+  };
 };
