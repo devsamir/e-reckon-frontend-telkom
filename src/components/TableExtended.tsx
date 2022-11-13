@@ -46,9 +46,10 @@ const TableExtended: React.FC<Props> = ({
       bordered
       onChange={(_pagination, _filters, sorter: any) => {
         if (setSorter && sorter?.column?.dataIndex)
-          setSorter(
+          return setSorter(
             `${sorter?.column?.dataIndex} ${sorter?.order?.replace("end", "")}`
           );
+        setSorter(null);
       }}
       scroll={{ x: scroll.x, y: scroll.y }}
       {...(selection

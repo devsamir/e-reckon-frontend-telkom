@@ -33,7 +33,7 @@ const useMitraSearchRead = (params: Params) => {
           headers: { token: cookies?.["token"] },
         }
       ),
-    { ...options }
+    { ...options, keepPreviousData: true }
   );
   return {
     ...query,

@@ -19,7 +19,7 @@ const useIncidentRead = (params: Params) => {
       ApiCall.get(`/incident/read/${id}`, {
         headers: { token: cookies?.["token"] },
       }),
-    { ...options }
+    { ...options, keepPreviousData: true }
   );
   return {
     ...query,
