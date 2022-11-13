@@ -9,6 +9,7 @@ import {
   FormOutlined,
   ContainerOutlined,
   HddOutlined,
+  AppstoreOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, Image, Dropdown } from "antd";
 
@@ -28,13 +29,14 @@ const mapMenu = {
   "/admin/common/mitra": ["4", "4-3"],
   "/admin/user": ["5"],
   "/admin/second-tier": ["6"],
+  "/admin/warehouse-tier": ["7"],
 };
 
 const Template: React.FC<Props> = () => {
   const location = useLocation();
   const { logout } = useContext(AuthContext);
 
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const [selectedKeys, setSelectedKeys] = useState(
     mapMenu?.[location.pathname]
   );
@@ -97,6 +99,12 @@ const Template: React.FC<Props> = () => {
             key={mapMenu["/admin/second-tier"][0]}
           >
             <Link to={"/admin/second-tier"}>Tier 2</Link>
+          </Menu.Item>
+          <Menu.Item
+            icon={<AppstoreOutlined />}
+            key={mapMenu["/admin/warehouse-tier"][0]}
+          >
+            <Link to={"/admin/warehouse-tier"}>Tier WH</Link>
           </Menu.Item>
           <Menu.SubMenu
             title="Common"

@@ -6,7 +6,7 @@ import type { ColumnsType } from "antd/es/table";
 import Button from "antd-button-color";
 import { format, differenceInDays, differenceInHours } from "date-fns";
 
-export const useSecondTierColumns = () => {
+export const useWarehouseTierColumns = () => {
   const columns = useMemo(
     () =>
       [
@@ -18,7 +18,7 @@ export const useSecondTierColumns = () => {
           render: (_, record) => {
             return (
               <div className="flex items-center gap-2 flex-wrap">
-                <Link to={`/admin/second-tier/detail?id=${record.id}`}>
+                <Link to={`/admin/warehouse-tier/detail?id=${record.id}`}>
                   <Button type="info">Detail</Button>
                 </Link>
               </div>
