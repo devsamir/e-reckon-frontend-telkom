@@ -77,6 +77,17 @@ export const useIncidentService = ({
       ),
   });
 
+  const submitWhSecondTierMutation = useMutation({
+    mutationFn: (id: number) =>
+      ApiCall.post(
+        `/incident/submit-wh-second-tier`,
+        { id },
+        {
+          headers: { token: cookies?.["token"] },
+        }
+      ),
+  });
+
   useEffect(() => {
     if (qIncident.error) {
       notification.error({
@@ -91,5 +102,6 @@ export const useIncidentService = ({
     updateMutation,
     deleteMutation,
     confirmFirstTierMutation,
+    submitWhSecondTierMutation,
   };
 };
