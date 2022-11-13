@@ -35,6 +35,7 @@ export const useIncidentService = ({
     offset,
     domain,
     sort,
+    include: ["assignedMitra"],
     options: {
       enabled: enableFetch,
     },
