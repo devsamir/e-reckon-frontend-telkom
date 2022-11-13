@@ -20,21 +20,21 @@ import useIncidentRead from "src/data/useIncidentRead";
 import useUrlQuery from "src/helpers/useUrlQuery";
 import { useIncidentService } from "src/services/incident.service";
 
-import { firstTierSchema } from "./config";
+import { secondTierSchema } from "./config";
 import TableLineItems from "./partials/TableLineItems";
 
-const DetailFirstTier = () => {
+const DetailSecondTier = () => {
   const navigate = useNavigate();
   const query = useUrlQuery();
   const qIncindent = useIncidentRead({
     id: query?.id,
     options: { enabled: !!query?.id },
   });
-  const { updateMutation, confirmFirstTierMutation } = useIncidentService({
+  const { updateMutation, submitWhSecondTierMutation } = useIncidentService({
     enableFetch: false,
   });
   const form = useForm({
-    resolver: yupResolver(firstTierSchema),
+    resolver: yupResolver(secondTierSchema),
   });
 
   // Handlers
@@ -69,7 +69,7 @@ const DetailFirstTier = () => {
       },
       {
         onSuccess: () => {
-          navigate("/admin/first-tier");
+          navigate("/admin/second-tier");
           notification.success({ message: "Berhasil update data" });
         },
         onError: (error: any) => {
@@ -88,9 +88,9 @@ const DetailFirstTier = () => {
         id: query?.id,
         ...data,
       });
-      await confirmFirstTierMutation.mutateAsync(Number(query?.id), {
+      await submitWhSecondTierMutation.mutateAsync(Number(query?.id), {
         onSuccess: () => {
-          navigate("/admin/first-tier");
+          navigate("/admin/second-tier");
           notification.success({ message: "Berhasil update data" });
         },
         onError: (error: any) => {
@@ -145,7 +145,7 @@ const DetailFirstTier = () => {
       <FormProvider {...form}>
         <Breadcrumb className="mb-8">
           <Breadcrumb.Item>Admin</Breadcrumb.Item>
-          <Breadcrumb.Item>Tier 1</Breadcrumb.Item>
+          <Breadcrumb.Item>Tier 2</Breadcrumb.Item>
           <Breadcrumb.Item>Detail</Breadcrumb.Item>
         </Breadcrumb>
         <Spin spinning={qIncindent.isLoading || qIncindent.isFetching}>
@@ -189,6 +189,7 @@ const DetailFirstTier = () => {
                     name="assigned_mitra"
                     className="w-full"
                     placeholder="Select"
+                    disabled
                   />
                 </Descriptions.Item>
               </Descriptions>
@@ -199,7 +200,7 @@ const DetailFirstTier = () => {
                   type="primary"
                   loading={
                     updateMutation.isLoading ||
-                    confirmFirstTierMutation.isLoading
+                    submitWhSecondTierMutation.isLoading
                   }
                   onClick={form.handleSubmit(handleSaveDraft)}
                 >
@@ -209,11 +210,15 @@ const DetailFirstTier = () => {
                   type="primary"
                   loading={
                     updateMutation.isLoading ||
-                    confirmFirstTierMutation.isLoading
+                    submitWhSecondTierMutation.isLoading
                   }
                   onClick={form.handleSubmit(handleSubmit)}
                 >
-                  Submit
+                  Submit to WH
+                </Button>
+
+                <Button type="primary" disabled>
+                  Finish Job
                 </Button>
               </Space>
             </Col>
@@ -226,4 +231,4 @@ const DetailFirstTier = () => {
   );
 };
 
-export default DetailFirstTier;
+export default DetailSecondTier;
