@@ -7,7 +7,7 @@ import Button from "antd-button-color";
 import { format, differenceInDays, differenceInHours } from "date-fns";
 import * as yup from "yup";
 
-export const useFirstTierColumn = () => {
+export const useSecondTierColumns = () => {
   const columns = useMemo(
     () =>
       [
@@ -19,7 +19,7 @@ export const useFirstTierColumn = () => {
           render: (_, record) => {
             return (
               <div className="flex items-center gap-2 flex-wrap">
-                <Link to={`/admin/first-tier/detail?id=${record.id}`}>
+                <Link to={`/admin/second-tier/detail?id=${record.id}`}>
                   <Button type="info">Detail</Button>
                 </Link>
               </div>
@@ -83,6 +83,22 @@ export const useFirstTierColumn = () => {
           },
         },
         {
+          key: "assignedMitra.fullname",
+          dataIndex: "assignedMitra.fullname",
+          title: "Mitra",
+          width: 175,
+          sorter: true,
+          render: (_, record) => {
+            if (
+              record?.assignedMitra?.shortname &&
+              record?.assignedMitra?.fullname
+            ) {
+              return `(${record?.assignedMitra?.shortname}) ${record?.assignedMitra?.fullname}`;
+            }
+            return null;
+          },
+        },
+        {
           key: "created_at",
           title: "Tanggal Masuk",
           dataIndex: "created_at",
@@ -135,3 +151,20 @@ export const useFirstTierColumn = () => {
 
   return columns;
 };
+
+export const formTLSchema = yup.object().shape({
+  incident: yup
+    .string()
+    .typeError("Tiket incident harus diisi")
+    .required("Tiket incident harus diisi")
+    .max(100, "Tiket incident tidak boleh lebih dari 100 karakter"),
+  summary: yup
+    .string()
+    .typeError("Summary harus diisi")
+    .required("Summary harus diisi"),
+  job_type: yup
+    .string()
+    .typeError("Jenis pekerjaan harus diisi")
+    .required("Jenis pekerjaan harus diisi")
+    .oneOf(["PEMBENAHAN", "GAMAS", "LAINNYA"], "Jenis pekerjaan tidak valid"),
+});

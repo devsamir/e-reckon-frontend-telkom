@@ -77,6 +77,10 @@ const FilterFirstTier: React.FC<Props> = ({ setDomain }) => {
           label: "WH DONE",
           value: "wh_done",
         },
+        {
+          label: "RETURN BY TA",
+          value: "return_by_ta",
+        },
       ],
       tier_3: [
         {

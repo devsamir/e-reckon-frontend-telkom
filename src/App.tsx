@@ -11,6 +11,7 @@ import Unit from "./pages/Admin/Common/Unit";
 import Dashboard from "./pages/Admin/Dashboard";
 import FirstTier from "./pages/Admin/FirstTier";
 import DetailFirstTier from "./pages/Admin/FirstTier/DetailFirstTier/DetailFirstTier";
+import SecondTier from "./pages/Admin/SecondTier";
 import TlSektor from "./pages/Admin/TlSektor";
 import User from "./pages/Admin/User";
 import Login from "./pages/Login";
@@ -52,6 +53,7 @@ const App: React.FC = () => {
           <Route path="form-tl-sektor" element={<TlSektor />} />
           <Route path="first-tier" element={<FirstTier />} />
           <Route path="first-tier/detail" element={<DetailFirstTier />} />
+          <Route path="second-tier" element={<SecondTier />} />
           {/* COMMON */}
           <Route path="common/unit" element={<Unit />} />
           <Route path="common/item" element={<Item />} />

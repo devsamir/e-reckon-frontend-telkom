@@ -86,6 +86,22 @@ export const useFormTLColumns = (prepareEdit, prepareDelete) => {
           },
         },
         {
+          key: "assignedMitra.fullname",
+          dataIndex: "assignedMitra.fullname",
+          title: "Mitra",
+          width: 175,
+          sorter: true,
+          render: (_, record) => {
+            if (
+              record?.assignedMitra?.shortname &&
+              record?.assignedMitra?.fullname
+            ) {
+              return `(${record?.assignedMitra?.shortname}) ${record?.assignedMitra?.fullname}`;
+            }
+            return null;
+          },
+        },
+        {
           key: "created_at",
           title: "Tanggal Masuk",
           dataIndex: "created_at",

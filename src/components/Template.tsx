@@ -8,6 +8,7 @@ import {
   SettingOutlined,
   FormOutlined,
   ContainerOutlined,
+  HddOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, Image, Dropdown } from "antd";
 
@@ -26,6 +27,7 @@ const mapMenu = {
   "/admin/common/item": ["4", "4-2"],
   "/admin/common/mitra": ["4", "4-3"],
   "/admin/user": ["5"],
+  "/admin/second-tier": ["6"],
 };
 
 const Template: React.FC<Props> = () => {
@@ -89,6 +91,12 @@ const Template: React.FC<Props> = () => {
             key={mapMenu["/admin/first-tier"][0]}
           >
             <Link to={"/admin/first-tier"}>Tier 1</Link>
+          </Menu.Item>
+          <Menu.Item
+            icon={<HddOutlined />}
+            key={mapMenu["/admin/second-tier"][0]}
+          >
+            <Link to={"/admin/second-tier"}>Tier 2</Link>
           </Menu.Item>
           <Menu.SubMenu
             title="Common"
