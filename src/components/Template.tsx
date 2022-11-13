@@ -21,6 +21,7 @@ const mapMenu = {
   "/admin/dashboard": ["1"],
   "/admin/form-tl-sektor": ["2"],
   "/admin/first-tier": ["3"],
+  "/admin/common": ["4"],
   "/admin/common/unit": ["4", "4-1"],
   "/admin/common/item": ["4", "4-2"],
   "/admin/common/mitra": ["4", "4-3"],
@@ -30,8 +31,6 @@ const mapMenu = {
 const Template: React.FC<Props> = () => {
   const location = useLocation();
   const { logout } = useContext(AuthContext);
-
-  console.log({ location });
 
   const [collapsed, setCollapsed] = useState(false);
   const [selectedKeys, setSelectedKeys] = useState(
@@ -73,27 +72,40 @@ const Template: React.FC<Props> = () => {
           onSelect={(e) => setSelectedKeys(e.keyPath)}
           mode="inline"
         >
-          <Menu.Item icon={<PieChartOutlined />} key="1">
+          <Menu.Item
+            icon={<PieChartOutlined />}
+            key={mapMenu["/admin/dashboard"][0]}
+          >
             <Link to={"/admin/dashboard"}>Dashboard</Link>
           </Menu.Item>
-          <Menu.Item icon={<FormOutlined />} key="2">
+          <Menu.Item
+            icon={<FormOutlined />}
+            key={mapMenu["/admin/form-tl-sektor"][0]}
+          >
             <Link to={"/admin/form-tl-sektor"}>Form TL Sektor</Link>
           </Menu.Item>
-          <Menu.Item icon={<ContainerOutlined />} key="3">
+          <Menu.Item
+            icon={<ContainerOutlined />}
+            key={mapMenu["/admin/first-tier"][0]}
+          >
             <Link to={"/admin/first-tier"}>Tier 1</Link>
           </Menu.Item>
-          <Menu.SubMenu title="Common" icon={<SettingOutlined />} key="4">
-            <Menu.Item key="4-1">
+          <Menu.SubMenu
+            title="Common"
+            icon={<SettingOutlined />}
+            key={mapMenu["/admin/common"][0]}
+          >
+            <Menu.Item key={mapMenu["/admin/common/unit"][1]}>
               <Link to={"/admin/common/unit"}>Unit</Link>
             </Menu.Item>
-            <Menu.Item key="4-2">
+            <Menu.Item key={mapMenu["/admin/common/item"][1]}>
               <Link to={"/admin/common/item"}>Item</Link>
             </Menu.Item>
-            <Menu.Item key="4-3">
+            <Menu.Item key={mapMenu["/admin/common/mitra"][1]}>
               <Link to={"/admin/common/mitra"}>Mitra</Link>
             </Menu.Item>
           </Menu.SubMenu>
-          <Menu.Item icon={<UserOutlined />} key="5">
+          <Menu.Item icon={<UserOutlined />} key={mapMenu["/admin/user"][0]}>
             <Link to={"/admin/user"}>User</Link>
           </Menu.Item>
         </Menu>
