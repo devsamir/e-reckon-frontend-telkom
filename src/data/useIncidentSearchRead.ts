@@ -1,6 +1,7 @@
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { useCookies } from 'react-cookie';
-import ApiCall from 'src/services/ApiCall';
+import { useCookies } from "react-cookie";
+
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import ApiCall from "src/services/ApiCall";
 
 interface Params {
   domain?: any;
@@ -29,7 +30,7 @@ const useIncidentSearchRead = (params: Params) => {
     queryKey,
     () =>
       ApiCall.post(
-        '/incident/search_read',
+        "/incident/search_read",
         {
           domain,
           fields,
@@ -39,10 +40,10 @@ const useIncidentSearchRead = (params: Params) => {
           include,
         },
         {
-          headers: { token: cookies?.['token'] },
+          headers: { token: cookies?.["token"] },
         }
       ),
-    { ...options }
+    { ...options, keepPreviousData: true }
   );
   return {
     ...query,

@@ -51,13 +51,13 @@ export const useItemColumns = (prepareEdit?: any, prepareDelete?: any) => {
           sorter: true,
         },
         {
-          key: "unit",
-          dataIndex: "unit",
+          key: "unit.unit_name",
+          dataIndex: "unit.unit_name",
           title: "Unit",
           width: 100,
           sorter: true,
-          render: (val) => {
-            return val?.unit_name;
+          render: (_, record) => {
+            return record?.unit?.unit_name;
           },
         },
         {
