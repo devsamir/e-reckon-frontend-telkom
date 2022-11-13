@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useContext } from "react";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useLocation } from "react-router-dom";
 
 import {
   PieChartOutlined,
@@ -17,11 +17,26 @@ const { Header, Content, Sider } = Layout;
 
 interface Props {}
 
+const mapMenu = {
+  "/admin/dashboard": ["1"],
+  "/admin/form-tl-sektor": ["2"],
+  "/admin/first-tier": ["3"],
+  "/admin/common/unit": ["4", "4-1"],
+  "/admin/common/item": ["4", "4-2"],
+  "/admin/common/mitra": ["4", "4-3"],
+  "/admin/user": ["5"],
+};
+
 const Template: React.FC<Props> = () => {
+  const location = useLocation();
   const { logout } = useContext(AuthContext);
 
+  console.log({ location });
+
   const [collapsed, setCollapsed] = useState(false);
-  const [selectedKeys, setSelectedKeys] = useState([]);
+  const [selectedKeys, setSelectedKeys] = useState(
+    mapMenu?.[location.pathname]
+  );
   const menu = useMemo(
     () => (
       <Menu
