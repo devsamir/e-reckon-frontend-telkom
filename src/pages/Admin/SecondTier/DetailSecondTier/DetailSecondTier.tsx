@@ -93,11 +93,6 @@ const DetailSecondTier = () => {
           navigate("/admin/second-tier");
           notification.success({ message: "Berhasil update data" });
         },
-        onError: (error: any) => {
-          notification.error({
-            message: error?.response?.data?.message || error?.message,
-          });
-        },
       });
     } catch (err) {
       notification.error({

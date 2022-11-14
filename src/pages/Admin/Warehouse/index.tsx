@@ -5,28 +5,28 @@ import Pagination, { usePagination } from "src/components/Pagination";
 import TableExtended from "src/components/TableExtended";
 import useIncidentSearchRead from "src/data/useIncidentSearchRead";
 
-import { useSecondTierColumns } from "./config";
-import FilterSecondTier from "./partials/FilterSecondTier";
+import { useWarehouseTierColumns } from "./config";
+import FilterWarehouseTier from "./partials/FilterWarehouseTier";
 
-const SecondTier = () => {
+const WarehouseTier = () => {
   const { limit, offset, domain, sort, ...pagination } = usePagination();
 
   const qIncident = useIncidentSearchRead({
     limit,
     offset,
-    domain: { ...domain, on_tier: "tier_2" },
+    domain: { ...domain, on_tier: "wh" },
     sort,
     include: ["assignedMitra"],
   });
-  const columns = useSecondTierColumns();
+  const columns = useWarehouseTierColumns();
 
   return (
     <>
       <Breadcrumb>
         <Breadcrumb.Item>Admin</Breadcrumb.Item>
-        <Breadcrumb.Item>Tier 2</Breadcrumb.Item>
+        <Breadcrumb.Item>Tier WH</Breadcrumb.Item>
       </Breadcrumb>
-      <FilterSecondTier setDomain={pagination.setDomain} />
+      <FilterWarehouseTier setDomain={pagination.setDomain} />
       <div className="flex justify-between items-center gap-4 flex-wrap">
         <Pagination
           page={pagination.page}
@@ -46,4 +46,4 @@ const SecondTier = () => {
   );
 };
 
-export default SecondTier;
+export default WarehouseTier;

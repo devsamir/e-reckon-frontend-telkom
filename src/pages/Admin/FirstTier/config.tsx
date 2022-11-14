@@ -5,7 +5,6 @@ import type { ColumnsType } from "antd/es/table";
 
 import Button from "antd-button-color";
 import { format, differenceInDays, differenceInHours } from "date-fns";
-import * as yup from "yup";
 
 export const useFirstTierColumn = () => {
   const columns = useMemo(

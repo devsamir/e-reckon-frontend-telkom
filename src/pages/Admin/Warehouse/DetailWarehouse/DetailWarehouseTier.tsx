@@ -20,21 +20,21 @@ import useIncidentRead from "src/data/useIncidentRead";
 import useUrlQuery from "src/helpers/useUrlQuery";
 import { useIncidentService } from "src/services/incident.service";
 
-import { firstTierSchema } from "./config";
+import { warehouseTierSchema } from "./config";
 import TableLineItems from "./partials/TableLineItems";
 
-const DetailFirstTier = () => {
+const DetailWarehouseTier = () => {
   const navigate = useNavigate();
   const query = useUrlQuery();
   const qIncindent = useIncidentRead({
     id: query?.id,
     options: { enabled: !!query?.id },
   });
-  const { updateMutation, confirmFirstTierMutation } = useIncidentService({
+  const { updateMutation, confirmWhMaterialMutation } = useIncidentService({
     enableFetch: false,
   });
   const form = useForm({
-    resolver: yupResolver(firstTierSchema),
+    resolver: yupResolver(warehouseTierSchema),
   });
 
   // Handlers
@@ -69,7 +69,7 @@ const DetailFirstTier = () => {
       },
       {
         onSuccess: () => {
-          navigate("/admin/first-tier");
+          navigate("/admin/warehouse-tier");
           notification.success({ message: "Berhasil update data" });
         },
         onError: (error: any) => {
@@ -81,16 +81,16 @@ const DetailFirstTier = () => {
     );
   };
 
-  const handleSubmit = async (values) => {
+  const handleConfirm = async (values) => {
     try {
       const data = generateDataSubmit(values);
       await updateMutation.mutateAsync({
         id: query?.id,
         ...data,
       });
-      await confirmFirstTierMutation.mutateAsync(Number(query?.id), {
+      await confirmWhMaterialMutation.mutateAsync(Number(query?.id), {
         onSuccess: () => {
-          navigate("/admin/first-tier");
+          navigate("/admin/warehouse-tier");
           notification.success({ message: "Berhasil update data" });
         },
       });
@@ -99,11 +99,6 @@ const DetailFirstTier = () => {
         message: err?.response?.data?.message || err?.message,
       });
     }
-
-    // onSuccess: () => {
-    //   navigate("/admin/first-tier");
-    //   notification.success({ message: "Berhasil update data" });
-    // },
   };
 
   // USEEFFECT
@@ -140,7 +135,7 @@ const DetailFirstTier = () => {
       <FormProvider {...form}>
         <Breadcrumb className="mb-8">
           <Breadcrumb.Item>Admin</Breadcrumb.Item>
-          <Breadcrumb.Item>Tier 1</Breadcrumb.Item>
+          <Breadcrumb.Item>Tier WH</Breadcrumb.Item>
           <Breadcrumb.Item>Detail</Breadcrumb.Item>
         </Breadcrumb>
         <Spin spinning={qIncindent.isLoading || qIncindent.isFetching}>
@@ -184,6 +179,7 @@ const DetailFirstTier = () => {
                     name="assigned_mitra"
                     className="w-full"
                     placeholder="Select"
+                    disabled
                   />
                 </Descriptions.Item>
               </Descriptions>
@@ -194,7 +190,7 @@ const DetailFirstTier = () => {
                   type="primary"
                   loading={
                     updateMutation.isLoading ||
-                    confirmFirstTierMutation.isLoading
+                    confirmWhMaterialMutation.isLoading
                   }
                   onClick={form.handleSubmit(handleSaveDraft)}
                 >
@@ -204,11 +200,11 @@ const DetailFirstTier = () => {
                   type="primary"
                   loading={
                     updateMutation.isLoading ||
-                    confirmFirstTierMutation.isLoading
+                    confirmWhMaterialMutation.isLoading
                   }
-                  onClick={form.handleSubmit(handleSubmit)}
+                  onClick={form.handleSubmit(handleConfirm)}
                 >
-                  Submit
+                  Confirm WH
                 </Button>
               </Space>
             </Col>
@@ -221,4 +217,4 @@ const DetailFirstTier = () => {
   );
 };
 
-export default DetailFirstTier;
+export default DetailWarehouseTier;

@@ -1,8 +1,11 @@
 import React, { useMemo } from "react";
 
 import FilterContainer from "src/components/filters/FilterContainer";
+import MitraSelector from "src/components/filters/MitraSelector";
 import { FRangePicker } from "src/components/form/FDatePicker";
 import FInput from "src/components/form/FInput";
+import FInputNumberRange from "src/components/form/FInputNumberRange";
+import FSelect from "src/components/form/FSelect";
 import generateDomain from "src/helpers/generateDomain";
 import { omit } from "src/helpers/utils";
 
@@ -37,6 +40,10 @@ const FilterFirstTier: React.FC<Props> = ({ setDomain }) => {
         component: <FInput name="incident" placeholder="Input" allowClear />,
       },
       {
+        label: "Mitra",
+        component: <MitraSelector name="assigned_mitra" placeholder="Select" />,
+      },
+      {
         label: "Tanggal Masuk",
         component: <FRangePicker name="created_at" />,
       },
@@ -50,7 +57,7 @@ const FilterFirstTier: React.FC<Props> = ({ setDomain }) => {
 
   return (
     <FilterContainer
-      title="Filter Tier 1"
+      title="Filter Tier 2"
       onFind={handleSearch}
       filterFields={filterFields}
     />
