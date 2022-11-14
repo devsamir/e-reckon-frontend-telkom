@@ -36,7 +36,7 @@ const Template: React.FC<Props> = () => {
   const location = useLocation();
   const { logout } = useContext(AuthContext);
 
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
   const [selectedKeys, setSelectedKeys] = useState(
     mapMenu?.[location.pathname]
   );

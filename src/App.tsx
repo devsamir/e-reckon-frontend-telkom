@@ -16,6 +16,7 @@ import DetailSecondTier from "./pages/Admin/SecondTier/DetailSecondTier/DetailSe
 import TlSektor from "./pages/Admin/TlSektor";
 import User from "./pages/Admin/User";
 import WarehouseTier from "./pages/Admin/Warehouse";
+import DetailWarehouseTier from "./pages/Admin/Warehouse/DetailWarehouse/DetailWarehouseTier";
 import Login from "./pages/Login";
 
 const App: React.FC = () => {
@@ -58,6 +59,10 @@ const App: React.FC = () => {
           <Route path="second-tier" element={<SecondTier />} />
           <Route path="second-tier/detail" element={<DetailSecondTier />} />
           <Route path="warehouse-tier" element={<WarehouseTier />} />
+          <Route
+            path="warehouse-tier/detail"
+            element={<DetailWarehouseTier />}
+          />
           {/* COMMON */}
           <Route path="common/unit" element={<Unit />} />
           <Route path="common/item" element={<Item />} />
