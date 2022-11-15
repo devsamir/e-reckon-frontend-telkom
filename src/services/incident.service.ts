@@ -88,6 +88,17 @@ export const useIncidentService = ({
       ),
   });
 
+  const returnWhSecondTierMutation = useMutation({
+    mutationFn: (id: number) =>
+      ApiCall.post(
+        `/incident/return-wh-second-tier`,
+        { id },
+        {
+          headers: { token: cookies?.["token"] },
+        }
+      ),
+  });
+
   const confirmWhMaterialMutation = useMutation({
     mutationFn: (id: number) =>
       ApiCall.post(
@@ -113,6 +124,7 @@ export const useIncidentService = ({
     updateMutation,
     deleteMutation,
     confirmFirstTierMutation,
+    returnWhSecondTierMutation,
     submitWhSecondTierMutation,
     confirmWhMaterialMutation,
   };

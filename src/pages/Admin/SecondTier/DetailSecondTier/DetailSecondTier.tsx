@@ -135,6 +135,7 @@ const DetailSecondTier = () => {
     });
   }, [qIncindent.data, form]);
 
+  console.log(qIncindent.data.status_tier_2);
   return (
     <>
       <FormProvider {...form}>
@@ -212,8 +213,11 @@ const DetailSecondTier = () => {
                   Submit to WH
                 </Button>
 
-                <Button type="primary" disabled>
-                  Finish Job
+                <Button
+                  type="primary"
+                  disabled={qIncindent.data.status_tier_2 !== "wh_done"}
+                >
+                  Finish Tiket
                 </Button>
               </Space>
             </Col>

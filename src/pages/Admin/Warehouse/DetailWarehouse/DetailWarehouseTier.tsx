@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useForm, FormProvider } from "react-hook-form";
+import { useForm, FormProvider, useWatch } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -30,12 +30,27 @@ const DetailWarehouseTier = () => {
     id: query?.id,
     options: { enabled: !!query?.id },
   });
-  const { updateMutation, confirmWhMaterialMutation } = useIncidentService({
+  const {
+    updateMutation,
+    confirmWhMaterialMutation,
+    returnWhSecondTierMutation,
+  } = useIncidentService({
     enableFetch: false,
   });
   const form = useForm({
     resolver: yupResolver(warehouseTierSchema),
   });
+
+  const incidentDetails = useWatch({
+    control: form.control,
+    name: "incident_details",
+    defaultValue: [],
+  });
+
+  const isAllApproved = incidentDetails.every(
+    (i) => i.approve_wh === "approved"
+  );
+  const isSomeDecline = incidentDetails.some((i) => i.approve_wh === "decline");
 
   // Handlers
   const generateDataSubmit = (values) => {
@@ -80,7 +95,25 @@ const DetailWarehouseTier = () => {
       }
     );
   };
-
+  const handleReturnSecondTier = async (values) => {
+    try {
+      const data = generateDataSubmit(values);
+      await updateMutation.mutateAsync({
+        id: query?.id,
+        ...data,
+      });
+      await returnWhSecondTierMutation.mutateAsync(Number(query?.id), {
+        onSuccess: () => {
+          navigate("/admin/warehouse-tier");
+          notification.success({ message: "Berhasil update data" });
+        },
+      });
+    } catch (err) {
+      notification.error({
+        message: err?.response?.data?.message || err?.message,
+      });
+    }
+  };
   const handleConfirm = async (values) => {
     try {
       const data = generateDataSubmit(values);
@@ -202,7 +235,19 @@ const DetailWarehouseTier = () => {
                     updateMutation.isLoading ||
                     confirmWhMaterialMutation.isLoading
                   }
+                  onClick={form.handleSubmit(handleReturnSecondTier)}
+                  disabled={!isSomeDecline}
+                >
+                  Return To Tier 2
+                </Button>
+                <Button
+                  type="primary"
+                  loading={
+                    updateMutation.isLoading ||
+                    confirmWhMaterialMutation.isLoading
+                  }
                   onClick={form.handleSubmit(handleConfirm)}
+                  disabled={!isAllApproved}
                 >
                   Confirm WH
                 </Button>

@@ -83,6 +83,7 @@ export const useTableLineColumns = (remove, offset) => {
               <FInputNumber
                 key={record.id}
                 name={`incident_details.${idx + offset}.qty`}
+                disabled
               />
             );
           },
@@ -99,6 +100,7 @@ export const useTableLineColumns = (remove, offset) => {
                 name={`incident_details.${idx + offset}.job_detail`}
                 isTextArea
                 rows={1}
+                disabled
               />
             );
           },
@@ -132,20 +134,20 @@ export const useTableLineColumns = (remove, offset) => {
             );
           },
         },
-        {
-          key: "action",
-          title: "Action",
-          width: 100,
-          render: (_, record, idx) => {
-            return (
-              <div className="flex justify-center">
-                <Button type="danger" onClick={() => remove(idx + offset)}>
-                  <DeleteFilled />
-                </Button>
-              </div>
-            );
-          },
-        },
+        // {
+        //   key: "action",
+        //   title: "Action",
+        //   width: 100,
+        //   render: (_, record, idx) => {
+        //     return (
+        //       <div className="flex justify-center">
+        //         <Button type="danger" onClick={() => remove(idx + offset)}>
+        //           <DeleteFilled />
+        //         </Button>
+        //       </div>
+        //     );
+        //   },
+        // },
       ] as ColumnsType<any>,
     [offset, remove]
   );
