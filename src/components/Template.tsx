@@ -1,6 +1,8 @@
 import React, { useState, useMemo, useContext } from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 
+import { Footer } from "antd/lib/layout/layout";
+
 import {
   PieChartOutlined,
   UserOutlined,
@@ -158,6 +160,10 @@ const Template: React.FC<Props> = () => {
             <Outlet />
           </div>
         </Content>
+        <Footer className="flex justify-center mt-4 text-gray-500">
+          Copyright © {new Date().getFullYear()} Telkom Co., Ltd. All Rights
+          Reserved
+        </Footer>
       </Layout>
     </Layout>
   );
