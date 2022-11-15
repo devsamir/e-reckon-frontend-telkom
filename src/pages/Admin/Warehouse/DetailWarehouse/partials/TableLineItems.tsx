@@ -59,6 +59,7 @@ const TableLineItems = () => {
         dataSource={fields
           .filter((item: any) => item.orm_code !== "delete")
           .slice(pagination.offset, pagination.offset + pagination.limit)}
+        selection={false}
       />
       {!fields.length && (
         <div className="text-red-500 flex items-center gap-2">

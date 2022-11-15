@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 
+import { ColumnType } from "antd/es/table";
 import { ColumnsType } from "antd/lib/table";
 
 import { DeleteFilled } from "@ant-design/icons";
@@ -83,6 +84,7 @@ export const useTableLineColumns = (remove, offset) => {
               <FInputNumber
                 key={record.id}
                 name={`incident_details.${idx + offset}.qty`}
+                disabled={record?.approve_wh === "approved"}
               />
             );
           },
@@ -99,6 +101,7 @@ export const useTableLineColumns = (remove, offset) => {
                 name={`incident_details.${idx + offset}.job_detail`}
                 isTextArea
                 rows={1}
+                disabled={record?.approve_wh === "approved"}
               />
             );
           },
@@ -147,9 +150,21 @@ export const useTableLineColumns = (remove, offset) => {
             );
           },
         },
-      ] as ColumnsType<any>,
+      ].map(
+        (col) =>
+          ({
+            ...col,
+            onCell: (data) => ({
+              style: {
+                background:
+                  data?.approve_wh === "decline" ? "rgb(252 165 165)" : "#fff",
+              },
+            }),
+          } as ColumnType<any>)
+      ) as ColumnsType<any>,
     [offset, remove]
   );
+
   return columns;
 };
 

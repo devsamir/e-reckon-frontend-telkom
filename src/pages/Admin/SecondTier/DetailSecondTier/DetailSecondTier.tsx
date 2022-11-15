@@ -44,7 +44,7 @@ const DetailSecondTier = () => {
       item_id: detail?.item_id,
       job_detail: detail?.job_detail,
       qty: detail?.qty,
-      approve_wh: detail?.approve_wh,
+      approve_wh: detail?.approve_wh !== "approved" ? "not_yet" : "approved",
       orm_code: detail?.orm_code,
     }));
 
@@ -135,7 +135,6 @@ const DetailSecondTier = () => {
     });
   }, [qIncindent.data, form]);
 
-  console.log(qIncindent.data.status_tier_2);
   return (
     <>
       <FormProvider {...form}>
@@ -215,7 +214,7 @@ const DetailSecondTier = () => {
 
                 <Button
                   type="primary"
-                  disabled={qIncindent.data.status_tier_2 !== "wh_done"}
+                  disabled={qIncindent?.data?.status_tier_2 !== "wh_done"}
                 >
                   Finish Tiket
                 </Button>

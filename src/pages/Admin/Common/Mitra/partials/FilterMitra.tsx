@@ -10,7 +10,6 @@ interface Props {
 
 const FilterMitra: React.FC<Props> = ({ setDomain }) => {
   const handleSearch = (values) => {
-    console.log(values);
     const newDomain = generateDomain({
       domain: values,
       like: ["shortname", "fullname"],
