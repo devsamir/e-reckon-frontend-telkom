@@ -20,11 +20,6 @@ const TableLineItems = () => {
   //   Columns
   return (
     <>
-      {/* <div className="flex justify-end mb-4">
-        <Button type="ghost" onClick={handleOpenItemModal}>
-          Tambah Item
-        </Button>
-      </div> */}
       <div className="mb-4">
         <Pagination
           limit={pagination.limit}

@@ -14,8 +14,6 @@ import {
 } from "antd";
 import Button from "antd-button-color";
 import { format } from "date-fns";
-import MitraSelector from "src/components/filters/MitraSelector";
-import FInput from "src/components/form/FInput";
 import useIncidentRead from "src/data/useIncidentRead";
 import useUrlQuery from "src/helpers/useUrlQuery";
 import { useIncidentService } from "src/services/incident.service";
@@ -26,11 +24,20 @@ import TableLineItems from "./partials/TableLineItems";
 const DetailSecondTier = () => {
   const navigate = useNavigate();
   const query = useUrlQuery();
-  const qIncindent = useIncidentRead({
+  const {
+    data: incident = {},
+    isLoading,
+    isFetching,
+  } = useIncidentRead({
     id: query?.id,
     options: { enabled: !!query?.id },
   });
-  const { updateMutation, submitWhSecondTierMutation } = useIncidentService({
+
+  const {
+    updateMutation,
+    submitWhSecondTierMutation,
+    submitThirdTierMutation,
+  } = useIncidentService({
     enableFetch: false,
   });
   const form = useForm({
@@ -48,7 +55,7 @@ const DetailSecondTier = () => {
       orm_code: detail?.orm_code,
     }));
 
-    const deletedIds = qIncindent.data?.IncidentDetails.filter(
+    const deletedIds = incident?.IncidentDetails.filter(
       (detail) =>
         !values?.incident_details.find((d) => d.incidet_detail_id === detail.id)
     ).map((d) => ({ id: d.id, orm_code: "delete" }));
@@ -106,20 +113,34 @@ const DetailSecondTier = () => {
     // },
   };
 
+  const handleFinish = async (values) => {
+    try {
+      const data = generateDataSubmit(values);
+      await updateMutation.mutateAsync({
+        id: query?.id,
+        ...data,
+      });
+      await submitThirdTierMutation.mutateAsync(Number(query?.id), {
+        onSuccess: () => {
+          navigate("/admin/second-tier");
+          notification.success({ message: "Berhasil update data" });
+        },
+      });
+    } catch (err) {
+      notification.error({
+        message: err?.response?.data?.message || err?.message,
+      });
+    }
+
+    // onSuccess: () => {
+    //   navigate("/admin/first-tier");
+    //   notification.success({ message: "Berhasil update data" });
+    // },
+  };
+
   // USEEFFECT
   useEffect(() => {
-    const incident = qIncindent.data;
     form.reset({
-      incident_code: incident?.incident_code,
-      incident: incident?.incident,
-      summary: incident?.summary,
-      on_tier: incident?.on_tier.replace("_", " ").toUpperCase(),
-      status: incident?.[`status_${incident?.on_tier}`].toUpperCase(),
-      assigned_mitra: incident?.assigned_mitra,
-      created_at: incident?.created_at
-        ? format(new Date(incident?.created_at), "dd/MM/yyyy hh:mm")
-        : incident?.created_at,
-
       incident_details: incident?.IncidentDetails?.map((details) => ({
         incidet_detail_id: details?.id,
         item_id: details?.item_id,
@@ -133,8 +154,9 @@ const DetailSecondTier = () => {
         orm_code: "update",
       })),
     });
-  }, [qIncindent.data, form]);
+  }, [incident, form]);
 
+  console.log({ incident });
   return (
     <>
       <FormProvider {...form}>
@@ -143,7 +165,7 @@ const DetailSecondTier = () => {
           <Breadcrumb.Item>Tier 2</Breadcrumb.Item>
           <Breadcrumb.Item>Detail</Breadcrumb.Item>
         </Breadcrumb>
-        <Spin spinning={qIncindent.isLoading || qIncindent.isFetching}>
+        <Spin spinning={isLoading || isFetching}>
           <Row gutter={[32, 32]}>
             <Col span={24}>
               <Descriptions
@@ -159,33 +181,27 @@ const DetailSecondTier = () => {
                 contentStyle={{ background: "#fff" }}
               >
                 <Descriptions.Item label="ID">
-                  <FInput name="incident_code" disabled />
+                  {incident?.incident_code}
                 </Descriptions.Item>
                 <Descriptions.Item label="Tiket Gamas">
-                  <FInput name="incident" disabled />
+                  {incident?.incident}
                 </Descriptions.Item>
                 <Descriptions.Item label="Summary">
-                  <FInput name="summary" isTextArea rows={3} disabled />
+                  {incident?.summary}
                 </Descriptions.Item>
                 <Descriptions.Item label="Posisi">
-                  <FInput name="on_tier" disabled />
+                  {incident?.on_tier?.replaceAll("_", " ")?.toUpperCase()}
                 </Descriptions.Item>
                 <Descriptions.Item label="Status">
-                  <FInput name="status" disabled />
+                  {incident?.[`status_${incident?.on_tier}`]?.toUpperCase()}
                 </Descriptions.Item>
                 <Descriptions.Item label="Tanggal Masuk">
-                  <FInput name="created_at" disabled />
+                  {incident?.open_at
+                    ? format(new Date(incident?.open_at), "dd/MM/yyyy hh:mm")
+                    : ""}
                 </Descriptions.Item>
-                <Descriptions.Item
-                  label="Mitra"
-                  className="description-required"
-                >
-                  <MitraSelector
-                    name="assigned_mitra"
-                    className="w-full"
-                    placeholder="Select"
-                    disabled
-                  />
+                <Descriptions.Item label="Mitra">
+                  {`(${incident?.assignedMitra?.shortname}) ${incident?.assignedMitra?.fullname}`}
                 </Descriptions.Item>
               </Descriptions>
             </Col>
@@ -214,9 +230,14 @@ const DetailSecondTier = () => {
 
                 <Button
                   type="primary"
-                  disabled={qIncindent?.data?.status_tier_2 !== "wh_done"}
+                  disabled={
+                    !["wh_done", "return_by_ta"].includes(
+                      incident?.status_tier_2
+                    )
+                  }
+                  onClick={form.handleSubmit(handleFinish)}
                 >
-                  Finish Tiket
+                  Submit To Tier 3
                 </Button>
               </Space>
             </Col>

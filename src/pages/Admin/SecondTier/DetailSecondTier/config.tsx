@@ -7,8 +7,13 @@ import { DeleteFilled } from "@ant-design/icons";
 import Button from "antd-button-color";
 import FInput from "src/components/form/FInput";
 import FInputNumber from "src/components/form/FInputNumber";
-import FSelect from "src/components/form/FSelect";
 import * as yup from "yup";
+
+const mappingApprove = {
+  not_yet: "Not Yet",
+  approved: "Approved",
+  decline: "Decline",
+};
 
 export const useTableLineColumns = (remove, offset) => {
   const columns = useMemo(
@@ -19,60 +24,24 @@ export const useTableLineColumns = (remove, offset) => {
           dataIndex: "item_code",
           title: "Kode Item",
           width: 125,
-          render: (_, record, idx) => {
-            return (
-              <FInput
-                key={record.id}
-                name={`incident_details.${idx + offset}.item_code`}
-                disabled
-              />
-            );
-          },
         },
         {
           key: "material_designator",
           dataIndex: "material_designator",
           title: "Material Designator",
           width: 150,
-          render: (_, record, idx) => {
-            return (
-              <FInput
-                key={record.id}
-                name={`incident_details.${idx + offset}.material_designator`}
-                disabled
-              />
-            );
-          },
         },
         {
           key: "service_designator",
           dataIndex: "service_designator",
           title: "Service Designator",
           width: 150,
-          render: (_, record, idx) => {
-            return (
-              <FInput
-                key={record.id}
-                name={`incident_details.${idx + offset}.service_designator`}
-                disabled
-              />
-            );
-          },
         },
         {
           key: "unit_name",
           dataIndex: "unit_name",
           title: "Unit",
           width: 100,
-          render: (_, record, idx) => {
-            return (
-              <FInput
-                key={record.id}
-                name={`incident_details.${idx + offset}.unit_name`}
-                disabled
-              />
-            );
-          },
         },
         {
           key: "qty",
@@ -111,36 +80,15 @@ export const useTableLineColumns = (remove, offset) => {
           dataIndex: "approve_wh",
           title: "Approve WH",
           width: 150,
-          render: (_, record, idx) => {
-            return (
-              <FSelect
-                key={record.id}
-                name={`incident_details.${idx + offset}.approve_wh`}
-                className="w-full"
-                disabled
-                options={[
-                  {
-                    label: "Not Yet",
-                    value: "not_yet",
-                  },
-                  {
-                    label: "Approved",
-                    value: "approved",
-                  },
-                  {
-                    label: "Decline",
-                    value: "decline",
-                  },
-                ]}
-              />
-            );
+          render: (v) => {
+            return mappingApprove[v];
           },
         },
         {
           key: "action",
           title: "Action",
           width: 100,
-          render: (_, record, idx) => {
+          render: (_, _record, idx) => {
             return (
               <div className="flex justify-center">
                 <Button type="danger" onClick={() => remove(idx + offset)}>
@@ -169,10 +117,6 @@ export const useTableLineColumns = (remove, offset) => {
 };
 
 export const secondTierSchema = yup.object().shape({
-  assigned_mitra: yup
-    .number()
-    .typeError("Mitra harus diisi")
-    .required("Mitra harus diisi"),
   incident_details: yup
     .array()
     .of(

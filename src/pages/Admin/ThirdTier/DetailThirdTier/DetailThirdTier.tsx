@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
-import { useForm, FormProvider, useWatch } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Breadcrumb,
   Col,
@@ -14,14 +13,15 @@ import {
 } from "antd";
 import Button from "antd-button-color";
 import { format } from "date-fns";
+import MitraSelector from "src/components/filters/MitraSelector";
+import FInput from "src/components/form/FInput";
 import useIncidentRead from "src/data/useIncidentRead";
 import useUrlQuery from "src/helpers/useUrlQuery";
 import { useIncidentService } from "src/services/incident.service";
 
-import { warehouseTierSchema } from "./config";
 import TableLineItems from "./partials/TableLineItems";
 
-const DetailWarehouseTier = () => {
+const DetailThirdTier = () => {
   const navigate = useNavigate();
   const query = useUrlQuery();
   const {
@@ -32,81 +32,18 @@ const DetailWarehouseTier = () => {
     id: query?.id,
     options: { enabled: !!query?.id },
   });
-  const {
-    updateMutation,
-    confirmWhMaterialMutation,
-    returnWhSecondTierMutation,
-  } = useIncidentService({
-    enableFetch: false,
-  });
-  const form = useForm({
-    resolver: yupResolver(warehouseTierSchema),
-  });
 
-  const incidentDetails = useWatch({
-    control: form.control,
-    name: "incident_details",
-    defaultValue: [],
-  });
+  const { returnToSecondTierMutation, closeIncidentMutation } =
+    useIncidentService({
+      enableFetch: false,
+    });
+  const form = useForm();
 
-  const isAllApproved = incidentDetails.every(
-    (i) => i.approve_wh === "approved"
-  );
-  const isSomeDecline = incidentDetails.some((i) => i.approve_wh === "decline");
-
-  // Handlers
-  const generateDataSubmit = (values) => {
-    const incidentDetails = (values?.incident_details || []).map((detail) => ({
-      id: detail?.incidet_detail_id,
-      item_id: detail?.item_id,
-      job_detail: detail?.job_detail,
-      qty: detail?.qty,
-      approve_wh: detail?.approve_wh,
-      orm_code: detail?.orm_code,
-    }));
-
-    const deletedIds = incident?.IncidentDetails.filter(
-      (detail) =>
-        !values?.incident_details.find((d) => d.incidet_detail_id === detail.id)
-    ).map((d) => ({ id: d.id, orm_code: "delete" }));
-    incidentDetails.push(...deletedIds);
-
-    return {
-      assigned_mitra: values?.assigned_mitra,
-      incident_details: incidentDetails,
-    };
-  };
-
-  const handleSaveDraft = async (values) => {
-    const data = generateDataSubmit(values);
-    await updateMutation.mutateAsync(
-      {
-        id: query?.id,
-        ...data,
-      },
-      {
-        onSuccess: () => {
-          navigate("/admin/warehouse-tier");
-          notification.success({ message: "Berhasil update data" });
-        },
-        onError: (error: any) => {
-          notification.error({
-            message: error?.response?.data?.message || error?.message,
-          });
-        },
-      }
-    );
-  };
-  const handleReturnSecondTier = async (values) => {
+  const handleReturnTier2 = async () => {
     try {
-      const data = generateDataSubmit(values);
-      await updateMutation.mutateAsync({
-        id: query?.id,
-        ...data,
-      });
-      await returnWhSecondTierMutation.mutateAsync(Number(query?.id), {
+      await returnToSecondTierMutation.mutateAsync(Number(query?.id), {
         onSuccess: () => {
-          navigate("/admin/warehouse-tier");
+          navigate("/admin/third-tier");
           notification.success({ message: "Berhasil update data" });
         },
       });
@@ -116,16 +53,11 @@ const DetailWarehouseTier = () => {
       });
     }
   };
-  const handleConfirm = async (values) => {
+  const handleCloseIncident = async () => {
     try {
-      const data = generateDataSubmit(values);
-      await updateMutation.mutateAsync({
-        id: query?.id,
-        ...data,
-      });
-      await confirmWhMaterialMutation.mutateAsync(Number(query?.id), {
+      await closeIncidentMutation.mutateAsync(Number(query?.id), {
         onSuccess: () => {
-          navigate("/admin/warehouse-tier");
+          navigate("/admin/third-tier");
           notification.success({ message: "Berhasil update data" });
         },
       });
@@ -135,10 +67,20 @@ const DetailWarehouseTier = () => {
       });
     }
   };
-
+  //
   // USEEFFECT
   useEffect(() => {
     form.reset({
+      incident_code: incident?.incident_code,
+      incident: incident?.incident,
+      summary: incident?.summary,
+      on_tier: incident?.on_tier.replaceAll("_", " ").toUpperCase(),
+      status: incident?.[`status_${incident?.on_tier}`].toUpperCase(),
+      assigned_mitra: incident?.assigned_mitra,
+      created_at: incident?.created_at
+        ? format(new Date(incident?.created_at), "dd/MM/yyyy HH:mm")
+        : incident?.created_at,
+
       incident_details: incident?.IncidentDetails?.map((details) => ({
         incidet_detail_id: details?.id,
         item_id: details?.item_id,
@@ -159,7 +101,7 @@ const DetailWarehouseTier = () => {
       <FormProvider {...form}>
         <Breadcrumb className="mb-8">
           <Breadcrumb.Item>Admin</Breadcrumb.Item>
-          <Breadcrumb.Item>Tier WH</Breadcrumb.Item>
+          <Breadcrumb.Item>Tier 3</Breadcrumb.Item>
           <Breadcrumb.Item>Detail</Breadcrumb.Item>
         </Breadcrumb>
         <Spin spinning={isLoading || isFetching}>
@@ -207,39 +149,26 @@ const DetailWarehouseTier = () => {
                 <Button
                   type="primary"
                   loading={
-                    updateMutation.isLoading ||
-                    confirmWhMaterialMutation.isLoading
+                    closeIncidentMutation.isLoading ||
+                    returnToSecondTierMutation.isLoading
                   }
-                  onClick={form.handleSubmit(handleSaveDraft)}
+                  onClick={handleReturnTier2}
                 >
-                  Save draft
+                  Return to Tier 2
                 </Button>
                 <Button
                   type="primary"
                   loading={
-                    updateMutation.isLoading ||
-                    confirmWhMaterialMutation.isLoading
+                    closeIncidentMutation.isLoading ||
+                    returnToSecondTierMutation.isLoading
                   }
-                  onClick={form.handleSubmit(handleReturnSecondTier)}
-                  disabled={!isSomeDecline}
+                  onClick={handleCloseIncident}
                 >
-                  Return To Tier 2
-                </Button>
-                <Button
-                  type="primary"
-                  loading={
-                    updateMutation.isLoading ||
-                    confirmWhMaterialMutation.isLoading
-                  }
-                  onClick={form.handleSubmit(handleConfirm)}
-                  disabled={!isAllApproved}
-                >
-                  Confirm WH
+                  Close Tiket
                 </Button>
               </Space>
             </Col>
           </Row>
-
           <TableLineItems />
         </Spin>
       </FormProvider>
@@ -247,4 +176,4 @@ const DetailWarehouseTier = () => {
   );
 };
 
-export default DetailWarehouseTier;
+export default DetailThirdTier;

@@ -110,6 +110,38 @@ export const useIncidentService = ({
       ),
   });
 
+  const submitThirdTierMutation = useMutation({
+    mutationFn: (id: number) =>
+      ApiCall.post(
+        `/incident/submit-wh-third-tier`,
+        { id },
+        {
+          headers: { token: cookies?.["token"] },
+        }
+      ),
+  });
+
+  const returnToSecondTierMutation = useMutation({
+    mutationFn: (id: number) =>
+      ApiCall.post(
+        `/incident/return-to-second-tier`,
+        { id },
+        {
+          headers: { token: cookies?.["token"] },
+        }
+      ),
+  });
+
+  const closeIncidentMutation = useMutation({
+    mutationFn: (id: number) =>
+      ApiCall.post(
+        `/incident/close-incident`,
+        { id },
+        {
+          headers: { token: cookies?.["token"] },
+        }
+      ),
+  });
   useEffect(() => {
     if (qIncident.error) {
       notification.error({
@@ -127,5 +159,8 @@ export const useIncidentService = ({
     returnWhSecondTierMutation,
     submitWhSecondTierMutation,
     confirmWhMaterialMutation,
+    submitThirdTierMutation,
+    returnToSecondTierMutation,
+    closeIncidentMutation,
   };
 };
