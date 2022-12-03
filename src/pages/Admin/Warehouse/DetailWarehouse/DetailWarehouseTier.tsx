@@ -14,8 +14,6 @@ import {
 } from "antd";
 import Button from "antd-button-color";
 import { format } from "date-fns";
-import MitraSelector from "src/components/filters/MitraSelector";
-import FInput from "src/components/form/FInput";
 import useIncidentRead from "src/data/useIncidentRead";
 import useUrlQuery from "src/helpers/useUrlQuery";
 import { useIncidentService } from "src/services/incident.service";
@@ -26,7 +24,11 @@ import TableLineItems from "./partials/TableLineItems";
 const DetailWarehouseTier = () => {
   const navigate = useNavigate();
   const query = useUrlQuery();
-  const qIncindent = useIncidentRead({
+  const {
+    data: incident = {},
+    isLoading,
+    isFetching,
+  } = useIncidentRead({
     id: query?.id,
     options: { enabled: !!query?.id },
   });
@@ -48,7 +50,7 @@ const DetailWarehouseTier = () => {
       orm_code: detail?.orm_code,
     }));
 
-    const deletedIds = qIncindent.data?.IncidentDetails.filter(
+    const deletedIds = incident?.IncidentDetails.filter(
       (detail) =>
         !values?.incident_details.find((d) => d.incidet_detail_id === detail.id)
     ).map((d) => ({ id: d.id, orm_code: "delete" }));
@@ -103,18 +105,7 @@ const DetailWarehouseTier = () => {
 
   // USEEFFECT
   useEffect(() => {
-    const incident = qIncindent.data;
     form.reset({
-      incident_code: incident?.incident_code,
-      incident: incident?.incident,
-      summary: incident?.summary,
-      on_tier: incident?.on_tier.replace("_", " ").toUpperCase(),
-      status: incident?.[`status_${incident?.on_tier}`].toUpperCase(),
-      assigned_mitra: incident?.assigned_mitra,
-      created_at: incident?.created_at
-        ? format(new Date(incident?.created_at), "dd/MM/yyyy hh:mm")
-        : incident?.created_at,
-
       incident_details: incident?.IncidentDetails?.map((details) => ({
         incidet_detail_id: details?.id,
         item_id: details?.item_id,
@@ -128,7 +119,7 @@ const DetailWarehouseTier = () => {
         orm_code: "update",
       })),
     });
-  }, [qIncindent.data, form]);
+  }, [incident, form]);
 
   return (
     <>
@@ -138,7 +129,7 @@ const DetailWarehouseTier = () => {
           <Breadcrumb.Item>Tier WH</Breadcrumb.Item>
           <Breadcrumb.Item>Detail</Breadcrumb.Item>
         </Breadcrumb>
-        <Spin spinning={qIncindent.isLoading || qIncindent.isFetching}>
+        <Spin spinning={isLoading || isFetching}>
           <Row gutter={[32, 32]}>
             <Col span={24}>
               <Descriptions
@@ -154,33 +145,27 @@ const DetailWarehouseTier = () => {
                 contentStyle={{ background: "#fff" }}
               >
                 <Descriptions.Item label="ID">
-                  <FInput name="incident_code" disabled />
+                  {incident?.incident_code}
                 </Descriptions.Item>
                 <Descriptions.Item label="Tiket Gamas">
-                  <FInput name="incident" disabled />
+                  {incident?.incident}
                 </Descriptions.Item>
                 <Descriptions.Item label="Summary">
-                  <FInput name="summary" isTextArea rows={3} disabled />
+                  {incident?.summary}
                 </Descriptions.Item>
                 <Descriptions.Item label="Posisi">
-                  <FInput name="on_tier" disabled />
+                  {incident?.on_tier?.replaceAll("_", " ")?.toUpperCase()}
                 </Descriptions.Item>
                 <Descriptions.Item label="Status">
-                  <FInput name="status" disabled />
+                  {incident?.[`status_${incident?.on_tier}`]?.toUpperCase()}
                 </Descriptions.Item>
                 <Descriptions.Item label="Tanggal Masuk">
-                  <FInput name="created_at" disabled />
+                  {incident?.open_at
+                    ? format(new Date(incident?.open_at), "dd/MM/yyyy hh:mm")
+                    : ""}
                 </Descriptions.Item>
-                <Descriptions.Item
-                  label="Mitra"
-                  className="description-required"
-                >
-                  <MitraSelector
-                    name="assigned_mitra"
-                    className="w-full"
-                    placeholder="Select"
-                    disabled
-                  />
+                <Descriptions.Item label="Mitra">
+                  {`(${incident?.assignedMitra?.shortname}) ${incident?.assignedMitra?.fullname}`}
                 </Descriptions.Item>
               </Descriptions>
             </Col>

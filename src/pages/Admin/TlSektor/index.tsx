@@ -6,6 +6,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Breadcrumb, Button, Modal, notification } from "antd";
 import Pagination, { usePagination } from "src/components/Pagination";
 import TableExtended from "src/components/TableExtended";
+import FDatePicker from "src/components/form/FDatePicker";
 import FInput from "src/components/form/FInput";
 import FSelect from "src/components/form/FSelect";
 import { pick, removeFalsyValue } from "src/helpers/utils";
@@ -48,12 +49,17 @@ const TlSektor = () => {
       incident: "",
       summary: "",
       job_type: "PEMBENAHAN",
+      open_at: new Date(),
     });
   };
   const prepareEdit = (record) => {
     setShowModal(true);
     setId(record?.id);
-    form.reset(pick(record, ["incident", "summary", "job_type"]));
+    console.log({ record });
+    form.reset({
+      ...pick(record, ["incident", "summary", "job_type"]),
+      open_at: new Date(record.open_at),
+    });
   };
   const prepareDelete = (record) => {
     setConfirmDelete(true);
@@ -64,7 +70,6 @@ const TlSektor = () => {
   // Function for Crud Action
   const onSubmit = async (values) => {
     const newValues: any = removeFalsyValue(values);
-
     if (!!id) {
       await updateMutation.mutateAsync(
         { ...newValues, id },
@@ -167,6 +172,14 @@ const TlSektor = () => {
               name="job_type"
               placeholder="Select"
               options={jobTypeOpt}
+            />
+          </div>
+          <div className="flex flex-col gap-1 mb-4">
+            <label className="text-sm font-medium">Tanggal Tiket</label>
+            <FDatePicker
+              name="open_at"
+              placeholder="Pick date"
+              format={"DD/MM/YYYY"}
             />
           </div>
         </Modal>

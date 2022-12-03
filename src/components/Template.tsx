@@ -10,6 +10,7 @@ import {
   ContainerOutlined,
   HddOutlined,
   AppstoreOutlined,
+  AuditOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, Image, Dropdown } from "antd";
 
@@ -29,7 +30,8 @@ const mapMenu = {
   "/admin/common/mitra": ["4", "4-3"],
   "/admin/user": ["5"],
   "/admin/second-tier": ["6"],
-  "/admin/warehouse-tier": ["7"],
+  "/admin/third-tier": ["7"],
+  "/admin/warehouse-tier": ["8"],
 };
 
 const Template: React.FC<Props> = () => {
@@ -64,7 +66,11 @@ const Template: React.FC<Props> = () => {
         onCollapse={(value) => setCollapsed(value)}
       >
         <div className="m-2 flex items-center justify-center">
-          <Image src={require("../assets/telkom_logo.png")} width={54} />
+          <Image
+            preview={false}
+            src={require("../assets/telkom_logo.png")}
+            width={54}
+          />
           {!collapsed && (
             <div className="text-sm text-center text-gray-800 leading-[3rem] uppercase font-bold">
               E-Reckon
@@ -99,6 +105,12 @@ const Template: React.FC<Props> = () => {
             key={mapMenu["/admin/second-tier"][0]}
           >
             <Link to={"/admin/second-tier"}>Tier 2</Link>
+          </Menu.Item>
+          <Menu.Item
+            icon={<AuditOutlined />}
+            key={mapMenu["/admin/third-tier"][0]}
+          >
+            <Link to={"/admin/third-tier"}>Tier 3</Link>
           </Menu.Item>
           <Menu.Item
             icon={<AppstoreOutlined />}
