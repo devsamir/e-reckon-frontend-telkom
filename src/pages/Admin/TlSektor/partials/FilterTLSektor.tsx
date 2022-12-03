@@ -75,6 +75,10 @@ const FilterTLSektor: React.FC<Props> = ({ setDomain }) => {
           value: "cek_list_by_wh",
         },
         {
+          label: "Return By TA",
+          value: "return_by_ta",
+        },
+        {
           label: "WH DONE",
           value: "wh_done",
         },

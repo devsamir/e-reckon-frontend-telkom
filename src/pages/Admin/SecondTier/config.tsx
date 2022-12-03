@@ -46,37 +46,39 @@ export const useSecondTierColumns = () => {
           width: 100,
           sorter: true,
           render: (val) => {
-            return <span className="uppercase">{val.replace("_", " ")}</span>;
+            return (
+              <span className="uppercase">{val.replaceAll("_", " ")}</span>
+            );
           },
         },
         {
           key: "status_on_tier",
           dataIndex: "status_on_tier",
           title: "Status",
-          width: 100,
+          width: 150,
           render: (_, record) => {
             if (record.on_tier === "tier_1")
               return (
                 <span className="uppercase">
-                  {record.status_tier_1?.replace("_", " ")}
+                  {record.status_tier_1?.replaceAll("_", " ")}
                 </span>
               );
             if (record.on_tier === "tier_2")
               return (
                 <span className="uppercase">
-                  {record.status_tier_2?.replace("_", " ")}
+                  {record.status_tier_2?.replaceAll("_", " ")}
                 </span>
               );
             if (record.on_tier === "tier_3")
               return (
                 <span className="uppercase">
-                  {record.status_tier_3?.replace("_", " ")}
+                  {record.status_tier_3?.replaceAll("_", " ")}
                 </span>
               );
             if (record.on_tier === "wh")
               return (
                 <span className="uppercase">
-                  {record.status_wh?.replace("_", " ")}
+                  {record.status_wh?.replaceAll("_", " ")}
                 </span>
               );
           },
@@ -105,7 +107,7 @@ export const useSecondTierColumns = () => {
           width: 150,
           render: (val) => {
             return val ? (
-              <span>{format(new Date(val), "dd/MM/yyyy mm:hh")}</span>
+              <span>{format(new Date(val), "dd/MM/yyyy HH:mm")}</span>
             ) : null;
           },
         },
@@ -117,7 +119,7 @@ export const useSecondTierColumns = () => {
           width: 150,
           render: (val) => {
             return val ? (
-              <span>{format(new Date(val), "dd/MM/yyyy  mm:hh")}</span>
+              <span>{format(new Date(val), "dd/MM/yyyy HH:mm")}</span>
             ) : null;
           },
         },

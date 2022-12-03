@@ -2,14 +2,10 @@ import { useMemo } from "react";
 
 import { ColumnsType } from "antd/lib/table";
 
-import { DeleteFilled } from "@ant-design/icons";
-import Button from "antd-button-color";
-import FInput from "src/components/form/FInput";
-import FInputNumber from "src/components/form/FInputNumber";
 import FSelect from "src/components/form/FSelect";
 import * as yup from "yup";
 
-export const useTableLineColumns = (remove, offset) => {
+export const useTableLineColumns = (offset) => {
   const columns = useMemo(
     () =>
       [
@@ -18,90 +14,36 @@ export const useTableLineColumns = (remove, offset) => {
           dataIndex: "item_code",
           title: "Kode Item",
           width: 125,
-          render: (_, record, idx) => {
-            return (
-              <FInput
-                key={record.id}
-                name={`incident_details.${idx + offset}.item_code`}
-                disabled
-              />
-            );
-          },
         },
         {
           key: "material_designator",
           dataIndex: "material_designator",
           title: "Material Designator",
           width: 150,
-          render: (_, record, idx) => {
-            return (
-              <FInput
-                key={record.id}
-                name={`incident_details.${idx + offset}.material_designator`}
-                disabled
-              />
-            );
-          },
         },
         {
           key: "service_designator",
           dataIndex: "service_designator",
           title: "Service Designator",
           width: 150,
-          render: (_, record, idx) => {
-            return (
-              <FInput
-                key={record.id}
-                name={`incident_details.${idx + offset}.service_designator`}
-                disabled
-              />
-            );
-          },
         },
         {
           key: "unit_name",
           dataIndex: "unit_name",
           title: "Unit",
           width: 100,
-          render: (_, record, idx) => {
-            return (
-              <FInput
-                key={record.id}
-                name={`incident_details.${idx + offset}.unit_name`}
-                disabled
-              />
-            );
-          },
         },
         {
           key: "qty",
           dataIndex: "qty",
           title: "Qty",
           width: 150,
-          render: (_, record, idx) => {
-            return (
-              <FInputNumber
-                key={record.id}
-                name={`incident_details.${idx + offset}.qty`}
-              />
-            );
-          },
         },
         {
           key: "job_detail",
           dataIndex: "job_detail",
           title: "Uraian Pekerjaan",
           width: 250,
-          render: (_, record, idx) => {
-            return (
-              <FInput
-                key={record.id}
-                name={`incident_details.${idx + offset}.job_detail`}
-                isTextArea
-                rows={1}
-              />
-            );
-          },
         },
         {
           key: "approve_wh",
@@ -147,16 +89,12 @@ export const useTableLineColumns = (remove, offset) => {
           },
         },
       ] as ColumnsType<any>,
-    [offset, remove]
+    [offset]
   );
   return columns;
 };
 
 export const warehouseTierSchema = yup.object().shape({
-  assigned_mitra: yup
-    .number()
-    .typeError("Mitra harus diisi")
-    .required("Mitra harus diisi"),
   incident_details: yup
     .array()
     .of(

@@ -13,6 +13,8 @@ import FirstTier from "./pages/Admin/FirstTier";
 import DetailFirstTier from "./pages/Admin/FirstTier/DetailFirstTier/DetailFirstTier";
 import SecondTier from "./pages/Admin/SecondTier";
 import DetailSecondTier from "./pages/Admin/SecondTier/DetailSecondTier/DetailSecondTier";
+import ThirdTier from "./pages/Admin/ThirdTier";
+import DetailThirdTier from "./pages/Admin/ThirdTier/DetailThirdTier/DetailThirdTier";
 import TlSektor from "./pages/Admin/TlSektor";
 import User from "./pages/Admin/User";
 import WarehouseTier from "./pages/Admin/Warehouse";
@@ -58,6 +60,8 @@ const App: React.FC = () => {
           <Route path="first-tier/detail" element={<DetailFirstTier />} />
           <Route path="second-tier" element={<SecondTier />} />
           <Route path="second-tier/detail" element={<DetailSecondTier />} />
+          <Route path="third-tier" element={<ThirdTier />} />
+          <Route path="third-tier/detail" element={<DetailThirdTier />} />
           <Route path="warehouse-tier" element={<WarehouseTier />} />
           <Route
             path="warehouse-tier/detail"
