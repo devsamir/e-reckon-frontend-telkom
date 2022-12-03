@@ -74,20 +74,20 @@ export const useTableLineColumns = (offset) => {
             );
           },
         },
-        {
-          key: "action",
-          title: "Action",
-          width: 100,
-          render: (_, record, idx) => {
-            return (
-              <div className="flex justify-center">
-                <Button type="danger" onClick={() => remove(idx + offset)}>
-                  <DeleteFilled />
-                </Button>
-              </div>
-            );
-          },
-        },
+        // {
+        //   key: "action",
+        //   title: "Action",
+        //   width: 100,
+        //   render: (_, record, idx) => {
+        //     return (
+        //       <div className="flex justify-center">
+        //         <Button type="danger" onClick={() => remove(idx + offset)}>
+        //           <DeleteFilled />
+        //         </Button>
+        //       </div>
+        //     );
+        //   },
+        // },
       ] as ColumnsType<any>,
     [offset]
   );

@@ -51,7 +51,7 @@ const DetailSecondTier = () => {
       item_id: detail?.item_id,
       job_detail: detail?.job_detail,
       qty: detail?.qty,
-      approve_wh: detail?.approve_wh,
+      approve_wh: detail?.approve_wh !== "approved" ? "not_yet" : "approved",
       orm_code: detail?.orm_code,
     }));
 
