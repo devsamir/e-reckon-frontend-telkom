@@ -142,9 +142,9 @@ const Template: React.FC<Props> = () => {
             <Menu.Item key={mapMenu["/admin/commerce/item-price"][1]}>
               <Link to={"/admin/commerce/item-price"}>Item Price</Link>
             </Menu.Item>
-            <Menu.Item key={mapMenu["/admin/commerce/order"][1]}>
+            {/* <Menu.Item key={mapMenu["/admin/commerce/order"][1]}>
               <Link to={"/admin/commerce/order"}>Order</Link>
-            </Menu.Item>
+            </Menu.Item> */}
           </Menu.SubMenu>
 
           <Menu.SubMenu
@@ -152,9 +152,9 @@ const Template: React.FC<Props> = () => {
             icon={<SettingOutlined />}
             key={mapMenu["/admin/master"][0]}
           >
-            <Menu.Item key={mapMenu["/admin/master/job-type"][1]}>
+            {/* <Menu.Item key={mapMenu["/admin/master/job-type"][1]}>
               <Link to={"/admin/master/job-type"}>Jenis Pekerjaan</Link>
-            </Menu.Item>
+            </Menu.Item> */}
             <Menu.Item key={mapMenu["/admin/master/unit"][1]}>
               <Link to={"/admin/master/unit"}>Unit</Link>
             </Menu.Item>

@@ -62,15 +62,15 @@ const App: React.FC = () => {
           <Route path="second-tier/detail" element={<DetailSecondTier />} />
           <Route path="third-tier" element={<ThirdTier />} />
           <Route path="third-tier/detail" element={<DetailThirdTier />} />
-          <Route path="warehouse-tier" element={<WarehouseTier />} />
+          <Route path="warehouse/item" element={<Item />} />
+          <Route path="warehouse/order" element={<WarehouseTier />} />
           <Route
             path="warehouse-tier/detail"
             element={<DetailWarehouseTier />}
           />
+          <Route path="commerce/item-price" element={<Item />} />
           {/* COMMON */}
           <Route path="master/unit" element={<Unit />} />
-          <Route path="master/item" element={<Item />} />
-          <Route path="master/mitra" element={<Mitra />} />
           <Route path="user" element={<User />} />
         </Route>
       )}
