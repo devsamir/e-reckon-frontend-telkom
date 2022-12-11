@@ -68,9 +68,9 @@ const App: React.FC = () => {
             element={<DetailWarehouseTier />}
           />
           {/* COMMON */}
-          <Route path="common/unit" element={<Unit />} />
-          <Route path="common/item" element={<Item />} />
-          <Route path="common/mitra" element={<Mitra />} />
+          <Route path="master/unit" element={<Unit />} />
+          <Route path="master/item" element={<Item />} />
+          <Route path="master/mitra" element={<Mitra />} />
           <Route path="user" element={<User />} />
         </Route>
       )}

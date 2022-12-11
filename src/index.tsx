@@ -3,8 +3,6 @@ import { CookiesProvider } from "react-cookie";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 
-import "antd/dist/antd.min.css";
-
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "antd-button-color/dist/css/style.css";
 
