@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useContext } from "react";
+import React, { useState, useMemo, useContext, useEffect } from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 
 import { Footer } from "antd/lib/layout/layout";
@@ -26,14 +26,18 @@ const mapMenu = {
   "/admin/dashboard": ["1"],
   "/admin/form-tl-sektor": ["2"],
   "/admin/first-tier": ["3"],
-  "/admin/common": ["4"],
-  "/admin/common/unit": ["4", "4-1"],
-  "/admin/common/item": ["4", "4-2"],
-  "/admin/common/mitra": ["4", "4-3"],
+  "/admin/master": ["4"],
+  "/admin/master/job-type": ["4", "4-1"],
+  "/admin/master/unit": ["4", "4-2"],
   "/admin/user": ["5"],
   "/admin/second-tier": ["6"],
   "/admin/third-tier": ["7"],
-  "/admin/warehouse-tier": ["8"],
+  "/admin/warehouse": ["8"],
+  "/admin/warehouse/item": ["8", "8-1"],
+  "/admin/warehouse/order": ["8", "8-2"],
+  "/admin/commerce": ["9"],
+  "/admin/commerce/item-price": ["9", "9-1"],
+  "/admin/commerce/order": ["9", "9-2"],
 };
 
 const Template: React.FC<Props> = () => {
@@ -59,6 +63,10 @@ const Template: React.FC<Props> = () => {
     ),
     [logout]
   );
+
+  // useEffect(() => {
+  //   setSelectedKeys(mapMenu[location.pathname]);
+  // }, [location.pathname]);
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider
@@ -94,7 +102,7 @@ const Template: React.FC<Props> = () => {
             icon={<FormOutlined />}
             key={mapMenu["/admin/form-tl-sektor"][0]}
           >
-            <Link to={"/admin/form-tl-sektor"}>Form TL Sektor</Link>
+            <Link to={"/admin/form-tl-sektor"}>Form TL</Link>
           </Menu.Item>
           <Menu.Item
             icon={<ContainerOutlined />}
@@ -114,25 +122,41 @@ const Template: React.FC<Props> = () => {
           >
             <Link to={"/admin/third-tier"}>Tier 3</Link>
           </Menu.Item>
-          <Menu.Item
-            icon={<AppstoreOutlined />}
-            key={mapMenu["/admin/warehouse-tier"][0]}
-          >
-            <Link to={"/admin/warehouse-tier"}>Tier WH</Link>
-          </Menu.Item>
           <Menu.SubMenu
-            title="Common"
-            icon={<SettingOutlined />}
-            key={mapMenu["/admin/common"][0]}
+            title="Warehouse"
+            icon={<AppstoreOutlined />}
+            key={mapMenu["/admin/warehouse"][0]}
           >
-            <Menu.Item key={mapMenu["/admin/common/unit"][1]}>
-              <Link to={"/admin/common/unit"}>Unit</Link>
+            <Menu.Item key={mapMenu["/admin/warehouse/item"][1]}>
+              <Link to={"/admin/warehouse/item"}>Item</Link>
             </Menu.Item>
-            <Menu.Item key={mapMenu["/admin/common/item"][1]}>
-              <Link to={"/admin/common/item"}>Item</Link>
+            <Menu.Item key={mapMenu["/admin/warehouse/order"][1]}>
+              <Link to={"/admin/warehouse/order"}>Order</Link>
             </Menu.Item>
-            <Menu.Item key={mapMenu["/admin/common/mitra"][1]}>
-              <Link to={"/admin/common/mitra"}>Mitra</Link>
+          </Menu.SubMenu>
+          <Menu.SubMenu
+            title="Commerce"
+            icon={<AppstoreOutlined />}
+            key={mapMenu["/admin/commerce"][0]}
+          >
+            <Menu.Item key={mapMenu["/admin/commerce/item-price"][1]}>
+              <Link to={"/admin/commerce/item-price"}>Item Price</Link>
+            </Menu.Item>
+            {/* <Menu.Item key={mapMenu["/admin/commerce/order"][1]}>
+              <Link to={"/admin/commerce/order"}>Order</Link>
+            </Menu.Item> */}
+          </Menu.SubMenu>
+
+          <Menu.SubMenu
+            title="Master"
+            icon={<SettingOutlined />}
+            key={mapMenu["/admin/master"][0]}
+          >
+            {/* <Menu.Item key={mapMenu["/admin/master/job-type"][1]}>
+              <Link to={"/admin/master/job-type"}>Jenis Pekerjaan</Link>
+            </Menu.Item> */}
+            <Menu.Item key={mapMenu["/admin/master/unit"][1]}>
+              <Link to={"/admin/master/unit"}>Unit</Link>
             </Menu.Item>
           </Menu.SubMenu>
           <Menu.Item icon={<UserOutlined />} key={mapMenu["/admin/user"][0]}>
