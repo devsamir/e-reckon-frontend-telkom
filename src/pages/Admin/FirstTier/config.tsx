@@ -26,6 +26,19 @@ export const useFirstTierColumn = () => {
           },
         },
         {
+          key: "datel.name",
+          dataIndex: "datel.name",
+          title: "Datel",
+          width: 150,
+          sorter: true,
+          render: (_, record) => {
+            if (record?.datel?.name) {
+              return record.datel.name;
+            }
+            return null;
+          },
+        },
+        {
           key: "incident_code",
           dataIndex: "incident_code",
           title: "ID",
@@ -38,6 +51,19 @@ export const useFirstTierColumn = () => {
           title: "Tiket Gamas",
           width: 175,
           sorter: true,
+        },
+        {
+          key: "job_type.name",
+          dataIndex: "job_type.name",
+          title: "Jenis Pekerjaan",
+          width: 150,
+          sorter: true,
+          render: (_, record) => {
+            if (record?.job_type?.name) {
+              return record.job_type.name;
+            }
+            return null;
+          },
         },
         {
           key: "on_tier",

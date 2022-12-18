@@ -114,13 +114,7 @@ const Template: React.FC<Props> = () => {
             icon={<HddOutlined />}
             key={mapMenu["/admin/second-tier"][0]}
           >
-            <Link to={"/admin/second-tier"}>Tier 2</Link>
-          </Menu.Item>
-          <Menu.Item
-            icon={<AuditOutlined />}
-            key={mapMenu["/admin/third-tier"][0]}
-          >
-            <Link to={"/admin/third-tier"}>Tier 3</Link>
+            <Link to={"/admin/second-tier"}>Mitra</Link>
           </Menu.Item>
           <Menu.SubMenu
             title="Warehouse"
@@ -152,9 +146,9 @@ const Template: React.FC<Props> = () => {
             icon={<SettingOutlined />}
             key={mapMenu["/admin/master"][0]}
           >
-            {/* <Menu.Item key={mapMenu["/admin/master/job-type"][1]}>
+            <Menu.Item key={mapMenu["/admin/master/job-type"][1]}>
               <Link to={"/admin/master/job-type"}>Jenis Pekerjaan</Link>
-            </Menu.Item> */}
+            </Menu.Item>
             <Menu.Item key={mapMenu["/admin/master/unit"][1]}>
               <Link to={"/admin/master/unit"}>Unit</Link>
             </Menu.Item>

@@ -22,11 +22,28 @@ export const useFormTLColumns = (prepareEdit, prepareDelete) => {
                 <Button type="warning" onClick={() => prepareEdit(record)}>
                   <EditFilled />
                 </Button>
-                <Button type="danger" onClick={() => prepareDelete(record)}>
+                <Button
+                  type="primary"
+                  danger
+                  onClick={() => prepareDelete(record)}
+                >
                   <DeleteFilled />
                 </Button>
               </div>
             );
+          },
+        },
+        {
+          key: "datel.name",
+          dataIndex: "datel.name",
+          title: "Datel",
+          width: 150,
+          sorter: true,
+          render: (_, record) => {
+            if (record?.datel?.name) {
+              return record.datel.name;
+            }
+            return null;
           },
         },
         {
@@ -42,6 +59,19 @@ export const useFormTLColumns = (prepareEdit, prepareDelete) => {
           title: "Tiket Gamas",
           width: 175,
           sorter: true,
+        },
+        {
+          key: "job_type.name",
+          dataIndex: "job_type.name",
+          title: "Jenis Pekerjaan",
+          width: 150,
+          sorter: true,
+          render: (_, record) => {
+            if (record?.job_type?.name) {
+              return record.job_type.name;
+            }
+            return null;
+          },
         },
         {
           key: "on_tier",
@@ -167,9 +197,12 @@ export const formTLSchema = yup.object().shape({
     .string()
     .typeError("Summary harus diisi")
     .required("Summary harus diisi"),
-  job_type: yup
-    .string()
+  job_type_id: yup
+    .number()
     .typeError("Jenis pekerjaan harus diisi")
-    .required("Jenis pekerjaan harus diisi")
-    .oneOf(["PEMBENAHAN", "GAMAS", "LAINNYA"], "Jenis pekerjaan tidak valid"),
+    .required("Jenis pekerjaan harus diisi"),
+  datel_id: yup
+    .number()
+    .typeError("Datel harus diisi")
+    .required("Datel harus diisi"),
 });

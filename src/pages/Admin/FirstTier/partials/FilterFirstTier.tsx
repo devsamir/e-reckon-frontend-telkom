@@ -1,8 +1,11 @@
 import React, { useMemo } from "react";
 
+import DatelSelector from "src/components/filters/DatelSelector";
 import FilterContainer from "src/components/filters/FilterContainer";
+import JobSypeSelector from "src/components/filters/JobSypeSelector";
 import { FRangePicker } from "src/components/form/FDatePicker";
 import FInput from "src/components/form/FInput";
+import FSelect from "src/components/form/FSelect";
 import generateDomain from "src/helpers/generateDomain";
 import { omit } from "src/helpers/utils";
 
@@ -27,6 +30,12 @@ const FilterFirstTier: React.FC<Props> = ({ setDomain }) => {
   const filterFields = useMemo(
     () => [
       {
+        label: "Datel",
+        component: (
+          <DatelSelector name="datel_id" placeholder="Select" allowClear />
+        ),
+      },
+      {
         label: "ID",
         component: (
           <FInput name="incident_code" placeholder="Input" allowClear />
@@ -35,6 +44,12 @@ const FilterFirstTier: React.FC<Props> = ({ setDomain }) => {
       {
         label: "Tiket Gamas",
         component: <FInput name="incident" placeholder="Input" allowClear />,
+      },
+      {
+        label: "Jenis Pekerjaan",
+        component: (
+          <JobSypeSelector name="job_type_id" placeholder="Select" allowClear />
+        ),
       },
       {
         label: "Tanggal Masuk",
