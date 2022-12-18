@@ -6,79 +6,56 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Breadcrumb, Button, Modal, notification } from "antd";
 import Pagination, { usePagination } from "src/components/Pagination";
 import TableExtended from "src/components/TableExtended";
-import DatelSelector from "src/components/filters/DatelSelector";
-import JobSypeSelector from "src/components/filters/JobSypeSelector";
-import FDatePicker from "src/components/form/FDatePicker";
 import FInput from "src/components/form/FInput";
-import FSelect from "src/components/form/FSelect";
-import { pick, removeFalsyValue } from "src/helpers/utils";
-import { useIncidentService } from "src/services/incident.service";
+import { removeFalsyValue } from "src/helpers/utils";
+import { useJobTypeService } from "src/services/jobType.service";
 
-import { formTLSchema, useFormTLColumns } from "./config";
-import FilterTLSektor from "./partials/FilterTLSektor";
+import { jobTypeSchema, useJobTypeColumns } from "./config";
+import FilterUnit from "./partials/FilterJobType";
 
-const jobTypeOpt = [
-  {
-    label: "PEMBENAHAN",
-    value: "PEMBENAHAN",
-  },
-  {
-    label: "GAMAS",
-    value: "GAMAS",
-  },
-  {
-    label: "LAINNYA",
-    value: "LAINNYA",
-  },
-];
-
-const TlSektor = () => {
+const JobType = () => {
   const pagination = usePagination();
   const queryClient = useQueryClient();
-  const { qIncident, createMutation, updateMutation, deleteMutation } =
-    useIncidentService(pagination);
+  const { qJobType, createMutation, updateMutation, deleteMutation } =
+    useJobTypeService(pagination);
   const [id, setId] = useState();
   const [showModal, setShowModal] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
-  const form = useForm({ resolver: yupResolver(formTLSchema) });
+  const form = useForm({ resolver: yupResolver(jobTypeSchema) });
 
   // Function for Crud Preparation
   const prepareCreate = () => {
     setShowModal(true);
     setId(null);
-    form.reset({
-      incident: "",
-      summary: "",
-      job_type_id: null,
-      datel_id: null,
-      open_at: new Date(),
-    });
+    form.reset({ name: "" });
   };
   const prepareEdit = (record) => {
     setShowModal(true);
     setId(record?.id);
     form.reset({
-      ...pick(record, ["incident", "summary", "job_type_id", "datel_id"]),
-      open_at: new Date(record.open_at),
+      name: record?.name,
     });
   };
   const prepareDelete = (record) => {
     setConfirmDelete(true);
     setId(record?.id);
   };
-  const columns = useFormTLColumns(prepareEdit, prepareDelete);
+  const columns = useJobTypeColumns(prepareEdit, prepareDelete);
 
   // Function for Crud Action
   const onSubmit = async (values) => {
     const newValues: any = removeFalsyValue(values);
+
     if (!!id) {
       await updateMutation.mutateAsync(
         { ...newValues, id },
         {
           onSuccess: () => {
-            queryClient.invalidateQueries(["getAllIncident"]);
-            notification.success({ message: "Berhasil update incident" });
+            queryClient.invalidateQueries(["getAllJobType"]);
+            notification.success({
+              message: "Berhasil update jenis pekerjaan",
+            });
             setShowModal(false);
           },
           onError: (error: any) => {
@@ -91,8 +68,8 @@ const TlSektor = () => {
     } else {
       await createMutation.mutateAsync(newValues, {
         onSuccess: () => {
-          queryClient.invalidateQueries(["getAllIncident"]);
-          notification.success({ message: "Berhasil tambah incident" });
+          queryClient.invalidateQueries(["getAllJobType"]);
+          notification.success({ message: "Berhasil tambah jenis pekerjaan" });
           setShowModal(false);
         },
         onError: (error: any) => {
@@ -106,8 +83,8 @@ const TlSektor = () => {
   const handleDelete = async () => {
     await deleteMutation.mutateAsync([id], {
       onSuccess: () => {
-        queryClient.invalidateQueries(["getAllIncident"]);
-        notification.success({ message: "Berhasil hapus incident" });
+        queryClient.invalidateQueries(["getAllJobType"]);
+        notification.success({ message: "Berhasil hapus jenis pekerjaan" });
       },
       onError: (error: any) => {
         notification.error({
@@ -123,13 +100,14 @@ const TlSektor = () => {
     <>
       <Breadcrumb>
         <Breadcrumb.Item>Admin</Breadcrumb.Item>
-        <Breadcrumb.Item>Form TL Sektor</Breadcrumb.Item>
+        <Breadcrumb.Item>Common</Breadcrumb.Item>
+        <Breadcrumb.Item>Jenis Pekerjaan</Breadcrumb.Item>
       </Breadcrumb>
-      <FilterTLSektor setDomain={pagination.setDomain} />
+      <FilterUnit setDomain={pagination.setDomain} />
       <div className="flex justify-between items-center gap-4 flex-wrap">
         <Pagination
           page={pagination.page}
-          total={qIncident.length}
+          total={qJobType.length}
           limit={pagination.limit}
           onChange={pagination.onChangePagination}
         />
@@ -139,10 +117,10 @@ const TlSektor = () => {
       </div>
       <TableExtended
         columns={columns}
-        dataSource={qIncident.data}
+        dataSource={qJobType.data}
         loading={
-          qIncident.isLoading ||
-          qIncident.isFetching ||
+          qJobType.isLoading ||
+          qJobType.isFetching ||
           createMutation.isLoading ||
           updateMutation.isLoading ||
           deleteMutation.isLoading
@@ -150,10 +128,9 @@ const TlSektor = () => {
         setSorter={pagination.setSort}
         rowKey="id"
       />
-
       <FormProvider {...form}>
         <Modal
-          title={!!id ? "Edit Incident" : "Tambah Incident"}
+          title={!!id ? "Edit Jenis Pekerjaan" : "Tambah Jenis Pekerjaan"}
           okText={!!id ? "Update" : "Create"}
           open={showModal}
           onOk={form.handleSubmit(onSubmit)}
@@ -161,33 +138,13 @@ const TlSektor = () => {
           onCancel={setShowModal.bind(this, false)}
         >
           <div className="flex flex-col gap-1 mb-4">
-            <label className="text-sm font-medium">Datel</label>
-            <DatelSelector name="datel_id" placeholder="Select" />
-          </div>
-          <div className="flex flex-col gap-1 mb-4">
-            <label className="text-sm font-medium">Tiket Gamas</label>
-            <FInput name="incident" placeholder="Input" />
-          </div>
-          <div className="flex flex-col gap-1 mb-4">
-            <label className="text-sm font-medium">Summary</label>
-            <FInput name="summary" placeholder="Input" isTextArea rows={3} />
-          </div>
-          <div className="flex flex-col gap-1 mb-4">
             <label className="text-sm font-medium">Jenis Pekerjaan</label>
-            <JobSypeSelector name="job_type_id" placeholder="Select" />
-          </div>
-          <div className="flex flex-col gap-1 mb-4">
-            <label className="text-sm font-medium">Tanggal Tiket</label>
-            <FDatePicker
-              name="open_at"
-              placeholder="Pick date"
-              format={"DD/MM/YYYY"}
-            />
+            <FInput name="name" placeholder="Input" />
           </div>
         </Modal>
       </FormProvider>
       <Modal
-        title={"Delete Incident"}
+        title={"Delete Jenis Pekerjaan"}
         okText={"Delete"}
         open={confirmDelete}
         okButtonProps={{
@@ -197,10 +154,10 @@ const TlSektor = () => {
         confirmLoading={deleteMutation.isLoading}
         onCancel={setConfirmDelete.bind(this, false)}
       >
-        Yakin hapus data Incident ?
+        Yakin hapus data jenis pekerjaan ?
       </Modal>
     </>
   );
 };
 
-export default TlSektor;
+export default JobType;

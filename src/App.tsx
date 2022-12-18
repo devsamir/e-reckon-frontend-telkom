@@ -6,6 +6,7 @@ import { Spin } from "antd";
 import Template from "./components/Template";
 import { AuthContext } from "./contexts/AuthContext";
 import Item from "./pages/Admin/Common/Item";
+import JobType from "./pages/Admin/Common/JobType";
 import Mitra from "./pages/Admin/Common/Mitra";
 import Unit from "./pages/Admin/Common/Unit";
 import Dashboard from "./pages/Admin/Dashboard";
@@ -13,8 +14,6 @@ import FirstTier from "./pages/Admin/FirstTier";
 import DetailFirstTier from "./pages/Admin/FirstTier/DetailFirstTier/DetailFirstTier";
 import SecondTier from "./pages/Admin/SecondTier";
 import DetailSecondTier from "./pages/Admin/SecondTier/DetailSecondTier/DetailSecondTier";
-import ThirdTier from "./pages/Admin/ThirdTier";
-import DetailThirdTier from "./pages/Admin/ThirdTier/DetailThirdTier/DetailThirdTier";
 import TlSektor from "./pages/Admin/TlSektor";
 import User from "./pages/Admin/User";
 import WarehouseTier from "./pages/Admin/Warehouse";
@@ -60,8 +59,6 @@ const App: React.FC = () => {
           <Route path="first-tier/detail" element={<DetailFirstTier />} />
           <Route path="second-tier" element={<SecondTier />} />
           <Route path="second-tier/detail" element={<DetailSecondTier />} />
-          <Route path="third-tier" element={<ThirdTier />} />
-          <Route path="third-tier/detail" element={<DetailThirdTier />} />
           <Route path="warehouse/item" element={<Item />} />
           <Route path="warehouse/order" element={<WarehouseTier />} />
           <Route
@@ -71,6 +68,7 @@ const App: React.FC = () => {
           <Route path="commerce/item-price" element={<Item />} />
           {/* COMMON */}
           <Route path="master/unit" element={<Unit />} />
+          <Route path="master/job-type" element={<JobType />} />
           <Route path="user" element={<User />} />
         </Route>
       )}
