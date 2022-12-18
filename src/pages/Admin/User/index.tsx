@@ -8,11 +8,12 @@ import Pagination, { usePagination } from "src/components/Pagination";
 import TableExtended from "src/components/TableExtended";
 import FInput from "src/components/form/FInput";
 import FInputPassword from "src/components/form/FInputPassword";
+import FSelect from "src/components/form/FSelect";
 import { removeFalsyValue } from "src/helpers/utils";
 import { useUserService } from "src/services/user.service";
 
 import { createUserSchema, useUserColumns } from "./config";
-import FilterUser from "./partials/FilterUser";
+import FilterUser, { roleOptions } from "./partials/FilterUser";
 
 const User = () => {
   const pagination = usePagination();
@@ -29,7 +30,7 @@ const User = () => {
   const prepareCreate = () => {
     setShowModal(true);
     setId(null);
-    form.reset({ username: null, fullname: null, level: null });
+    form.reset({ username: null, fullname: null, role: null });
   };
   const prepareEdit = (record) => {
     setShowModal(true);
@@ -37,7 +38,7 @@ const User = () => {
     form.reset({
       username: record?.username,
       fullname: record?.fullname,
-      level: record?.level,
+      role: record?.role,
     });
   };
   const prepareDelete = (record) => {
@@ -145,8 +146,8 @@ const User = () => {
             <FInput name="fullname" placeholder="Input" />
           </div>
           <div className="flex flex-col gap-1 mb-4">
-            <label className="text-sm font-medium">Level</label>
-            <FInput type="number" name="level" placeholder="Input" />
+            <label className="text-sm font-medium">Role</label>
+            <FSelect name="role" placeholder="Select" options={roleOptions} />
           </div>
           <div className="flex flex-col gap-1 mb-4">
             <label className="text-sm font-medium">Password</label>

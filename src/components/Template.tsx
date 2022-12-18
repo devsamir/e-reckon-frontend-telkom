@@ -42,7 +42,7 @@ const mapMenu = {
 
 const Template: React.FC<Props> = () => {
   const location = useLocation();
-  const { logout } = useContext(AuthContext);
+  const { logout, user } = useContext(AuthContext);
 
   const [collapsed, setCollapsed] = useState(false);
   const [selectedKeys, setSelectedKeys] = useState(
@@ -98,64 +98,78 @@ const Template: React.FC<Props> = () => {
           >
             <Link to={"/admin/dashboard"}>Dashboard</Link>
           </Menu.Item>
-          <Menu.Item
-            icon={<FormOutlined />}
-            key={mapMenu["/admin/form-tl-sektor"][0]}
-          >
-            <Link to={"/admin/form-tl-sektor"}>Form TL</Link>
-          </Menu.Item>
-          <Menu.Item
-            icon={<ContainerOutlined />}
-            key={mapMenu["/admin/first-tier"][0]}
-          >
-            <Link to={"/admin/first-tier"}>Tier 1</Link>
-          </Menu.Item>
-          <Menu.Item
-            icon={<HddOutlined />}
-            key={mapMenu["/admin/second-tier"][0]}
-          >
-            <Link to={"/admin/second-tier"}>Mitra</Link>
-          </Menu.Item>
-          <Menu.SubMenu
-            title="Warehouse"
-            icon={<AppstoreOutlined />}
-            key={mapMenu["/admin/warehouse"][0]}
-          >
-            <Menu.Item key={mapMenu["/admin/warehouse/item"][1]}>
-              <Link to={"/admin/warehouse/item"}>Item</Link>
+          {["admin", "tl"].includes(user?.role) && (
+            <Menu.Item
+              icon={<FormOutlined />}
+              key={mapMenu["/admin/form-tl-sektor"][0]}
+            >
+              <Link to={"/admin/form-tl-sektor"}>Form TL</Link>
             </Menu.Item>
-            <Menu.Item key={mapMenu["/admin/warehouse/order"][1]}>
-              <Link to={"/admin/warehouse/order"}>Order</Link>
+          )}
+          {["admin", "first_tier"].includes(user?.role) && (
+            <Menu.Item
+              icon={<ContainerOutlined />}
+              key={mapMenu["/admin/first-tier"][0]}
+            >
+              <Link to={"/admin/first-tier"}>Tier 1</Link>
             </Menu.Item>
-          </Menu.SubMenu>
-          <Menu.SubMenu
-            title="Commerce"
-            icon={<AppstoreOutlined />}
-            key={mapMenu["/admin/commerce"][0]}
-          >
-            <Menu.Item key={mapMenu["/admin/commerce/item-price"][1]}>
-              <Link to={"/admin/commerce/item-price"}>Item Price</Link>
+          )}
+          {["admin", "mitra"].includes(user?.role) && (
+            <Menu.Item
+              icon={<HddOutlined />}
+              key={mapMenu["/admin/second-tier"][0]}
+            >
+              <Link to={"/admin/second-tier"}>Mitra</Link>
             </Menu.Item>
-            {/* <Menu.Item key={mapMenu["/admin/commerce/order"][1]}>
+          )}
+          {["admin", "wh"].includes(user?.role) && (
+            <Menu.SubMenu
+              title="Warehouse"
+              icon={<AppstoreOutlined />}
+              key={mapMenu["/admin/warehouse"][0]}
+            >
+              <Menu.Item key={mapMenu["/admin/warehouse/item"][1]}>
+                <Link to={"/admin/warehouse/item"}>Item</Link>
+              </Menu.Item>
+              <Menu.Item key={mapMenu["/admin/warehouse/order"][1]}>
+                <Link to={"/admin/warehouse/order"}>Order</Link>
+              </Menu.Item>
+            </Menu.SubMenu>
+          )}
+          {["admin", "commerce"].includes(user?.role) && (
+            <Menu.SubMenu
+              title="Commerce"
+              icon={<AppstoreOutlined />}
+              key={mapMenu["/admin/commerce"][0]}
+            >
+              <Menu.Item key={mapMenu["/admin/commerce/item-price"][1]}>
+                <Link to={"/admin/commerce/item-price"}>Item Price</Link>
+              </Menu.Item>
+              {/* <Menu.Item key={mapMenu["/admin/commerce/order"][1]}>
               <Link to={"/admin/commerce/order"}>Order</Link>
             </Menu.Item> */}
-          </Menu.SubMenu>
+            </Menu.SubMenu>
+          )}
 
-          <Menu.SubMenu
-            title="Master"
-            icon={<SettingOutlined />}
-            key={mapMenu["/admin/master"][0]}
-          >
-            <Menu.Item key={mapMenu["/admin/master/job-type"][1]}>
-              <Link to={"/admin/master/job-type"}>Jenis Pekerjaan</Link>
+          {["admin"].includes(user?.role) && (
+            <Menu.SubMenu
+              title="Master"
+              icon={<SettingOutlined />}
+              key={mapMenu["/admin/master"][0]}
+            >
+              <Menu.Item key={mapMenu["/admin/master/job-type"][1]}>
+                <Link to={"/admin/master/job-type"}>Jenis Pekerjaan</Link>
+              </Menu.Item>
+              <Menu.Item key={mapMenu["/admin/master/unit"][1]}>
+                <Link to={"/admin/master/unit"}>Unit</Link>
+              </Menu.Item>
+            </Menu.SubMenu>
+          )}
+          {["admin"].includes(user?.role) && (
+            <Menu.Item icon={<UserOutlined />} key={mapMenu["/admin/user"][0]}>
+              <Link to={"/admin/user"}>User</Link>
             </Menu.Item>
-            <Menu.Item key={mapMenu["/admin/master/unit"][1]}>
-              <Link to={"/admin/master/unit"}>Unit</Link>
-            </Menu.Item>
-          </Menu.SubMenu>
-          <Menu.Item icon={<UserOutlined />} key={mapMenu["/admin/user"][0]}>
-            <Link to={"/admin/user"}>User</Link>
-          </Menu.Item>
+          )}
         </Menu>
       </Sider>
       <Layout>

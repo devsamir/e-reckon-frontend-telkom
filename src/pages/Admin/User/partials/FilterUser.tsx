@@ -2,11 +2,35 @@ import React from "react";
 
 import FilterContainer from "src/components/filters/FilterContainer";
 import FInput from "src/components/form/FInput";
+import FSelect from "src/components/form/FSelect";
 import generateDomain from "src/helpers/generateDomain";
 
 interface Props {
   setDomain: any;
 }
+
+export const roleOptions = [
+  {
+    label: "ADMIN",
+    value: "admin",
+  },
+  {
+    label: "MITRA",
+    value: "mitra",
+  },
+  {
+    label: "COMMERCE",
+    value: "commerce",
+  },
+  {
+    label: "WH",
+    value: "wh",
+  },
+  {
+    label: "TELKOM",
+    value: "telkom",
+  },
+];
 
 const FilterUser: React.FC<Props> = ({ setDomain }) => {
   const handleSearch = (values) => {
@@ -32,7 +56,12 @@ const FilterUser: React.FC<Props> = ({ setDomain }) => {
         {
           label: "Role",
           component: (
-            <FInput type="number" name="level" placeholder="Input" allowClear />
+            <FSelect
+              name="role"
+              placeholder="Select"
+              options={roleOptions}
+              allowClear
+            />
           ),
         },
       ]}

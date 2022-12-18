@@ -10,13 +10,15 @@ const AuthProvider = ({ children }) => {
   const [cookies, _setCookies, removeCookie] = useCookies();
   const [initialLoading, setInitialLoading] = useState(true);
   const [isLogin, setIsLogin] = useState(false);
+  const [user, setUser] = useState(null);
 
   const checkIsLogin = useCallback(async () => {
     try {
       setInitialLoading(true);
-      await ApiCall.get("/user/me", {
+      const res = await ApiCall.get("/user/me", {
         headers: { token: cookies["token"] },
       });
+      setUser(res.data);
       setIsLogin(true);
     } catch (err) {
     } finally {
@@ -28,6 +30,7 @@ const AuthProvider = ({ children }) => {
     try {
       removeCookie("token", { path: "/" });
       setIsLogin(false);
+      setUser(null);
     } catch (err) {
       notification.error({ message: err.message });
     }
@@ -43,6 +46,7 @@ const AuthProvider = ({ children }) => {
         token: cookies["token"],
         initialLoading,
         isLogin,
+        user,
         setIsLogin,
         logout,
       }}
