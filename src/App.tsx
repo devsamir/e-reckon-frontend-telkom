@@ -24,7 +24,7 @@ const App: React.FC = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const { initialLoading, isLogin } = useContext(AuthContext);
+  const { initialLoading, isLogin, user } = useContext(AuthContext);
 
   useEffect(() => {
     if (pathname === "/") {
@@ -54,22 +54,46 @@ const App: React.FC = () => {
       {isLogin && (
         <Route path="admin" element={<Template />}>
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="form-tl-sektor" element={<TlSektor />} />
-          <Route path="first-tier" element={<FirstTier />} />
-          <Route path="first-tier/detail" element={<DetailFirstTier />} />
-          <Route path="second-tier" element={<SecondTier />} />
-          <Route path="second-tier/detail" element={<DetailSecondTier />} />
-          <Route path="warehouse/item" element={<Item />} />
-          <Route path="warehouse/order" element={<WarehouseTier />} />
-          <Route
-            path="warehouse-tier/detail"
-            element={<DetailWarehouseTier />}
-          />
-          <Route path="commerce/item-price" element={<Item />} />
+          {["admin", "tl"].includes(user?.role) && (
+            <Route path="form-tl-sektor" element={<TlSektor />} />
+          )}
+          {["admin", "first_tier"].includes(user?.role) && (
+            <Route path="first-tier" element={<FirstTier />} />
+          )}
+          {["admin", "first_tier"].includes(user?.role) && (
+            <Route path="first-tier/detail" element={<DetailFirstTier />} />
+          )}
+          {["admin", "mitra"].includes(user?.role) && (
+            <Route path="second-tier" element={<SecondTier />} />
+          )}
+          {["admin", "mitra"].includes(user?.role) && (
+            <Route path="second-tier/detail" element={<DetailSecondTier />} />
+          )}
+          {["admin", "wh"].includes(user?.role) && (
+            <Route path="warehouse/item" element={<Item />} />
+          )}
+          {["admin", "wh"].includes(user?.role) && (
+            <Route path="warehouse/order" element={<WarehouseTier />} />
+          )}
+          {["admin", "wh"].includes(user?.role) && (
+            <Route
+              path="warehouse-tier/detail"
+              element={<DetailWarehouseTier />}
+            />
+          )}
+          {["admin", "commerce"].includes(user?.role) && (
+            <Route path="commerce/item-price" element={<Item />} />
+          )}
           {/* COMMON */}
-          <Route path="master/unit" element={<Unit />} />
-          <Route path="master/job-type" element={<JobType />} />
-          <Route path="user" element={<User />} />
+          {["admin"].includes(user?.role) && (
+            <Route path="master/unit" element={<Unit />} />
+          )}
+          {["admin"].includes(user?.role) && (
+            <Route path="master/job-type" element={<JobType />} />
+          )}
+          {["admin"].includes(user?.role) && (
+            <Route path="user" element={<User />} />
+          )}
         </Route>
       )}
     </Routes>

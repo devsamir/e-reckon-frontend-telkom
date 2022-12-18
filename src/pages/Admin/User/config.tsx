@@ -21,7 +21,11 @@ export const useUserColumns = (prepareEdit, prepareDelete) => {
                 <Button type="warning" onClick={() => prepareEdit(record)}>
                   <EditFilled />
                 </Button>
-                <Button type="danger" onClick={() => prepareDelete(record)}>
+                <Button
+                  type="primary"
+                  danger
+                  onClick={() => prepareDelete(record)}
+                >
                   <DeleteFilled />
                 </Button>
               </div>
@@ -41,10 +45,13 @@ export const useUserColumns = (prepareEdit, prepareDelete) => {
           sorter: true,
         },
         {
-          key: "level",
-          dataIndex: "level",
+          key: "role",
+          dataIndex: "role",
           title: "Role",
           sorter: true,
+          render: (v) => {
+            return v.toUpperCase();
+          },
         },
       ] as ColumnsType<any>,
     [prepareEdit, prepareDelete]
@@ -61,10 +68,14 @@ export const createUserSchema = (formStatus) => {
             .string()
             .typeError("Username lengkap harus diisi")
             .required("Username lengkap harus diisi"),
-          level: yup
-            .number()
+          role: yup
+            .string()
             .typeError("Role harus diisi")
-            .required("Role harus diisi"),
+            .required("Role harus diisi")
+            .oneOf(
+              ["admin", "mitra", "commerce", "wh", "telkom"],
+              "Role tidak valid"
+            ),
           fullname: yup
             .string()
             .typeError("Fullname lengkap harus diisi")
