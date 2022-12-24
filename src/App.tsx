@@ -5,9 +5,7 @@ import { Spin } from "antd";
 
 import Template from "./components/Template";
 import { AuthContext } from "./contexts/AuthContext";
-import Item from "./pages/Admin/Common/Item";
 import JobType from "./pages/Admin/Common/JobType";
-import Mitra from "./pages/Admin/Common/Mitra";
 import Unit from "./pages/Admin/Common/Unit";
 import Dashboard from "./pages/Admin/Dashboard";
 import FirstTier from "./pages/Admin/FirstTier";
@@ -16,8 +14,9 @@ import SecondTier from "./pages/Admin/SecondTier";
 import DetailSecondTier from "./pages/Admin/SecondTier/DetailSecondTier/DetailSecondTier";
 import TlSektor from "./pages/Admin/TlSektor";
 import User from "./pages/Admin/User";
-import WarehouseTier from "./pages/Admin/Warehouse";
 import DetailWarehouseTier from "./pages/Admin/Warehouse/DetailWarehouse/DetailWarehouseTier";
+import Item from "./pages/Admin/Warehouse/Item";
+import WarehouseList from "./pages/Admin/Warehouse/List";
 import Login from "./pages/Login";
 
 const App: React.FC = () => {
@@ -73,7 +72,7 @@ const App: React.FC = () => {
             <Route path="warehouse/item" element={<Item />} />
           )}
           {["admin", "wh"].includes(user?.role) && (
-            <Route path="warehouse/order" element={<WarehouseTier />} />
+            <Route path="warehouse/order" element={<WarehouseList />} />
           )}
           {["admin", "wh"].includes(user?.role) && (
             <Route

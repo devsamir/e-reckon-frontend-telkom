@@ -30,6 +30,14 @@ export const roleOptions = [
     label: "TELKOM",
     value: "telkom",
   },
+  {
+    label: "TL",
+    value: "tl",
+  },
+  {
+    label: "First Tier",
+    value: "first_tier",
+  },
 ];
 
 const FilterUser: React.FC<Props> = ({ setDomain }) => {
