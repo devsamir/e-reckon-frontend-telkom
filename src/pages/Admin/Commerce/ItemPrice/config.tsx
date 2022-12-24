@@ -7,7 +7,7 @@ import Button from "antd-button-color";
 import { formatCurrency } from "src/helpers/utils";
 import * as yup from "yup";
 
-export const useItemColumns = (prepareEdit?: any, prepareDelete?: any) => {
+export const useItemColumns = (prepareEdit?: any) => {
   const columns = useMemo(
     () =>
       [
@@ -21,13 +21,6 @@ export const useItemColumns = (prepareEdit?: any, prepareDelete?: any) => {
               <div className="flex items-center gap-2 flex-wrap">
                 <Button type="warning" onClick={() => prepareEdit(record)}>
                   <EditFilled />
-                </Button>
-                <Button
-                  type="primary"
-                  danger
-                  onClick={() => prepareDelete(record)}
-                >
-                  <DeleteFilled />
                 </Button>
               </div>
             );
@@ -64,8 +57,54 @@ export const useItemColumns = (prepareEdit?: any, prepareDelete?: any) => {
             return record?.unit?.unit_name;
           },
         },
+        {
+          key: "telkom_price",
+          title: "Harga Telkom",
+          colSpan: 2,
+          children: [
+            {
+              key: "material_price_telkom",
+              dataIndex: "material_price_telkom",
+              title: "Material",
+              width: 150,
+              sorter: true,
+              render: (val) => (val ? formatCurrency(val) : "-"),
+            },
+            {
+              key: "service_price_telkom",
+              dataIndex: "service_price_telkom",
+              title: "Service",
+              width: 150,
+              sorter: true,
+              render: (val) => (val ? formatCurrency(val) : "-"),
+            },
+          ],
+        },
+        {
+          key: "mitra_price",
+          title: "Harga Mitra",
+          colSpan: 2,
+          children: [
+            {
+              key: "material_price_mitra",
+              dataIndex: "material_price_mitra",
+              title: "Material",
+              width: 150,
+              sorter: true,
+              render: (val) => (val ? formatCurrency(val) : "-"),
+            },
+            {
+              key: "service_price_mitra",
+              dataIndex: "service_price_mitra",
+              title: "Service",
+              width: 150,
+              sorter: true,
+              render: (val) => (val ? formatCurrency(val) : "-"),
+            },
+          ],
+        },
       ] as ColumnsType<any>,
-    [prepareEdit, prepareDelete]
+    [prepareEdit]
   );
 
   return columns;
@@ -91,4 +130,24 @@ export const itemSchema = yup.object().shape({
     .number()
     .typeError("Unit harus diisi")
     .required("Unit harus diisi"),
+  material_price_telkom: yup
+    .number()
+    .typeError("Harga material harus diisi")
+    .required("Harga material harus diisi")
+    .min(1, "Harga material tidak boleh 0"),
+  service_price_telkom: yup
+    .number()
+    .typeError("Harga service harus diisi")
+    .required("Harga service harus diisi")
+    .min(1, "Harga service tidak boleh 0"),
+  material_price_mitra: yup
+    .number()
+    .typeError("Harga material harus diisi")
+    .required("Harga material harus diisi")
+    .min(1, "Harga material tidak boleh 0"),
+  service_price_mitra: yup
+    .number()
+    .typeError("Harga service harus diisi")
+    .required("Harga service harus diisi")
+    .min(1, "Harga service tidak boleh 0"),
 });

@@ -15,6 +15,12 @@ const FilterItem = ({ setDomain }: Props, ref: React.Ref<any>) => {
     const newDomain = generateDomain({
       domain: values,
       like: ["item_code", "material_designator", "service_designator"],
+      numberRange: [
+        "material_price_telkom",
+        "service_price_telkom",
+        "material_price_mitra",
+        "service_price_mitra",
+      ],
     });
     setDomain(newDomain);
   };
@@ -43,6 +49,22 @@ const FilterItem = ({ setDomain }: Props, ref: React.Ref<any>) => {
         {
           label: "Unit",
           component: <UnitSelector name="unit_id" placeholder="Select" />,
+        },
+        {
+          label: "Harga Material Telkom",
+          component: <FInputNumberRange name="material_price_telkom" />,
+        },
+        {
+          label: "Harga Service Telkom",
+          component: <FInputNumberRange name="service_price_telkom" />,
+        },
+        {
+          label: "Harga Material Mitra",
+          component: <FInputNumberRange name="material_price_mitra" />,
+        },
+        {
+          label: "Harga Service Mitra",
+          component: <FInputNumberRange name="service_price_mitra" />,
         },
       ]}
     />
