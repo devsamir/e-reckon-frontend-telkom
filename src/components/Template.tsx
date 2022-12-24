@@ -186,10 +186,12 @@ const Template: React.FC<Props> = () => {
             <button className="h-full m-4 flex items-center gap-4 border-none bg-white cursor-pointer">
               <div className="flex flex-col justify-end text-right sm:hidden">
                 <span className="font-medium text-base text-gray-800 tracking-wide leading-4 text-right">
-                  John Doe
+                  {user.fullname}
                 </span>
 
-                <span className="font-light text-gray-800 text-sm">Admin</span>
+                <span className="font-light text-gray-800 text-xs uppercase">
+                  {user.role}
+                </span>
               </div>
               <img
                 src={require("../assets/me.jpg")}

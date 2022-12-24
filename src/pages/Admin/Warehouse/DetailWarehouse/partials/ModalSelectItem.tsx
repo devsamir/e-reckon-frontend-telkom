@@ -6,7 +6,7 @@ import Pagination, { usePagination } from "src/components/Pagination";
 import TableExtended from "src/components/TableExtended";
 import useItemSearchRead from "src/data/useItemSearchRead";
 import { useItemColumns } from "src/pages/Admin/Common/Item/config";
-import FilterItem from "src/pages/Admin/Common/Item/partials/FilterItem";
+import FilterItem from "src/pages/Admin/Warehouse/Item/partials/FilterItem";
 
 interface Props {
   handleSelect: any;

@@ -118,7 +118,7 @@ const Item = () => {
     <>
       <Breadcrumb>
         <Breadcrumb.Item>Admin</Breadcrumb.Item>
-        <Breadcrumb.Item>Common</Breadcrumb.Item>
+        <Breadcrumb.Item>Warehouse</Breadcrumb.Item>
         <Breadcrumb.Item>Item</Breadcrumb.Item>
       </Breadcrumb>
       <FilterItem setDomain={pagination.setDomain} />
@@ -171,7 +171,7 @@ const Item = () => {
             <label className="text-sm font-medium">Unit</label>
             <UnitSelector name="unit_id" placeholder="Select" />
           </div>
-          <div className="flex flex-col gap-1 mb-4">
+          {/* <div className="flex flex-col gap-1 mb-4">
             <label className="text-sm font-medium">Harga Material Telkom</label>
             <FInputNumber
               name="material_price_telkom"
@@ -198,7 +198,7 @@ const Item = () => {
               name="service_price_mitra"
               placeholder="Input Number"
             />
-          </div>
+          </div> */}
         </Modal>
       </FormProvider>
       <Modal

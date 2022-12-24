@@ -21,7 +21,11 @@ export const useUnitColumns = (prepareEdit, prepareDelete) => {
                 <Button type="warning" onClick={() => prepareEdit(record)}>
                   <EditFilled />
                 </Button>
-                <Button type="danger" onClick={() => prepareDelete(record)}>
+                <Button
+                  type="primary"
+                  danger
+                  onClick={() => prepareDelete(record)}
+                >
                   <DeleteFilled />
                 </Button>
               </div>

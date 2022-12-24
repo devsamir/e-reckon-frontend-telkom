@@ -50,22 +50,22 @@ const FilterItem = ({ setDomain }: Props, ref: React.Ref<any>) => {
           label: "Unit",
           component: <UnitSelector name="unit_id" placeholder="Select" />,
         },
-        {
-          label: "Harga Material Telkom",
-          component: <FInputNumberRange name="material_price_telkom" />,
-        },
-        {
-          label: "Harga Service Telkom",
-          component: <FInputNumberRange name="service_price_telkom" />,
-        },
-        {
-          label: "Harga Material Mitra",
-          component: <FInputNumberRange name="material_price_mitra" />,
-        },
-        {
-          label: "Harga Service Mitra",
-          component: <FInputNumberRange name="service_price_mitra" />,
-        },
+        // {
+        //   label: "Harga Material Telkom",
+        //   component: <FInputNumberRange name="material_price_telkom" />,
+        // },
+        // {
+        //   label: "Harga Service Telkom",
+        //   component: <FInputNumberRange name="service_price_telkom" />,
+        // },
+        // {
+        //   label: "Harga Material Mitra",
+        //   component: <FInputNumberRange name="material_price_mitra" />,
+        // },
+        // {
+        //   label: "Harga Service Mitra",
+        //   component: <FInputNumberRange name="service_price_mitra" />,
+        // },
       ]}
     />
   );
