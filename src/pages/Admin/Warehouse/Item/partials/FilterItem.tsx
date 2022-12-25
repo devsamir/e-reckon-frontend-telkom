@@ -3,7 +3,6 @@ import React from "react";
 import FilterContainer from "src/components/filters/FilterContainer";
 import UnitSelector from "src/components/filters/UnitSelector";
 import FInput from "src/components/form/FInput";
-import FInputNumberRange from "src/components/form/FInputNumberRange";
 import generateDomain from "src/helpers/generateDomain";
 
 interface Props {
