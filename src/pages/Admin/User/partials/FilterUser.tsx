@@ -11,15 +11,15 @@ interface Props {
 
 export const roleOptions = [
   {
-    label: "ADMIN",
+    label: "Admin",
     value: "admin",
   },
   {
-    label: "MITRA",
+    label: "Mitra",
     value: "mitra",
   },
   {
-    label: "COMMERCE",
+    label: "Commerce",
     value: "commerce",
   },
   {
@@ -27,7 +27,7 @@ export const roleOptions = [
     value: "wh",
   },
   {
-    label: "TELKOM",
+    label: "Telkom",
     value: "telkom",
   },
   {
@@ -35,7 +35,7 @@ export const roleOptions = [
     value: "tl",
   },
   {
-    label: "First Tier",
+    label: "Tier 1",
     value: "first_tier",
   },
 ];

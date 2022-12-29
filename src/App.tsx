@@ -9,10 +9,10 @@ import ItemPrice from "./pages/Admin/Commerce/ItemPrice";
 import JobType from "./pages/Admin/Common/JobType";
 import Unit from "./pages/Admin/Common/Unit";
 import Dashboard from "./pages/Admin/Dashboard";
-import FirstTier from "./pages/Admin/FirstTier";
 import DetailFirstTier from "./pages/Admin/FirstTier/DetailFirstTier/DetailFirstTier";
-import SecondTier from "./pages/Admin/SecondTier";
+import FirstTierList from "./pages/Admin/FirstTier/List";
 import DetailSecondTier from "./pages/Admin/SecondTier/DetailSecondTier/DetailSecondTier";
+import SecondTierList from "./pages/Admin/SecondTier/List";
 import TlSektor from "./pages/Admin/TlSektor";
 import User from "./pages/Admin/User";
 import DetailWarehouseTier from "./pages/Admin/Warehouse/DetailWarehouse/DetailWarehouseTier";
@@ -58,16 +58,16 @@ const App: React.FC = () => {
             <Route path="form-tl-sektor" element={<TlSektor />} />
           )}
           {["admin", "first_tier"].includes(user?.role) && (
-            <Route path="first-tier" element={<FirstTier />} />
+            <Route path="first-tier" element={<FirstTierList />} />
           )}
           {["admin", "first_tier"].includes(user?.role) && (
             <Route path="first-tier/detail" element={<DetailFirstTier />} />
           )}
           {["admin", "mitra"].includes(user?.role) && (
-            <Route path="second-tier" element={<SecondTier />} />
+            <Route path="mitra" element={<SecondTierList />} />
           )}
           {["admin", "mitra"].includes(user?.role) && (
-            <Route path="second-tier/detail" element={<DetailSecondTier />} />
+            <Route path="mitra/detail" element={<DetailSecondTier />} />
           )}
           {["admin", "wh"].includes(user?.role) && (
             <Route path="warehouse/item" element={<Item />} />

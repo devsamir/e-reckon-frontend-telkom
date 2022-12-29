@@ -3,6 +3,7 @@ import React, { useMemo } from "react";
 import DatelSelector from "src/components/filters/DatelSelector";
 import FilterContainer from "src/components/filters/FilterContainer";
 import JobSypeSelector from "src/components/filters/JobSypeSelector";
+import MitraSelector from "src/components/filters/MitraSelector";
 import { FRangePicker } from "src/components/form/FDatePicker";
 import FInput from "src/components/form/FInput";
 import FSelect from "src/components/form/FSelect";
@@ -50,6 +51,10 @@ const FilterFirstTier: React.FC<Props> = ({ setDomain }) => {
         component: (
           <JobSypeSelector name="job_type_id" placeholder="Select" allowClear />
         ),
+      },
+      {
+        label: "Mitra",
+        component: <MitraSelector name="assigned_mitra" placeholder="Select" />,
       },
       {
         label: "Tanggal Masuk",

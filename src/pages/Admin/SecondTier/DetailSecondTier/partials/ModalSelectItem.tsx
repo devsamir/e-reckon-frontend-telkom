@@ -83,7 +83,9 @@ const ModalSelectItem = ({ handleSelect }: Props, ref: React.Ref<any>) => {
           onChange={pagination.onChangePagination}
         />
         <TableExtended
-          columns={columns.filter((col) => col.key !== "action")}
+          columns={columns.filter(
+            (col) => !["action", "telkom_price"].includes(col.key as string)
+          )}
           dataSource={qItem.data}
           loading={qItem.isLoading || qItem.isFetching}
           setSorter={pagination.setSort}

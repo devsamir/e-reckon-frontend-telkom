@@ -3,6 +3,7 @@ const formatter = new Intl.NumberFormat("id-ID", {
   currency: "IDR",
   maximumFractionDigits: 0,
 });
+const numberFormatter = new Intl.NumberFormat("id-ID");
 export const omit = (values: any, keys: string[]): any => {
   return Object.fromEntries(
     Object.entries(values).filter((key) => !keys.includes(key[0]))
@@ -17,6 +18,10 @@ export const pick = (values: any, keys: string[]): any => {
 
 export const removeFalsyValue = (values: any): any => {
   return Object.fromEntries(Object.entries(values).filter((key) => !!key[1]));
+};
+
+export const formatNumber = (num: number) => {
+  return numberFormatter.format(num);
 };
 
 export const formatCurrency = (num: number) => {

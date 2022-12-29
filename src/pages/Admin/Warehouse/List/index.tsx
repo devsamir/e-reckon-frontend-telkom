@@ -14,7 +14,13 @@ const WarehouseTier = () => {
   const qIncident = useIncidentSearchRead({
     limit,
     offset,
-    domain: { ...domain, on_tier: "wh" },
+    domain: {
+      ...domain,
+      OR: [
+        { on_tier: "tier_2" },
+        { on_tier: "tier_1", NOT: { status_tier_1: "open" } },
+      ],
+    },
     sort,
     include: ["assignedMitra"],
   });
