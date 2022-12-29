@@ -30,7 +30,7 @@ const mapMenu = {
   "/admin/master/job-type": ["4", "4-1"],
   "/admin/master/unit": ["4", "4-2"],
   "/admin/user": ["5"],
-  "/admin/second-tier": ["6"],
+  "/admin/mitra": ["6"],
   "/admin/third-tier": ["7"],
   "/admin/warehouse": ["8"],
   "/admin/warehouse/item": ["8", "8-1"],
@@ -115,11 +115,8 @@ const Template: React.FC<Props> = () => {
             </Menu.Item>
           )}
           {["admin", "mitra"].includes(user?.role) && (
-            <Menu.Item
-              icon={<HddOutlined />}
-              key={mapMenu["/admin/second-tier"][0]}
-            >
-              <Link to={"/admin/second-tier"}>Mitra</Link>
+            <Menu.Item icon={<HddOutlined />} key={mapMenu["/admin/mitra"][0]}>
+              <Link to={"/admin/mitra"}>Mitra</Link>
             </Menu.Item>
           )}
           {["admin", "wh"].includes(user?.role) && (
@@ -189,8 +186,8 @@ const Template: React.FC<Props> = () => {
                   {user.fullname}
                 </span>
 
-                <span className="font-light text-gray-800 text-xs uppercase">
-                  {user.role}
+                <span className="font-light text-gray-800 text-xs capitalize">
+                  {user.role.replaceAll("_", " ")}
                 </span>
               </div>
               <img

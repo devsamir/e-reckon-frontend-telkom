@@ -50,7 +50,7 @@ export const useUserColumns = (prepareEdit, prepareDelete) => {
           title: "Role",
           sorter: true,
           render: (v) => {
-            return v.toUpperCase();
+            return <span className="capitalize">{v.replaceAll("_", " ")}</span>;
           },
         },
       ] as ColumnsType<any>,
@@ -73,7 +73,15 @@ export const createUserSchema = (formStatus) => {
             .typeError("Role harus diisi")
             .required("Role harus diisi")
             .oneOf(
-              ["admin", "mitra", "commerce", "wh", "telkom"],
+              [
+                "admin",
+                "mitra",
+                "commerce",
+                "wh",
+                "telkom",
+                "first_tier",
+                "tl",
+              ],
               "Role tidak valid"
             ),
           fullname: yup

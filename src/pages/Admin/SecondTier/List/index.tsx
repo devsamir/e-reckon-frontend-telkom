@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { Breadcrumb } from "antd";
 import Pagination, { usePagination } from "src/components/Pagination";
 import TableExtended from "src/components/TableExtended";
+import { AuthContext } from "src/contexts/AuthContext";
 import useIncidentSearchRead from "src/data/useIncidentSearchRead";
 
 import { useSecondTierColumns } from "./config";
@@ -10,13 +11,18 @@ import FilterSecondTier from "./partials/FilterSecondTier";
 
 const SecondTier = () => {
   const { limit, offset, domain, sort, ...pagination } = usePagination();
-
+  const { user } = useContext(AuthContext);
   const qIncident = useIncidentSearchRead({
     limit,
     offset,
-    domain: { ...domain, on_tier: "tier_2" },
+    domain: {
+      ...domain,
+      on_tier: "tier_2",
+      ...(user.role !== "admin" ? { assigned_mitra: user?.id } : {}),
+    },
     sort,
-    include: ["assignedMitra"],
+    include: ["assignedMitra", "datel", "job_type"],
+    options: { enabled: !!user?.id },
   });
   const columns = useSecondTierColumns();
 

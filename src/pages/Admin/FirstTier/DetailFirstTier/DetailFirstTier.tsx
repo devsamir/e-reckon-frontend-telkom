@@ -33,7 +33,13 @@ const DetailFirstTier = () => {
     id: query?.id,
     options: { enabled: !!query?.id },
   });
-  const { updateMutation, confirmFirstTierMutation } = useIncidentService({
+  console.log({ incident });
+  const {
+    updateMutation,
+    confirmFirstTierMutation,
+    returnToMitraMutation,
+    closeIncidentMutation,
+  } = useIncidentService({
     enableFetch: false,
   });
   const form = useForm({
@@ -109,6 +115,51 @@ const DetailFirstTier = () => {
     // },
   };
 
+  const handleReturnToMitra = async (values) => {
+    try {
+      const data = generateDataSubmit(values);
+      await updateMutation.mutateAsync({
+        id: query?.id,
+        ...data,
+      });
+      await returnToMitraMutation.mutateAsync(Number(query?.id), {
+        onSuccess: () => {
+          navigate("/admin/first-tier");
+          notification.success({ message: "Berhasil update data" });
+        },
+      });
+    } catch (err) {
+      notification.error({
+        message: err?.response?.data?.message || err?.message,
+      });
+    }
+  };
+
+  const handleCloseIncident = async (values) => {
+    try {
+      const data = generateDataSubmit(values);
+      await updateMutation.mutateAsync({
+        id: query?.id,
+        ...data,
+      });
+      await closeIncidentMutation.mutateAsync(Number(query?.id), {
+        onSuccess: () => {
+          navigate("/admin/first-tier");
+          notification.success({ message: "Berhasil update data" });
+        },
+      });
+    } catch (err) {
+      notification.error({
+        message: err?.response?.data?.message || err?.message,
+      });
+    }
+
+    // onSuccess: () => {
+    //   navigate("/admin/first-tier");
+    //   notification.success({ message: "Berhasil update data" });
+    // },
+  };
+
   // USEEFFECT
   useEffect(() => {
     form.reset({
@@ -124,6 +175,7 @@ const DetailFirstTier = () => {
         qty: details?.qty,
         approve_wh: details?.approve_wh,
         job_detail: details?.job_detail,
+        actual_qty: details?.actual_qty,
         orm_code: "update",
       })),
     });
@@ -164,7 +216,9 @@ const DetailFirstTier = () => {
                   {incident?.on_tier?.replaceAll("_", " ")?.toUpperCase()}
                 </Descriptions.Item>
                 <Descriptions.Item label="Status">
-                  {incident?.[`status_${incident?.on_tier}`]?.toUpperCase()}
+                  {incident?.[`status_${incident?.on_tier}`]
+                    ?.replaceAll("_", " ")
+                    ?.toUpperCase()}
                 </Descriptions.Item>
                 <Descriptions.Item label="Tanggal Masuk">
                   {incident?.open_at
@@ -186,7 +240,6 @@ const DetailFirstTier = () => {
             <Col span={24} className="flex">
               <Space>
                 <Button
-                  type="primary"
                   loading={
                     updateMutation.isLoading ||
                     confirmFirstTierMutation.isLoading
@@ -195,15 +248,39 @@ const DetailFirstTier = () => {
                 >
                   Save draft
                 </Button>
+                {incident?.status_tier_1 === "mitra_done" ? (
+                  <Button
+                    type="primary"
+                    loading={
+                      updateMutation.isLoading ||
+                      confirmFirstTierMutation.isLoading
+                    }
+                    onClick={form.handleSubmit(handleReturnToMitra)}
+                  >
+                    Return to Mitra
+                  </Button>
+                ) : (
+                  <Button
+                    type="primary"
+                    loading={
+                      updateMutation.isLoading ||
+                      confirmFirstTierMutation.isLoading
+                    }
+                    onClick={form.handleSubmit(handleSubmit)}
+                  >
+                    Send to Mitra
+                  </Button>
+                )}
+
                 <Button
                   type="primary"
                   loading={
                     updateMutation.isLoading ||
                     confirmFirstTierMutation.isLoading
                   }
-                  onClick={form.handleSubmit(handleSubmit)}
+                  onClick={form.handleSubmit(handleCloseIncident)}
                 >
-                  Submit
+                  Close Pekerjaan
                 </Button>
               </Space>
             </Col>

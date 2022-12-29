@@ -91,7 +91,8 @@ export const useFormTLColumns = (prepareEdit, prepareDelete) => {
           title: "Status",
           width: 150,
           render: (_, record) => {
-            if (record.on_tier === "tier_1")
+            // temporary
+            if (record.on_tier === "tier_1" || record.on_tier === "commerce")
               return (
                 <span className="uppercase">
                   {record.status_tier_1?.replaceAll("_", " ")}
@@ -124,11 +125,8 @@ export const useFormTLColumns = (prepareEdit, prepareDelete) => {
           width: 175,
           sorter: true,
           render: (_, record) => {
-            if (
-              record?.assignedMitra?.shortname &&
-              record?.assignedMitra?.fullname
-            ) {
-              return `(${record?.assignedMitra?.shortname}) ${record?.assignedMitra?.fullname}`;
+            if (record?.assignedMitra?.fullname) {
+              return record?.assignedMitra?.fullname;
             }
             return null;
           },

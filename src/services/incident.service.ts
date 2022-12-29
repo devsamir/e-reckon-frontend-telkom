@@ -77,10 +77,10 @@ export const useIncidentService = ({
       ),
   });
 
-  const submitWhSecondTierMutation = useMutation({
+  const finishIncidentMutation = useMutation({
     mutationFn: (id: number) =>
       ApiCall.post(
-        `/incident/submit-wh-second-tier`,
+        `/incident/finish-incident-mitra`,
         { id },
         {
           headers: { token: cookies?.["token"] },
@@ -88,43 +88,10 @@ export const useIncidentService = ({
       ),
   });
 
-  const returnWhSecondTierMutation = useMutation({
+  const returnToMitraMutation = useMutation({
     mutationFn: (id: number) =>
       ApiCall.post(
-        `/incident/return-wh-second-tier`,
-        { id },
-        {
-          headers: { token: cookies?.["token"] },
-        }
-      ),
-  });
-
-  const confirmWhMaterialMutation = useMutation({
-    mutationFn: (id: number) =>
-      ApiCall.post(
-        `/incident/confirm-wh-second-tier`,
-        { id },
-        {
-          headers: { token: cookies?.["token"] },
-        }
-      ),
-  });
-
-  const submitThirdTierMutation = useMutation({
-    mutationFn: (id: number) =>
-      ApiCall.post(
-        `/incident/submit-wh-third-tier`,
-        { id },
-        {
-          headers: { token: cookies?.["token"] },
-        }
-      ),
-  });
-
-  const returnToSecondTierMutation = useMutation({
-    mutationFn: (id: number) =>
-      ApiCall.post(
-        `/incident/return-to-second-tier`,
+        `/incident/return-to-mitra`,
         { id },
         {
           headers: { token: cookies?.["token"] },
@@ -142,6 +109,7 @@ export const useIncidentService = ({
         }
       ),
   });
+
   useEffect(() => {
     if (qIncident.error) {
       notification.error({
@@ -156,11 +124,8 @@ export const useIncidentService = ({
     updateMutation,
     deleteMutation,
     confirmFirstTierMutation,
-    returnWhSecondTierMutation,
-    submitWhSecondTierMutation,
-    confirmWhMaterialMutation,
-    submitThirdTierMutation,
-    returnToSecondTierMutation,
+    returnToMitraMutation,
+    finishIncidentMutation,
     closeIncidentMutation,
   };
 };

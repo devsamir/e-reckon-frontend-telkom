@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 import { SelectProps, Spin } from "antd";
+import useGetUser from "src/data/useGetUser";
 import useMitraSearchRead from "src/data/useMitraSearchRead";
-import { transformList, uniqBy } from "src/helpers/utils";
+import { uniqBy } from "src/helpers/utils";
 
 import FSelect from "../form/FSelect";
 
@@ -21,19 +22,17 @@ const MitraSelector: React.FC<Props> = ({ name, ...props }) => {
 
   const value = watch(name);
 
-  const searchedData = useMitraSearchRead({
-    fields: ["id", "fullname", "shortname"],
+  const searchedData = useGetUser({
+    fields: ["id", "fullname"],
     limit: 20,
     domain: {
-      OR: [
-        { fullname: { contains: search } },
-        { shortname: { contains: search } },
-      ],
+      fullname: { contains: search },
+      role: "mitra",
     },
   });
 
-  const selectedData = useMitraSearchRead({
-    fields: ["id", "fullname", "shortname"],
+  const selectedData = useGetUser({
+    fields: ["id", "fullname"],
     domain: {
       id: { in: [value] },
     },
@@ -47,7 +46,7 @@ const MitraSelector: React.FC<Props> = ({ name, ...props }) => {
       ...(searchedData.data || []),
       ...((!searchText && selectedData.data) || []),
     ].map((item) => ({
-      label: `(${item?.shortname}) ${item?.fullname}`,
+      label: item?.fullname,
       value: item?.id,
     })),
     "value"

@@ -7,6 +7,7 @@ import Button from "antd-button-color";
 import FInput from "src/components/form/FInput";
 import FInputNumber from "src/components/form/FInputNumber";
 import FSelect from "src/components/form/FSelect";
+import { formatCurrency, formatNumber } from "src/helpers/utils";
 import * as yup from "yup";
 
 const mappingApprove = {
@@ -74,14 +75,23 @@ export const useTableLineColumns = (remove, offset) => {
           },
         },
         {
-          key: "approve_wh",
-          dataIndex: "approve_wh",
-          title: "Approve WH",
+          key: "actual_qty",
+          dataIndex: "actual_qty",
+          title: "Qty Actual",
           width: 150,
-          render: (val) => {
-            return mappingApprove[val];
+          render: (val, record) => {
+            return val ? formatNumber(val) : "-";
           },
         },
+        // {
+        //   key: "approve_wh",
+        //   dataIndex: "approve_wh",
+        //   title: "Approve WH",
+        //   width: 150,
+        //   render: (val) => {
+        //     return mappingApprove[val];
+        //   },
+        // },
         {
           key: "action",
           title: "Action",
@@ -89,7 +99,11 @@ export const useTableLineColumns = (remove, offset) => {
           render: (_, _record, idx) => {
             return (
               <div className="flex justify-center">
-                <Button type="danger" onClick={() => remove(idx + offset)}>
+                <Button
+                  type="primary"
+                  danger
+                  onClick={() => remove(idx + offset)}
+                >
                   <DeleteFilled />
                 </Button>
               </div>

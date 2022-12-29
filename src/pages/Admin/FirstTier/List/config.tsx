@@ -6,7 +6,7 @@ import type { ColumnsType } from "antd/es/table";
 import Button from "antd-button-color";
 import { format, differenceInDays, differenceInHours } from "date-fns";
 
-export const useSecondTierColumns = () => {
+export const useFirstTierColumn = () => {
   const columns = useMemo(
     () =>
       [
@@ -18,7 +18,7 @@ export const useSecondTierColumns = () => {
           render: (_, record) => {
             return (
               <div className="flex items-center gap-2 flex-wrap">
-                <Link to={`/admin/second-tier/detail?id=${record.id}`}>
+                <Link to={`/admin/first-tier/detail?id=${record.id}`}>
                   <Button type="info">Detail</Button>
                 </Link>
               </div>
@@ -116,11 +116,8 @@ export const useSecondTierColumns = () => {
           width: 175,
           sorter: true,
           render: (_, record) => {
-            if (
-              record?.assignedMitra?.shortname &&
-              record?.assignedMitra?.fullname
-            ) {
-              return `(${record?.assignedMitra?.shortname}) ${record?.assignedMitra?.fullname}`;
+            if (record?.assignedMitra?.fullname) {
+              return record?.assignedMitra?.fullname;
             }
             return null;
           },
