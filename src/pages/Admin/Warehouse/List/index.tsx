@@ -33,7 +33,7 @@ const WarehouseTier = () => {
         <Breadcrumb.Item>Tier WH</Breadcrumb.Item>
       </Breadcrumb>
       <FilterWarehouseTier setDomain={pagination.setDomain} />
-      <div className="flex justify-between items-center gap-4 flex-wrap">
+      <div className="flex justify-between items-center gap-4 flex-wrap mb-4">
         <Pagination
           page={pagination.page}
           total={qIncident.length}

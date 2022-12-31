@@ -225,8 +225,12 @@ const Template: React.FC<Props> = () => {
             <Outlet />
           </div>
         </Content>
-        <Footer className="flex justify-center mt-4 text-gray-500">
-          Copyright © {new Date().getFullYear()} Telkom Akses Pekalongan
+        <Footer
+          className="flex gap-1 sm:flex-col items-center justify-center mt-4 text-gray-500"
+          style={{ margin: isMobile ? "0 16px 0 96px" : "0 16px" }}
+        >
+          <span>Copyright © {new Date().getFullYear()}</span>
+          <span>Telkom Akses Pekalongan</span>
         </Footer>
       </Layout>
     </Layout>
