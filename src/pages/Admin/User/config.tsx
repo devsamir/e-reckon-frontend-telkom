@@ -37,18 +37,21 @@ export const useUserColumns = (prepareEdit, prepareDelete) => {
           dataIndex: "username",
           title: "Username",
           sorter: true,
+          width: 200,
         },
         {
           key: "fullname",
           dataIndex: "fullname",
           title: "Full name",
           sorter: true,
+          width: 150,
         },
         {
           key: "role",
           dataIndex: "role",
           title: "Role",
           sorter: true,
+          width: 100,
           render: (v) => {
             return <span className="capitalize">{v.replaceAll("_", " ")}</span>;
           },

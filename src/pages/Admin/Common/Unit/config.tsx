@@ -37,6 +37,7 @@ export const useUnitColumns = (prepareEdit, prepareDelete) => {
           dataIndex: "unit_name",
           title: "Nama Unit",
           sorter: true,
+          width: 150,
         },
       ] as ColumnsType<any>,
     [prepareEdit, prepareDelete]
