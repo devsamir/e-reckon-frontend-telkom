@@ -14,7 +14,6 @@ export const useFirstTierColumn = () => {
           key: "action",
           title: "Action",
           width: 125,
-          fixed: "left",
           render: (_, record) => {
             return (
               <div className="flex items-center gap-2 flex-wrap">

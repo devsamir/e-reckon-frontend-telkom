@@ -76,12 +76,14 @@ const ModalSelectItem = ({ handleSelect }: Props, ref: React.Ref<any>) => {
         <div className="-mt-8">
           <FilterItem setDomain={pagination.setDomain} ref={filterRef} />
         </div>
-        <Pagination
-          page={pagination.page}
-          total={qItem.length}
-          limit={limit}
-          onChange={pagination.onChangePagination}
-        />
+        <div className="mb-4">
+          <Pagination
+            page={pagination.page}
+            total={qItem.length}
+            limit={limit}
+            onChange={pagination.onChangePagination}
+          />
+        </div>
         <TableExtended
           columns={columns.filter(
             (col) => !["action", "telkom_price"].includes(col.key as string)
