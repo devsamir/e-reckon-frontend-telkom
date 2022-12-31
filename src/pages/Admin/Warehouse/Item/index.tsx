@@ -155,7 +155,7 @@ const Item = () => {
             <FInput name="material_designator" placeholder="Input" />
           </div>
           <div className="flex flex-col gap-1 mb-4">
-            <label className="text-sm font-medium">Service Designator</label>
+            <label className="text-sm font-medium">Jasa Designator</label>
             <FInput name="service_designator" placeholder="Input" />
           </div>
           <div className="flex flex-col gap-1 mb-4">

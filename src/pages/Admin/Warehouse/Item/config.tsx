@@ -50,7 +50,7 @@ export const useItemColumns = (prepareEdit?: any, prepareDelete?: any) => {
         {
           key: "service_designator",
           dataIndex: "service_designator",
-          title: "Service Designator",
+          title: "Jasa Designator",
           width: 175,
           sorter: true,
         },
@@ -84,9 +84,9 @@ export const itemSchema = yup.object().shape({
     .max(100, "Material designator tidak boleh lebih dari 100 karakter"),
   service_designator: yup
     .string()
-    .typeError("Service designator harus diisi")
-    .required("Service designator harus diisi")
-    .max(100, "Service designator tidak boleh lebih dari 100 karakter"),
+    .typeError("Jasa designator harus diisi")
+    .required("Jasa designator harus diisi")
+    .max(100, "Jasa designator tidak boleh lebih dari 100 karakter"),
   unit_id: yup
     .number()
     .typeError("Unit harus diisi")
