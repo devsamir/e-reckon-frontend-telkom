@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useContext, useEffect } from "react";
+import { useMediaQuery } from "react-responsive";
 import { Outlet, Link, useLocation } from "react-router-dom";
 
 import { Footer } from "antd/lib/layout/layout";
@@ -44,6 +45,8 @@ const Template: React.FC<Props> = () => {
   const location = useLocation();
   const { logout, user } = useContext(AuthContext);
 
+  const isMobile = useMediaQuery({ query: "(max-width:767px)" });
+
   const [collapsed, setCollapsed] = useState(false);
   const [selectedKeys, setSelectedKeys] = useState(
     mapMenu?.[location.pathname]
@@ -64,18 +67,34 @@ const Template: React.FC<Props> = () => {
     [logout]
   );
 
+  useEffect(() => {
+    setCollapsed(isMobile);
+  }, [isMobile]);
+
   // useEffect(() => {
   //   setSelectedKeys(mapMenu[location.pathname]);
   // }, [location.pathname]);
   return (
-    <Layout style={{ minHeight: "100vh" }}>
+    <Layout style={{ minHeight: "100vh", position: "relative" }}>
       <Sider
         collapsible
         theme="light"
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
+        style={
+          isMobile
+            ? {
+                position: "fixed",
+                top: 0,
+                left: 0,
+                zIndex: 1000,
+                height: "100vh",
+              }
+            : {}
+        }
+        // className="absolute top-0 left-0"
       >
-        <div className="m-2 flex items-center justify-center">
+        <div className="m-2 gap-4 flex items-center justify-center">
           <Image
             preview={false}
             src={require("../assets/telkom_logo.png")}
@@ -83,13 +102,16 @@ const Template: React.FC<Props> = () => {
           />
           {!collapsed && (
             <div className="text-sm text-center text-gray-800 leading-[3rem] uppercase font-bold">
-              E-Reckon
+              MUSK-ERMA
             </div>
           )}
         </div>
         <Menu
           selectedKeys={selectedKeys}
-          onSelect={(e) => setSelectedKeys(e.keyPath)}
+          onSelect={(e) => {
+            setSelectedKeys(e.keyPath);
+            setCollapsed(true);
+          }}
           mode="inline"
         >
           <Menu.Item
@@ -136,7 +158,7 @@ const Template: React.FC<Props> = () => {
           {["admin", "commerce"].includes(user?.role) && (
             <Menu.SubMenu
               title="Commerce"
-              icon={<AppstoreOutlined />}
+              icon={<AuditOutlined />}
               key={mapMenu["/admin/commerce"][0]}
             >
               <Menu.Item key={mapMenu["/admin/commerce/item-price"][1]}>
@@ -198,14 +220,13 @@ const Template: React.FC<Props> = () => {
             </button>
           </Dropdown>
         </Header>
-        <Content style={{ margin: "0 16px" }}>
+        <Content style={{ margin: isMobile ? "0 16px 0 96px" : "0 16px" }}>
           <div style={{ minHeight: 360, padding: 16 }}>
             <Outlet />
           </div>
         </Content>
         <Footer className="flex justify-center mt-4 text-gray-500">
-          Copyright © {new Date().getFullYear()} Telkom Akses Pekalongan All
-          Rights Reserved
+          Copyright © {new Date().getFullYear()} Telkom Akses Pekalongan
         </Footer>
       </Layout>
     </Layout>
