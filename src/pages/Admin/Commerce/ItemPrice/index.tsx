@@ -129,7 +129,7 @@ const Item = () => {
             <FInput name="material_designator" placeholder="Input" disabled />
           </div>
           <div className="flex flex-col gap-1 mb-4">
-            <label className="text-sm font-medium">Service Designator</label>
+            <label className="text-sm font-medium">Jasa Designator</label>
             <FInput name="service_designator" placeholder="Input" disabled />
           </div>
           <div className="flex flex-col gap-1 mb-4">
@@ -144,7 +144,7 @@ const Item = () => {
             />
           </div>
           <div className="flex flex-col gap-1 mb-4">
-            <label className="text-sm font-medium">Harga Service Telkom</label>
+            <label className="text-sm font-medium">Harga Jasa Telkom</label>
             <FInputNumber
               name="service_price_telkom"
               placeholder="Input Number"
@@ -158,7 +158,7 @@ const Item = () => {
             />
           </div>
           <div className="flex flex-col gap-1 mb-4">
-            <label className="text-sm font-medium">Harga Service Mitra</label>
+            <label className="text-sm font-medium">Harga Jasa Mitra</label>
             <FInputNumber
               name="service_price_mitra"
               placeholder="Input Number"

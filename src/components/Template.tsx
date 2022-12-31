@@ -204,8 +204,8 @@ const Template: React.FC<Props> = () => {
           </div>
         </Content>
         <Footer className="flex justify-center mt-4 text-gray-500">
-          Copyright © {new Date().getFullYear()} Telkom Co., Ltd. All Rights
-          Reserved
+          Copyright © {new Date().getFullYear()} Telkom Akses Pekalongan All
+          Rights Reserved
         </Footer>
       </Layout>
     </Layout>

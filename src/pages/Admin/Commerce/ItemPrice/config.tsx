@@ -43,7 +43,7 @@ export const useItemColumns = (prepareEdit?: any) => {
         {
           key: "service_designator",
           dataIndex: "service_designator",
-          title: "Service Designator",
+          title: "Jasa Designator",
           width: 175,
           sorter: true,
         },
@@ -73,7 +73,7 @@ export const useItemColumns = (prepareEdit?: any) => {
             {
               key: "service_price_telkom",
               dataIndex: "service_price_telkom",
-              title: "Service",
+              title: "Jasa",
               width: 150,
               sorter: true,
               render: (val) => (val ? formatCurrency(val) : "-"),
@@ -96,7 +96,7 @@ export const useItemColumns = (prepareEdit?: any) => {
             {
               key: "service_price_mitra",
               dataIndex: "service_price_mitra",
-              title: "Service",
+              title: "Jasa",
               width: 150,
               sorter: true,
               render: (val) => (val ? formatCurrency(val) : "-"),
@@ -123,9 +123,9 @@ export const itemSchema = yup.object().shape({
     .max(100, "Material designator tidak boleh lebih dari 100 karakter"),
   service_designator: yup
     .string()
-    .typeError("Service designator harus diisi")
-    .required("Service designator harus diisi")
-    .max(100, "Service designator tidak boleh lebih dari 100 karakter"),
+    .typeError("Jasa designator harus diisi")
+    .required("Jasa designator harus diisi")
+    .max(100, "Jasa designator tidak boleh lebih dari 100 karakter"),
   unit_id: yup
     .number()
     .typeError("Unit harus diisi")
@@ -137,9 +137,9 @@ export const itemSchema = yup.object().shape({
     .min(1, "Harga material tidak boleh 0"),
   service_price_telkom: yup
     .number()
-    .typeError("Harga service harus diisi")
-    .required("Harga service harus diisi")
-    .min(1, "Harga service tidak boleh 0"),
+    .typeError("Harga jasa harus diisi")
+    .required("Harga jasa harus diisi")
+    .min(1, "Harga jasa tidak boleh 0"),
   material_price_mitra: yup
     .number()
     .typeError("Harga material harus diisi")
@@ -147,7 +147,7 @@ export const itemSchema = yup.object().shape({
     .min(1, "Harga material tidak boleh 0"),
   service_price_mitra: yup
     .number()
-    .typeError("Harga service harus diisi")
-    .required("Harga service harus diisi")
-    .min(1, "Harga service tidak boleh 0"),
+    .typeError("Harga jasa harus diisi")
+    .required("Harga jasa harus diisi")
+    .min(1, "Harga jasa tidak boleh 0"),
 });

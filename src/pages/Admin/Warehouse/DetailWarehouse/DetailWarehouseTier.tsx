@@ -58,13 +58,13 @@ const DetailWarehouseTier = () => {
             <Col span={24}>
               <Descriptions
                 bordered
-                size="default"
+                size="middle"
                 layout="horizontal"
-                column={1}
+                column={2}
                 labelStyle={{
-                  background: "rgb(30, 64, 175)",
-                  color: "white",
+                  background: "#eee",
                   margin: "0 1rem",
+                  fontWeight: "bold",
                 }}
                 contentStyle={{ background: "#fff" }}
               >
@@ -73,9 +73,6 @@ const DetailWarehouseTier = () => {
                 </Descriptions.Item>
                 <Descriptions.Item label="Tiket Gamas">
                   {incident?.incident}
-                </Descriptions.Item>
-                <Descriptions.Item label="Summary">
-                  {incident?.summary}
                 </Descriptions.Item>
                 <Descriptions.Item label="Posisi">
                   {incident?.on_tier?.replaceAll("_", " ")?.toUpperCase()}
@@ -90,6 +87,9 @@ const DetailWarehouseTier = () => {
                 </Descriptions.Item>
                 <Descriptions.Item label="Mitra">
                   {incident?.assignedMitra?.fullname}
+                </Descriptions.Item>
+                <Descriptions.Item label="Summary">
+                  {incident?.summary}
                 </Descriptions.Item>
               </Descriptions>
             </Col>

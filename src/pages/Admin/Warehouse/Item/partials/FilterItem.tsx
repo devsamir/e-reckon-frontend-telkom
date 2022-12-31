@@ -34,7 +34,7 @@ const FilterItem = ({ setDomain }: Props, ref: React.Ref<any>) => {
           ),
         },
         {
-          label: "Service Designator",
+          label: "Jasa Designator",
           component: (
             <FInput name="service_designator" placeholder="Input" allowClear />
           ),

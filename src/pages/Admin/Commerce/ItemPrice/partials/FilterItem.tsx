@@ -41,7 +41,7 @@ const FilterItem = ({ setDomain }: Props, ref: React.Ref<any>) => {
           ),
         },
         {
-          label: "Service Designator",
+          label: "Jasa Designator",
           component: (
             <FInput name="service_designator" placeholder="Input" allowClear />
           ),
@@ -55,7 +55,7 @@ const FilterItem = ({ setDomain }: Props, ref: React.Ref<any>) => {
           component: <FInputNumberRange name="material_price_telkom" />,
         },
         {
-          label: "Harga Service Telkom",
+          label: "Harga Jasa Telkom",
           component: <FInputNumberRange name="service_price_telkom" />,
         },
         {
@@ -63,7 +63,7 @@ const FilterItem = ({ setDomain }: Props, ref: React.Ref<any>) => {
           component: <FInputNumberRange name="material_price_mitra" />,
         },
         {
-          label: "Harga Service Mitra",
+          label: "Harga Jasa Mitra",
           component: <FInputNumberRange name="service_price_mitra" />,
         },
       ]}

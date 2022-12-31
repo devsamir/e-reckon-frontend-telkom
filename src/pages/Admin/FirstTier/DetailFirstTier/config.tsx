@@ -35,7 +35,7 @@ export const useTableLineColumns = (remove, offset) => {
         {
           key: "service_designator",
           dataIndex: "service_designator",
-          title: "Service Designator",
+          title: "Jasa Designator",
           width: 150,
         },
         {
