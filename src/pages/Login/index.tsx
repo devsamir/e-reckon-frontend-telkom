@@ -36,14 +36,14 @@ const Login = () => {
   return (
     <div className="w-screen h-screen flex justify-center items-center relative bg-gray-100">
       <div className="w-full max-w-lg md:max-w-md p-4 bg-white rounded-lg mx-2">
-        <div className="flex items-center my-4 gap-2 px-16">
+        <div className="flex sm:flex-wrap sm:justify-center items-center my-4 px-16">
           <img
             src={require("../../assets/telkom_logo.png")}
             alt="Logo Telkom"
             className="w-32 p-4"
           />
           <span className="text-xl text-center text-gray-800 leading-[3rem] uppercase font-bold">
-            E-Reckon
+            MUSK-ERMA
           </span>
         </div>
         <FormProvider {...form}>
