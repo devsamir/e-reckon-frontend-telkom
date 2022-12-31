@@ -37,6 +37,7 @@ export const useJobTypeColumns = (prepareEdit, prepareDelete) => {
           dataIndex: "name",
           title: "Jenis Pekerjaan",
           sorter: true,
+          width: 150,
         },
       ] as ColumnsType<any>,
     [prepareEdit, prepareDelete]
