@@ -110,7 +110,7 @@ const Template: React.FC<Props> = () => {
           selectedKeys={selectedKeys}
           onSelect={(e) => {
             setSelectedKeys(e.keyPath);
-            setCollapsed(true);
+            if (isMobile) setCollapsed(true);
           }}
           mode="inline"
         >
