@@ -24,16 +24,12 @@ const DatelSelector: React.FC<Props> = ({ name, ...props }) => {
   const searchedData = useDatelSearchRead({
     fields: ["id", "name"],
     limit: 20,
-    domain: {
-      name: { contains: search },
-    },
+    domain: [["name", "like", search]],
   });
 
   const selectedData = useDatelSearchRead({
     fields: ["id", "name"],
-    domain: {
-      id: { in: [value] },
-    },
+    domain: [["id", "=", value]],
     options: {
       enabled: !!value,
     },
