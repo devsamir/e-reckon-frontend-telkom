@@ -33,7 +33,7 @@ export const useItemService = ({
     offset,
     domain,
     sort,
-    include: ["unit"],
+    include: ["unit_id"],
   });
 
   const createMutation = useMutation({

@@ -24,16 +24,12 @@ const UnitSelector: React.FC<Props> = ({ name, ...props }) => {
   const searchedData = useUnitSearchRead({
     fields: ["id", "unit_name"],
     limit: 20,
-    domain: {
-      unit_name: { contains: search },
-    },
+    domain: [["unit_name", "like", search]],
   });
 
   const selectedData = useUnitSearchRead({
     fields: ["id", "unit_name"],
-    domain: {
-      id: { in: [value] },
-    },
+    domain: [["id", "=", value]],
     options: {
       enabled: !!value,
     },

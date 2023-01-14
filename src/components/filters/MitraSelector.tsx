@@ -25,17 +25,15 @@ const MitraSelector: React.FC<Props> = ({ name, ...props }) => {
   const searchedData = useGetUser({
     fields: ["id", "fullname"],
     limit: 20,
-    domain: {
-      fullname: { contains: search },
-      role: "mitra",
-    },
+    domain: [
+      ["fullname", "like", search],
+      ["role", "=", "mitra"],
+    ],
   });
 
   const selectedData = useGetUser({
     fields: ["id", "fullname"],
-    domain: {
-      id: { in: [value] },
-    },
+    domain: [["id", "=", value]],
     options: {
       enabled: !!value,
     },

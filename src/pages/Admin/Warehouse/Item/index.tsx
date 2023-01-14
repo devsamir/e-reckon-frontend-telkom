@@ -33,20 +33,20 @@ const Item = () => {
       item_code: "",
       material_designator: "",
       service_designator: "",
-      unit_id: "",
+      unit_id: null,
     });
   };
   const prepareEdit = (record) => {
     setShowModal(true);
     setId(record?.id);
-    form.reset(
-      pick(record, [
+    form.reset({
+      ...pick(record, [
         "item_code",
         "material_designator",
         "service_designator",
-        "unit_id",
-      ])
-    );
+      ]),
+      unit_id: record.unit_id?.id,
+    });
   };
   const prepareDelete = (record) => {
     setConfirmDelete(true);
