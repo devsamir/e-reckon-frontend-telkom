@@ -10,29 +10,29 @@ const generateDomain = ({
   numberRange = [],
   dateRange = [],
 }: Params) => {
-  return Object.keys(domain).reduce((acc, key) => {
-    const value = domain?.[key];
-    if (like.includes(key) && value) {
-      acc[key] = { contains: value };
-    } else if (numberRange.includes(key) && value) {
-      if (typeof value?.min === "number") acc[key] = { gte: value?.min };
-      if (typeof value?.max === "number")
-        acc[key] = { ...(acc[key] || {}), lte: value?.max };
-      return acc;
-    } else if (dateRange.includes(key) && Array.isArray(value)) {
-      acc[key] = {
-        gte: new Date(
-          new Date(value?.[0]).setUTCHours(0, 0, 0, 0)
-        ).toISOString(),
-        lte: new Date(
-          new Date(value?.[1]).setUTCHours(23, 59, 59, 999)
-        ).toISOString(),
-      };
-    } else if (value) {
-      acc[key] = value;
-    }
-    return acc;
-  }, {});
+  const formattedDomain = [];
+  Object.keys(domain)
+    .filter((key) => !!domain?.[key])
+    .forEach((key) => {
+      const value = domain?.[key];
+      if (like.includes(key)) {
+        formattedDomain.push([key, "like", value]);
+      } else if (numberRange.includes(key)) {
+        if (typeof value?.min === "number")
+          formattedDomain.push([key, "gte", value?.min]);
+        if (typeof value?.max === "number")
+          formattedDomain.push([key, "lte", value?.max]);
+      } else if (dateRange.includes(key) && Array.isArray(value)) {
+        formattedDomain.push(
+          [key, "gte", value?.[0]],
+          [key, "lte", value?.[1]]
+        );
+      } else {
+        formattedDomain.push([key, "=", value]);
+      }
+    });
+
+  return formattedDomain;
 };
 
 export default generateDomain;
