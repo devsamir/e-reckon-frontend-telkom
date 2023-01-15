@@ -4,6 +4,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useQueryClient } from "@tanstack/react-query";
 import { Breadcrumb, Button, Modal, notification } from "antd";
+import { format } from "date-fns";
 import Pagination, { usePagination } from "src/components/Pagination";
 import TableExtended from "src/components/TableExtended";
 import DatelSelector from "src/components/filters/DatelSelector";
@@ -59,7 +60,9 @@ const TlSektor = () => {
     setShowModal(true);
     setId(record?.id);
     form.reset({
-      ...pick(record, ["incident", "summary", "job_type_id", "datel_id"]),
+      ...pick(record, ["incident", "summary"]),
+      job_type_id: record.job_type_id?.id,
+      datel_id: record.datel_id?.id,
       open_at: new Date(record.open_at),
     });
   };
@@ -72,6 +75,8 @@ const TlSektor = () => {
   // Function for Crud Action
   const onSubmit = async (values) => {
     const newValues: any = removeFalsyValue(values);
+    if (newValues.open_at)
+      newValues["open_at"] = format(new Date(newValues.open_at), "yyyy-MM-dd");
     if (!!id) {
       await updateMutation.mutateAsync(
         { ...newValues, id },

@@ -10,12 +10,6 @@ import FInputNumber from "src/components/form/FInputNumber";
 import { formatNumber } from "src/helpers/utils";
 import * as yup from "yup";
 
-const mappingApprove = {
-  not_yet: "Not Yet",
-  approved: "Approved",
-  decline: "Decline",
-};
-
 export const useTableLineColumns = (remove, offset) => {
   const columns = useMemo(
     () =>

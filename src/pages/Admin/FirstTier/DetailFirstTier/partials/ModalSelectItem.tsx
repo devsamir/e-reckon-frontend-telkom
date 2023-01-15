@@ -31,18 +31,19 @@ const ModalSelectItem = ({ handleSelect }: Props, ref: React.Ref<any>) => {
   const qItem = useItemSearchRead({
     limit,
     offset,
-    domain: {
-      NOT: {
-        id: {
-          in: incidentDetails
-            .filter((item) => item.orm_code !== "delete")
-            .map((item) => item.item_id),
-        },
-      },
+    domain: [
+      [
+        "id",
+        "not in",
+        incidentDetails
+          .filter((item) => item.orm_code !== "delete")
+          .map((item) => item.item_id),
+      ],
       ...domain,
-    },
+    ],
+
     sort,
-    include: ["unit"],
+    include: ["unit_id"],
   });
 
   const openModal = (value) => {

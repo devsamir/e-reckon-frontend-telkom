@@ -15,13 +15,13 @@ const SecondTier = () => {
   const qIncident = useIncidentSearchRead({
     limit,
     offset,
-    domain: {
+    domain: [
       ...domain,
-      on_tier: "tier_2",
-      ...(user.role !== "admin" ? { assigned_mitra: user?.id } : {}),
-    },
+      ["on_tier", "=", "Mitra"],
+      ...(user.role !== "admin" ? [["assigned_mitra", "=", user?.id]] : []),
+    ],
     sort,
-    include: ["assignedMitra", "datel", "job_type"],
+    include: ["assigned_mitra", "datel_id", "job_type_id"],
     options: { enabled: !!user?.id },
   });
   const columns = useSecondTierColumns();

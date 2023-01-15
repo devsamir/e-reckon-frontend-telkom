@@ -13,7 +13,7 @@ const FirstTier = () => {
   const pagination = usePagination();
   const { qIncident } = useIncidentService({
     ...pagination,
-    domain: { ...pagination.domain, on_tier: "tier_1" },
+    domain: [...pagination.domain, ["on_tier", "=", "Tier 1"]],
   });
 
   const columns = useFirstTierColumn();

@@ -35,7 +35,7 @@ export const useIncidentService = ({
     offset,
     domain,
     sort,
-    include: ["assignedMitra", "datel", "job_type"],
+    include: ["assigned_mitra", "datel_id", "job_type_id"],
     options: {
       enabled: enableFetch,
     },
