@@ -23,7 +23,7 @@ export interface usePaginationProps {
 }
 
 export const usePagination = (): usePaginationProps => {
-  const [domain, setDomain] = useState({});
+  const [domain, setDomain] = useState([]);
   const [sort, setSort] = useState();
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);

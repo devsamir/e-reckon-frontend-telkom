@@ -25,6 +25,19 @@ export const useWarehouseTierColumns = () => {
           },
         },
         {
+          key: "datel_id.name",
+          dataIndex: "datel_id.name",
+          title: "Datel",
+          width: 150,
+          sorter: true,
+          render: (_, record) => {
+            if (record?.datel_id?.name) {
+              return record.datel_id.name;
+            }
+            return null;
+          },
+        },
+        {
           key: "incident_code",
           dataIndex: "incident_code",
           title: "ID",
@@ -39,16 +52,24 @@ export const useWarehouseTierColumns = () => {
           sorter: true,
         },
         {
+          key: "job_type_id.name",
+          dataIndex: "job_type_id.name",
+          title: "Jenis Pekerjaan",
+          width: 150,
+          sorter: true,
+          render: (_, record) => {
+            if (record?.job_type_id?.name) {
+              return record.job_type_id.name;
+            }
+            return null;
+          },
+        },
+        {
           key: "on_tier",
           dataIndex: "on_tier",
           title: "Posisi",
           width: 100,
           sorter: true,
-          render: (val) => {
-            return (
-              <span className="uppercase">{val.replaceAll("_", " ")}</span>
-            );
-          },
         },
         {
           key: "status_on_tier",
@@ -56,44 +77,21 @@ export const useWarehouseTierColumns = () => {
           title: "Status",
           width: 150,
           render: (_, record) => {
-            if (record.on_tier === "tier_1")
-              return (
-                <span className="uppercase">
-                  {record.status_tier_1?.replaceAll("_", " ")}
-                </span>
-              );
-            if (record.on_tier === "tier_2")
-              return (
-                <span className="uppercase">
-                  {record.status_tier_2?.replaceAll("_", " ")}
-                </span>
-              );
-            if (record.on_tier === "tier_3")
-              return (
-                <span className="uppercase">
-                  {record.status_tier_3?.replaceAll("_", " ")}
-                </span>
-              );
-            if (record.on_tier === "wh")
-              return (
-                <span className="uppercase">
-                  {record.status_wh?.replaceAll("_", " ")}
-                </span>
-              );
+            if (record.on_tier === "Tier 1" || record.on_tier === "Commerce")
+              return <span>{record.status_tier_1}</span>;
+            if (record.on_tier === "Mitra")
+              return <span>{record.status_tier_2}</span>;
           },
         },
         {
-          key: "assignedMitra.fullname",
-          dataIndex: "assignedMitra.fullname",
+          key: "assigned_mitra.fullname",
+          dataIndex: "assigned_mitra.fullname",
           title: "Mitra",
           width: 175,
           sorter: true,
           render: (_, record) => {
-            if (
-              record?.assignedMitra?.shortname &&
-              record?.assignedMitra?.fullname
-            ) {
-              return `(${record?.assignedMitra?.shortname}) ${record?.assignedMitra?.fullname}`;
+            if (record?.assigned_mitra?.fullname) {
+              return record?.assigned_mitra?.fullname;
             }
             return null;
           },
@@ -106,7 +104,7 @@ export const useWarehouseTierColumns = () => {
           width: 150,
           render: (val) => {
             return val ? (
-              <span>{format(new Date(val), "dd/MM/yyyy HH:mm")}</span>
+              <span>{format(new Date(val), "dd/MM/yyyy")}</span>
             ) : null;
           },
         },
@@ -118,7 +116,7 @@ export const useWarehouseTierColumns = () => {
           width: 150,
           render: (val) => {
             return val ? (
-              <span>{format(new Date(val), "dd/MM/yyyy HH:mm")}</span>
+              <span>{format(new Date(val), "dd/MM/yyyy")}</span>
             ) : null;
           },
         },

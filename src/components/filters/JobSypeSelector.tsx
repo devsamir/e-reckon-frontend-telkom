@@ -24,16 +24,12 @@ const JobSypeSelector: React.FC<Props> = ({ name, ...props }) => {
   const searchedData = useJobTypeSearchRead({
     fields: ["id", "name"],
     limit: 20,
-    domain: {
-      name: { contains: search },
-    },
+    domain: [["name", "like", search]],
   });
 
   const selectedData = useJobTypeSearchRead({
     fields: ["id", "name"],
-    domain: {
-      id: { in: [value] },
-    },
+    domain: [["id", "=", value]],
     options: {
       enabled: !!value,
     },

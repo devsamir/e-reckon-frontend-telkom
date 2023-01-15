@@ -33,14 +33,14 @@ export const useFormTLColumns = (prepareEdit, prepareDelete) => {
           },
         },
         {
-          key: "datel.name",
-          dataIndex: "datel.name",
+          key: "datel_id.name",
+          dataIndex: "datel_id.name",
           title: "Datel",
           width: 150,
           sorter: true,
           render: (_, record) => {
-            if (record?.datel?.name) {
-              return record.datel.name;
+            if (record?.datel_id?.name) {
+              return record.datel_id.name;
             }
             return null;
           },
@@ -60,14 +60,14 @@ export const useFormTLColumns = (prepareEdit, prepareDelete) => {
           sorter: true,
         },
         {
-          key: "job_type.name",
-          dataIndex: "job_type.name",
+          key: "job_type_id.name",
+          dataIndex: "job_type_id.name",
           title: "Jenis Pekerjaan",
           width: 150,
           sorter: true,
           render: (_, record) => {
-            if (record?.job_type?.name) {
-              return record.job_type.name;
+            if (record?.job_type_id?.name) {
+              return record.job_type_id.name;
             }
             return null;
           },
@@ -79,9 +79,7 @@ export const useFormTLColumns = (prepareEdit, prepareDelete) => {
           width: 100,
           sorter: true,
           render: (val) => {
-            return (
-              <span className="uppercase">{val.replaceAll("_", " ")}</span>
-            );
+            return <span>{val}</span>;
           },
         },
         {
@@ -91,41 +89,21 @@ export const useFormTLColumns = (prepareEdit, prepareDelete) => {
           width: 150,
           render: (_, record) => {
             // temporary
-            if (record.on_tier === "tier_1" || record.on_tier === "commerce")
-              return (
-                <span className="uppercase">
-                  {record.status_tier_1?.replaceAll("_", " ")}
-                </span>
-              );
-            if (record.on_tier === "tier_2")
-              return (
-                <span className="uppercase">
-                  {record.status_tier_2?.replaceAll("_", " ")}
-                </span>
-              );
-            if (record.on_tier === "tier_3")
-              return (
-                <span className="uppercase">
-                  {record.status_tier_3?.replaceAll("_", " ")}
-                </span>
-              );
-            if (record.on_tier === "wh")
-              return (
-                <span className="uppercase">
-                  {record.status_wh?.replaceAll("_", " ")}
-                </span>
-              );
+            if (record.on_tier === "Tier 1" || record.on_tier === "Commerce")
+              return <span>{record.status_tier_1}</span>;
+            if (record.on_tier === "Mitra")
+              return <span>{record.status_tier_2}</span>;
           },
         },
         {
-          key: "assignedMitra.fullname",
-          dataIndex: "assignedMitra.fullname",
+          key: "assigned_mitra.fullname",
+          dataIndex: "assigned_mitra.fullname",
           title: "Mitra",
           width: 175,
           sorter: true,
           render: (_, record) => {
-            if (record?.assignedMitra?.fullname) {
-              return record?.assignedMitra?.fullname;
+            if (record?.assigned_mitra?.fullname) {
+              return record?.assigned_mitra?.fullname;
             }
             return null;
           },

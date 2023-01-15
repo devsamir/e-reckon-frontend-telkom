@@ -6,15 +6,8 @@ import { DeleteFilled } from "@ant-design/icons";
 import Button from "antd-button-color";
 import FInput from "src/components/form/FInput";
 import FInputNumber from "src/components/form/FInputNumber";
-import FSelect from "src/components/form/FSelect";
-import { formatCurrency, formatNumber } from "src/helpers/utils";
+import { formatNumber } from "src/helpers/utils";
 import * as yup from "yup";
-
-const mappingApprove = {
-  not_yet: "Not Yet",
-  approved: "Approved",
-  decline: "Decline",
-};
 
 export const useTableLineColumns = (remove, offset) => {
   const columns = useMemo(

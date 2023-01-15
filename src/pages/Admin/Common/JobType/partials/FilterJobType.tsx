@@ -12,7 +12,7 @@ const FilterJobType: React.FC<Props> = ({ setDomain }) => {
   const handleSearch = (values) => {
     const newDomain = generateDomain({
       domain: values,
-      like: ["unit_name"],
+      like: ["name"],
     });
     setDomain(newDomain);
   };

@@ -3,7 +3,7 @@ import React from "react";
 import { Breadcrumb } from "antd";
 import Pagination, { usePagination } from "src/components/Pagination";
 import TableExtended from "src/components/TableExtended";
-import useIncidentSearchRead from "src/data/useIncidentSearchRead";
+import useWarehouseOrder from "src/data/useWarehouseOrder";
 
 import { useWarehouseTierColumns } from "./config";
 import FilterWarehouseTier from "./partials/FilterWarehouseTier";
@@ -11,18 +11,12 @@ import FilterWarehouseTier from "./partials/FilterWarehouseTier";
 const WarehouseTier = () => {
   const { limit, offset, domain, sort, ...pagination } = usePagination();
 
-  const qIncident = useIncidentSearchRead({
+  const qIncident = useWarehouseOrder({
     limit,
     offset,
-    domain: {
-      ...domain,
-      OR: [
-        { on_tier: "tier_2" },
-        { on_tier: "tier_1", NOT: { status_tier_1: "open" } },
-      ],
-    },
+    domain,
     sort,
-    include: ["assignedMitra"],
+    include: ["assigned_mitra", "datel_id", "job_type_id"],
   });
   const columns = useWarehouseTierColumns();
 

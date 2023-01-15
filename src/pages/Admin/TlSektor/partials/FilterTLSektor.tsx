@@ -18,12 +18,20 @@ const FilterTLSektor: React.FC<Props> = ({ setDomain }) => {
   const handleSearch = (values) => {
     const newValues = { ...values };
     if (newValues.on_tier) {
-      newValues[`status_${newValues.on_tier}`] = values.status;
+      if (newValues.on_tier === "Tier 1")
+        newValues[`status_tier_1`] = values.status;
+      if (newValues.on_tier === "Mitra")
+        newValues[`status_tier_2`] = values.status;
     }
     const newDomain = generateDomain({
       domain: omit(newValues, ["status"]),
       like: ["incident_code", "incident"],
-      dateRange: ["created_at", "closed_at"],
+      dateRange: ["open_at", "close_at"],
+      relations: [
+        ["datel_id", "id"],
+        ["job_type_id", "id"],
+        ["assigned_mitra", "id"],
+      ],
     });
     setDomain(newDomain);
   };
@@ -31,20 +39,12 @@ const FilterTLSektor: React.FC<Props> = ({ setDomain }) => {
   const optOnTier = useMemo(
     () => [
       {
-        value: "tier_1",
-        label: "TIER 1",
+        value: "Tier 1",
+        label: "Tier 1",
       },
       {
-        value: "tier_2",
-        label: "TIER 2",
-      },
-      {
-        value: "tier_3",
-        label: "TIER 3",
-      },
-      {
-        value: "wh",
-        label: "WH",
+        value: "Mitra",
+        label: "Mitra",
       },
     ],
     []
@@ -52,68 +52,40 @@ const FilterTLSektor: React.FC<Props> = ({ setDomain }) => {
 
   const optStatus = useMemo(
     () => ({
-      tier_1: [
+      "Tier 1": [
         {
-          label: "OPEN",
-          value: "open",
+          label: "Open",
+          value: "Open",
         },
         {
-          label: "CLOSED",
-          value: "closed",
-        },
-      ],
-      tier_2: [
-        {
-          label: "OPEN",
-          value: "open",
+          label: "Closed",
+          value: "Closed",
         },
         {
-          label: "CLOSED PEKERJAAN",
-          value: "closed_pekerjaan",
+          label: "Mitra Done",
+          value: "Mitra Done",
         },
         {
-          label: "CEK LIST BY WH",
-          value: "cek_list_by_wh",
-        },
-        {
-          label: "Return By TA",
-          value: "return_by_ta",
-        },
-        {
-          label: "WH DONE",
-          value: "wh_done",
+          label: "Return to Mitra",
+          value: "Return to Mitra",
         },
       ],
-      tier_3: [
+      Mitra: [
         {
-          label: "OPEN",
-          value: "open",
+          label: "Open",
+          value: "Open",
         },
         {
-          label: "CLOSED PEKERJAAN",
-          value: "closed_pekerjaan",
+          label: "Mitra Done",
+          value: "Mitra Done",
         },
         {
-          label: "CEK LIST BY WH",
-          value: "cek_list_by_wh",
+          label: "Closed Pekerjaan",
+          value: "Closed Pekerjaan",
         },
         {
-          label: "WH DONE",
-          value: "wh_done",
-        },
-      ],
-      wh: [
-        {
-          label: "OPEN",
-          value: "open",
-        },
-        {
-          label: "RETURN",
-          value: "return",
-        },
-        {
-          label: "CLOSED",
-          value: "closed",
+          label: "Return by Tier 1",
+          value: "Return by Tier 1",
         },
       ],
     }),
@@ -178,11 +150,11 @@ const FilterTLSektor: React.FC<Props> = ({ setDomain }) => {
       },
       {
         label: "Tanggal Masuk",
-        component: <FRangePicker name="created_at" />,
+        component: <FRangePicker name="open_at" />,
       },
       {
         label: "Tanggal Closed",
-        component: <FRangePicker name="closed_at" />,
+        component: <FRangePicker name="close_at" />,
       },
     ],
     [optOnTier, optStatus]

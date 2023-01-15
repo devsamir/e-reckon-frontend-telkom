@@ -28,9 +28,9 @@ const TableLineItems = () => {
         item_code: value.item_code,
         material_designator: value.material_designator,
         service_designator: value.service_designator,
-        unit_name: value.unit?.unit_name,
+        unit_name: value.unit_id?.unit_name,
         qty: null,
-        approve_wh: "not_yet",
+        approve_wh: "Not Yet",
         job_detail: null,
         orm_code: "create",
       });

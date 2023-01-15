@@ -15,7 +15,7 @@ const DetailWarehouseTier = () => {
   const navigate = useNavigate();
   const query = useUrlQuery();
   const {
-    data: incident = {},
+    data: [incident] = [{}],
     isLoading,
     isFetching,
   } = useIncidentRead({
@@ -30,14 +30,15 @@ const DetailWarehouseTier = () => {
   // USEEFFECT
   useEffect(() => {
     form.reset({
-      incident_details: incident?.IncidentDetails?.map((details) => ({
+      incident_details: incident?.incident_details?.map((details) => ({
         incidet_detail_id: details?.id,
-        item_id: details?.item_id,
-        item_code: details?.item?.item_code,
-        material_designator: details?.item?.material_designator,
-        service_designator: details?.item?.service_designator,
-        unit_name: details?.item?.unit?.unit_name,
+        item_id: details?.item_id?.id,
+        item_code: details?.item_id?.item_code,
+        material_designator: details?.item_id?.material_designator,
+        service_designator: details?.item_id?.service_designator,
+        unit_name: details?.item_id?.unit_id?.unit_name,
         qty: details?.qty,
+        actual_qty: details?.actual_qty,
         approve_wh: details?.approve_wh,
         job_detail: details?.job_detail,
         orm_code: "update",
@@ -75,18 +76,20 @@ const DetailWarehouseTier = () => {
                   {incident?.incident}
                 </Descriptions.Item>
                 <Descriptions.Item label="Posisi">
-                  {incident?.on_tier?.replaceAll("_", " ")?.toUpperCase()}
+                  {incident?.on_tier}
                 </Descriptions.Item>
                 <Descriptions.Item label="Status">
-                  {incident?.[`status_${incident?.on_tier}`]?.toUpperCase()}
+                  {incident?.on_tier === "Tier 1"
+                    ? incident?.status_tier_1
+                    : incident?.status_tier_2}
                 </Descriptions.Item>
                 <Descriptions.Item label="Tanggal Masuk">
                   {incident?.open_at
-                    ? format(new Date(incident?.open_at), "dd/MM/yyyy hh:mm")
+                    ? format(new Date(incident?.open_at), "dd/MM/yyyy")
                     : ""}
                 </Descriptions.Item>
                 <Descriptions.Item label="Mitra">
-                  {incident?.assignedMitra?.fullname}
+                  {incident?.assigned_mitra?.fullname}
                 </Descriptions.Item>
                 <Descriptions.Item label="Summary">
                   {incident?.summary}

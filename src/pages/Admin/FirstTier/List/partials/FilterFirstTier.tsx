@@ -14,19 +14,46 @@ interface Props {
   setDomain: any;
 }
 
-const FilterFirstTier: React.FC<Props> = ({ setDomain }) => {
+const FilterTLSektor: React.FC<Props> = ({ setDomain }) => {
   const handleSearch = (values) => {
     const newValues = { ...values };
-    if (newValues.on_tier) {
-      newValues[`status_${newValues.on_tier}`] = values.status;
+    if (values.status) {
+      newValues[`status_tier_1`] = values.status;
     }
     const newDomain = generateDomain({
       domain: omit(newValues, ["status"]),
       like: ["incident_code", "incident"],
-      dateRange: ["created_at", "closed_at"],
+      dateRange: ["open_at", "close_at"],
+      relations: [
+        ["datel_id", "id"],
+        ["job_type_id", "id"],
+        ["assigned_mitra", "id"],
+      ],
     });
     setDomain(newDomain);
   };
+
+  const optStatus = useMemo(
+    () => [
+      {
+        label: "Open",
+        value: "Open",
+      },
+      {
+        label: "Closed",
+        value: "Closed",
+      },
+      {
+        label: "Mitra Done",
+        value: "Mitra Done",
+      },
+      {
+        label: "Return to Mitra",
+        value: "Return to Mitra",
+      },
+    ],
+    []
+  );
 
   const filterFields = useMemo(
     () => [
@@ -53,19 +80,31 @@ const FilterFirstTier: React.FC<Props> = ({ setDomain }) => {
         ),
       },
       {
+        label: "Status",
+        component: (
+          <FSelect
+            className="flex-1"
+            name="status"
+            placeholder="Select"
+            options={optStatus || []}
+            allowClear
+          />
+        ),
+      },
+      {
         label: "Mitra",
         component: <MitraSelector name="assigned_mitra" placeholder="Select" />,
       },
       {
         label: "Tanggal Masuk",
-        component: <FRangePicker name="created_at" />,
+        component: <FRangePicker name="open_at" />,
       },
       {
         label: "Tanggal Closed",
-        component: <FRangePicker name="closed_at" />,
+        component: <FRangePicker name="close_at" />,
       },
     ],
-    []
+    [optStatus]
   );
 
   return (
@@ -77,4 +116,4 @@ const FilterFirstTier: React.FC<Props> = ({ setDomain }) => {
   );
 };
 
-export default FilterFirstTier;
+export default FilterTLSektor;

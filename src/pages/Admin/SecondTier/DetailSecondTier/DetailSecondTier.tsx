@@ -27,7 +27,7 @@ const DetailSecondTier = () => {
   const query = useUrlQuery();
   const { user } = useContext(AuthContext);
   const {
-    data: incident = {},
+    data: [incident] = [{}],
     isLoading,
     isFetching,
   } = useIncidentRead({
@@ -50,18 +50,26 @@ const DetailSecondTier = () => {
       job_detail: detail?.job_detail,
       qty: detail?.qty,
       actual_qty: detail?.actual_qty,
-      approve_wh: detail?.approve_wh !== "approved" ? "not_yet" : "approved",
+      approve_wh: detail?.approve_wh !== "Approved" ? "Not Yet" : "Approved",
       orm_code: detail?.orm_code,
     }));
 
-    const deletedIds = incident?.IncidentDetails.filter(
-      (detail) =>
-        !values?.incident_details.find((d) => d.incidet_detail_id === detail.id)
-    ).map((d) => ({ id: d.id, orm_code: "delete" }));
+    const deletedIds = incident?.incident_details
+      .filter(
+        (detail) =>
+          !values?.incident_details.find(
+            (d) => d.incidet_detail_id === detail.id
+          )
+      )
+      .map((d) => ({ id: d.id, orm_code: "delete" }));
     incidentDetails.push(...deletedIds);
 
     return {
-      assigned_mitra: values?.assigned_mitra,
+      incident: incident?.incident,
+      job_type_id: incident?.job_type_id?.id,
+      summary: incident?.summary,
+      datel_id: incident?.datel_id?.id,
+      assigned_mitra: incident?.assigned_mitra?.id,
       incident_details: incidentDetails,
     };
   };
@@ -115,13 +123,13 @@ const DetailSecondTier = () => {
   // USEEFFECT
   useEffect(() => {
     form.reset({
-      incident_details: incident?.IncidentDetails?.map((details) => ({
+      incident_details: incident?.incident_details?.map((details) => ({
         incidet_detail_id: details?.id,
-        item_id: details?.item_id,
-        item_code: details?.item?.item_code,
-        material_designator: details?.item?.material_designator,
-        service_designator: details?.item?.service_designator,
-        unit_name: details?.item?.unit?.unit_name,
+        item_id: details?.item_id?.id,
+        item_code: details?.item_id?.item_code,
+        material_designator: details?.item_id?.material_designator,
+        service_designator: details?.item_id?.service_designator,
+        unit_name: details?.item_id?.unit_id?.unit_name,
         qty: details?.qty,
         actual_qty: details?.actual_qty,
         approve_wh: details?.approve_wh,
@@ -173,20 +181,20 @@ const DetailSecondTier = () => {
                   {incident?.incident}
                 </Descriptions.Item>
                 <Descriptions.Item label="Posisi">
-                  {incident?.on_tier?.replaceAll("_", " ")?.toUpperCase()}
+                  {incident?.on_tier}
                 </Descriptions.Item>
                 <Descriptions.Item label="Status">
-                  {incident?.[`status_${incident?.on_tier}`]
-                    ?.replaceAll("_", " ")
-                    ?.toUpperCase()}
+                  {incident?.on_tier === "Tier 1"
+                    ? incident?.status_tier_1
+                    : incident?.status_tier_2}
                 </Descriptions.Item>
                 <Descriptions.Item label="Tanggal Masuk">
                   {incident?.open_at
-                    ? format(new Date(incident?.open_at), "dd/MM/yyyy hh:mm")
+                    ? format(new Date(incident?.open_at), "dd/MM/yyyy")
                     : ""}
                 </Descriptions.Item>
                 <Descriptions.Item label="Mitra">
-                  {incident?.assignedMitra?.fullname}
+                  {incident?.assigned_mitra?.fullname}
                 </Descriptions.Item>
                 <Descriptions.Item label="Summary">
                   {incident?.summary}

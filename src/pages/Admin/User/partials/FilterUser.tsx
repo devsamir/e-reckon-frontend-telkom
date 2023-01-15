@@ -43,7 +43,7 @@ export const roleOptions = [
 const FilterUser: React.FC<Props> = ({ setDomain }) => {
   const handleSearch = (values) => {
     const newDomain = generateDomain({
-      domain: { ...values, level: Number(values?.level) },
+      domain: { ...values },
       like: ["username", "fullname"],
     });
     setDomain(newDomain);

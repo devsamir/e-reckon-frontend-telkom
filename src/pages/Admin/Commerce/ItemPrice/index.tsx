@@ -30,18 +30,19 @@ const Item = () => {
   const prepareEdit = (record) => {
     setShowModal(true);
     setId(record?.id);
-    form.reset(
-      pick(record, [
+    form.reset({
+      ...pick(record, [
         "item_code",
         "material_designator",
         "service_designator",
-        "unit_id",
+
         "material_price_telkom",
         "service_price_telkom",
         "material_price_mitra",
         "service_price_mitra",
-      ])
-    );
+      ]),
+      unit_id: record?.unit_id?.id,
+    });
   };
 
   const columns = useItemColumns(prepareEdit);

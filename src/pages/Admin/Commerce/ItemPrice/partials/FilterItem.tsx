@@ -48,7 +48,7 @@ const FilterItem = ({ setDomain }: Props, ref: React.Ref<any>) => {
         },
         {
           label: "Unit",
-          component: <UnitSelector name="unit_id" placeholder="Select" />,
+          component: <UnitSelector name="unit_id.id" placeholder="Select" />,
         },
         {
           label: "Harga Material Telkom",
