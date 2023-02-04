@@ -138,7 +138,7 @@ const User = () => {
           onCancel={setShowModal.bind(this, false)}
         >
           <div className="flex flex-col gap-1 mb-4">
-            <label className="text-sm font-medium">Username</label>
+            <label className="text-sm font-medium">Email</label>
             <FInput name="username" placeholder="Input" />
           </div>
           <div className="flex flex-col gap-1 mb-4">

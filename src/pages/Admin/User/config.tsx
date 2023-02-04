@@ -34,7 +34,7 @@ export const useUserColumns = (prepareEdit, prepareDelete) => {
         {
           key: "username",
           dataIndex: "username",
-          title: "Username",
+          title: "Email",
           sorter: true,
           width: 200,
         },

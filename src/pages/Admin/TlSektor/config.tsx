@@ -18,13 +18,18 @@ export const useFormTLColumns = (prepareEdit, prepareDelete) => {
           render: (_, record) => {
             return (
               <div className="flex items-center gap-2 flex-wrap">
-                <Button type="warning" onClick={() => prepareEdit(record)}>
+                <Button
+                  type="warning"
+                  onClick={() => prepareEdit(record)}
+                  disabled={record?.assigned_mitra && record?.status_tier_2}
+                >
                   <EditFilled />
                 </Button>
                 <Button
                   type="primary"
                   danger
                   onClick={() => prepareDelete(record)}
+                  disabled={record?.assigned_mitra && record?.status_tier_2}
                 >
                   <DeleteFilled />
                 </Button>
