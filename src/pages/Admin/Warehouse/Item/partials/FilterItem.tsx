@@ -14,6 +14,7 @@ const FilterItem = ({ setDomain }: Props, ref: React.Ref<any>) => {
     const newDomain = generateDomain({
       domain: values,
       like: ["item_code", "material_designator", "service_designator"],
+      relations: [["unit_id", "id"]],
     });
     setDomain(newDomain);
   };

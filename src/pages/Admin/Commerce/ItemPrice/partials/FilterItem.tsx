@@ -21,6 +21,7 @@ const FilterItem = ({ setDomain }: Props, ref: React.Ref<any>) => {
         "material_price_mitra",
         "service_price_mitra",
       ],
+      relations: [["unit_id", "id"]],
     });
     setDomain(newDomain);
   };
