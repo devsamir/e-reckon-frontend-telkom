@@ -248,20 +248,24 @@ const DetailFirstTier = () => {
             <Col span={24} className="flex">
               <Space>
                 <Button
-                  loading={
-                    updateMutation.isLoading ||
-                    confirmFirstTierMutation.isLoading
+                  loading={updateMutation.isLoading}
+                  disabled={
+                    confirmFirstTierMutation.isLoading ||
+                    returnToMitraMutation.isLoading ||
+                    closeIncidentMutation.isLoading
                   }
                   onClick={form.handleSubmit(handleSaveDraft)}
                 >
                   Save draft
                 </Button>
-                {incident?.status_tier_1 === "mitra_done" ? (
+                {incident?.status_tier_1 === "Mitra Done" ? (
                   <Button
                     type="primary"
-                    loading={
+                    loading={returnToMitraMutation.isLoading}
+                    disabled={
+                      confirmFirstTierMutation.isLoading ||
                       updateMutation.isLoading ||
-                      confirmFirstTierMutation.isLoading
+                      closeIncidentMutation.isLoading
                     }
                     onClick={form.handleSubmit(handleReturnToMitra)}
                   >
@@ -270,9 +274,11 @@ const DetailFirstTier = () => {
                 ) : (
                   <Button
                     type="primary"
-                    loading={
+                    loading={confirmFirstTierMutation.isLoading}
+                    disabled={
+                      returnToMitraMutation.isLoading ||
                       updateMutation.isLoading ||
-                      confirmFirstTierMutation.isLoading
+                      closeIncidentMutation.isLoading
                     }
                     onClick={form.handleSubmit(handleSubmit)}
                   >
@@ -282,9 +288,14 @@ const DetailFirstTier = () => {
 
                 <Button
                   type="primary"
-                  loading={
+                  loading={closeIncidentMutation.isLoading}
+                  disabled={
+                    returnToMitraMutation.isLoading ||
                     updateMutation.isLoading ||
-                    confirmFirstTierMutation.isLoading
+                    confirmFirstTierMutation.isLoading ||
+                    !["Mitra Done", "Mitra Done (Revision)"].includes(
+                      incident?.status_tier_1
+                    )
                   }
                   onClick={form.handleSubmit(handleCloseIncident)}
                 >
