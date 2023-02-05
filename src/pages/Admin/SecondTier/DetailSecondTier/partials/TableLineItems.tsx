@@ -9,7 +9,11 @@ import TableExtended from "src/components/TableExtended";
 import { useTableLineColumns } from "../config";
 import ModalSelectItem from "./ModalSelectItem";
 
-const TableLineItems = () => {
+interface Props {
+  onTier?: string;
+}
+
+const TableLineItems: React.FC<Props> = ({ onTier }) => {
   const modalRef = useRef(null);
   const pagination = usePagination();
   const { control } = useFormContext();
@@ -37,12 +41,16 @@ const TableLineItems = () => {
     });
   };
 
-  const columns = useTableLineColumns(remove, pagination.offset);
+  const isDisabled = onTier !== "Mitra";
+
+  const columns = useTableLineColumns(remove, pagination.offset, isDisabled);
   //   Columns
   return (
     <>
       <div className="flex justify-end mb-4">
-        <Button onClick={handleOpenItemModal}>Tambah Item</Button>
+        <Button onClick={handleOpenItemModal} disabled={isDisabled}>
+          Tambah Item
+        </Button>
       </div>
       <div className="mb-4">
         <Pagination

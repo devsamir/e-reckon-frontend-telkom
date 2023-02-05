@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
-import { Breadcrumb } from "antd";
+import { Breadcrumb, Checkbox } from "antd";
 import Pagination, { usePagination } from "src/components/Pagination";
 import TableExtended from "src/components/TableExtended";
 import { AuthContext } from "src/contexts/AuthContext";
@@ -12,12 +12,13 @@ import FilterSecondTier from "./partials/FilterSecondTier";
 const SecondTier = () => {
   const { limit, offset, domain, sort, ...pagination } = usePagination();
   const { user } = useContext(AuthContext);
+  const [showAll, setShowAll] = useState(false);
   const qIncident = useIncidentSearchRead({
     limit,
     offset,
     domain: [
       ...domain,
-      ["on_tier", "=", "Mitra"],
+      ...(!showAll ? [["on_tier", "=", "Mitra"]] : []),
       ...(user.role !== "admin" ? [["assigned_mitra", "=", user?.id]] : []),
     ],
     sort,
@@ -33,13 +34,19 @@ const SecondTier = () => {
         <Breadcrumb.Item>Tier 2</Breadcrumb.Item>
       </Breadcrumb>
       <FilterSecondTier setDomain={pagination.setDomain} />
-      <div className="flex justify-between items-center gap-4 flex-wrap mb-4">
+      <div className="flex items-center gap-4 flex-wrap mb-4">
         <Pagination
           page={pagination.page}
           total={qIncident.length}
           limit={limit}
           onChange={pagination.onChangePagination}
         />
+        <Checkbox
+          checked={showAll}
+          onChange={(e) => setShowAll(e.target.checked)}
+        >
+          Tampilkan Semua Data
+        </Checkbox>
       </div>
       <TableExtended
         columns={columns}

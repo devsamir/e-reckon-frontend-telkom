@@ -18,13 +18,18 @@ export const useFormTLColumns = (prepareEdit, prepareDelete) => {
           render: (_, record) => {
             return (
               <div className="flex items-center gap-2 flex-wrap">
-                <Button type="warning" onClick={() => prepareEdit(record)}>
+                <Button
+                  type="warning"
+                  onClick={() => prepareEdit(record)}
+                  disabled={record?.assigned_mitra && record?.status_tier_2}
+                >
                   <EditFilled />
                 </Button>
                 <Button
                   type="primary"
                   danger
                   onClick={() => prepareDelete(record)}
+                  disabled={record?.assigned_mitra && record?.status_tier_2}
                 >
                   <DeleteFilled />
                 </Button>
@@ -116,19 +121,19 @@ export const useFormTLColumns = (prepareEdit, prepareDelete) => {
           width: 150,
           render: (val) => {
             return val ? (
-              <span>{format(new Date(val), "dd/MM/yyyy HH:mm")}</span>
+              <span>{format(new Date(val), "dd/MM/yyyy")}</span>
             ) : null;
           },
         },
         {
-          key: "closed_at",
-          dataIndex: "closed_at",
+          key: "close_at",
+          dataIndex: "close_at",
           title: "Tanggal Closed",
           sorter: true,
           width: 150,
-          render: (val) => {
+          render: (val, record) => {
             return val ? (
-              <span>{format(new Date(val), "dd/MM/yyyy HH:mm")}</span>
+              <span>{format(new Date(val), "dd/MM/yyyy")}</span>
             ) : null;
           },
         },
@@ -138,17 +143,17 @@ export const useFormTLColumns = (prepareEdit, prepareDelete) => {
           title: "Durasi",
           width: 100,
           render: (val, record) => {
-            if (record.created_at && record.closed_at) {
+            if (record.created_at && record.close_at) {
               const diff = differenceInDays(
-                new Date(record.closed_at),
-                new Date(record.created_at)
+                new Date(record.close_at),
+                new Date(record.open_at)
               );
               if (diff >= 1) {
                 return `${diff} Hari`;
               } else {
                 return `${differenceInHours(
-                  new Date(record.closed_at),
-                  new Date(record.created_at)
+                  new Date(record.close_at),
+                  new Date(record.open_at)
                 )} Jam`;
               }
             }

@@ -105,45 +105,45 @@ export const useSecondTierColumns = () => {
           width: 150,
           render: (val) => {
             return val ? (
-              <span>{format(new Date(val), "dd/MM/yyyy HH:mm")}</span>
+              <span>{format(new Date(val), "dd/MM/yyyy")}</span>
             ) : null;
           },
         },
-        {
-          key: "closed_at",
-          dataIndex: "closed_at",
-          title: "Tanggal Closed",
-          sorter: true,
-          width: 150,
-          render: (val) => {
-            return val ? (
-              <span>{format(new Date(val), "dd/MM/yyyy HH:mm")}</span>
-            ) : null;
-          },
-        },
-        {
-          key: "duration",
-          dataIndex: "duration",
-          title: "Durasi",
-          width: 100,
-          render: (val, record) => {
-            if (record.created_at && record.closed_at) {
-              const diff = differenceInDays(
-                new Date(record.closed_at),
-                new Date(record.created_at)
-              );
-              if (diff >= 1) {
-                return `${diff} Hari`;
-              } else {
-                return `${differenceInHours(
-                  new Date(record.closed_at),
-                  new Date(record.created_at)
-                )} Jam`;
-              }
-            }
-            return null;
-          },
-        },
+        // {
+        //   key: "closed_at",
+        //   dataIndex: "closed_at",
+        //   title: "Tanggal Closed",
+        //   sorter: true,
+        //   width: 150,
+        //   render: (val) => {
+        //     return val ? (
+        //       <span>{format(new Date(val), "dd/MM/yyyy")}</span>
+        //     ) : null;
+        //   },
+        // },
+        // {
+        //   key: "duration",
+        //   dataIndex: "duration",
+        //   title: "Durasi",
+        //   width: 100,
+        //   render: (val, record) => {
+        //     if (record.created_at && record.closed_at) {
+        //       const diff = differenceInDays(
+        //         new Date(record.closed_at),
+        //         new Date(record.created_at)
+        //       );
+        //       if (diff >= 1) {
+        //         return `${diff} Hari`;
+        //       } else {
+        //         return `${differenceInHours(
+        //           new Date(record.closed_at),
+        //           new Date(record.created_at)
+        //         )} Jam`;
+        //       }
+        //     }
+        //     return null;
+        //   },
+        // },
       ] as ColumnsType<any>,
     []
   );

@@ -131,7 +131,7 @@ const DetailSecondTier = () => {
         service_designator: details?.item_id?.service_designator,
         unit_name: details?.item_id?.unit_id?.unit_name,
         qty: details?.qty,
-        actual_qty: details?.actual_qty,
+        actual_qty: details?.actual_qty || details?.qty,
         approve_wh: details?.approve_wh,
         job_detail: details?.job_detail,
         orm_code: "update",
@@ -204,19 +204,22 @@ const DetailSecondTier = () => {
             <Col span={24} className="flex">
               <Space>
                 <Button
-                  loading={
-                    updateMutation.isLoading || finishIncidentMutation.isLoading
-                  }
+                  loading={updateMutation.isLoading}
                   onClick={form.handleSubmit(handleSaveDraft)}
+                  disabled={
+                    incident?.on_tier !== "Mitra" ||
+                    finishIncidentMutation.isLoading
+                  }
                 >
                   Save draft
                 </Button>
                 <Button
                   type="primary"
-                  loading={
-                    updateMutation.isLoading || finishIncidentMutation.isLoading
-                  }
+                  loading={finishIncidentMutation.isLoading}
                   onClick={form.handleSubmit(handleSubmit)}
+                  disabled={
+                    incident?.on_tier !== "Mitra" || updateMutation.isLoading
+                  }
                 >
                   Finish Incident
                 </Button>
@@ -224,7 +227,7 @@ const DetailSecondTier = () => {
             </Col>
           </Row>
 
-          <TableLineItems />
+          <TableLineItems onTier={incident?.on_tier} />
         </Spin>
       </FormProvider>
     </>

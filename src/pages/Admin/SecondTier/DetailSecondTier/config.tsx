@@ -10,7 +10,7 @@ import FInputNumber from "src/components/form/FInputNumber";
 import { formatNumber } from "src/helpers/utils";
 import * as yup from "yup";
 
-export const useTableLineColumns = (remove, offset) => {
+export const useTableLineColumns = (remove, offset, isDisabled) => {
   const columns = useMemo(
     () =>
       [
@@ -52,14 +52,16 @@ export const useTableLineColumns = (remove, offset) => {
           dataIndex: "job_detail",
           title: "Uraian Pekerjaan",
           width: 250,
-          render: (_, record, idx) => {
-            return (
+          render: (val, record, idx) => {
+            return !isDisabled ? (
               <FInput
                 key={record.id}
                 name={`incident_details.${idx + offset}.job_detail`}
                 isTextArea
                 rows={1}
               />
+            ) : (
+              <span>{val}</span>
             );
           },
         },
@@ -68,12 +70,14 @@ export const useTableLineColumns = (remove, offset) => {
           dataIndex: "actual_qty",
           title: "Qty Actual",
           width: 150,
-          render: (_, record, idx) => {
-            return (
+          render: (val, record, idx) => {
+            return !isDisabled ? (
               <FInputNumber
                 key={record.id}
                 name={`incident_details.${idx + offset}.actual_qty`}
               />
+            ) : (
+              formatNumber(val)
             );
           },
         },
@@ -116,7 +120,7 @@ export const useTableLineColumns = (remove, offset) => {
             }),
           } as ColumnType<any>)
       ) as ColumnsType<any>,
-    [offset, remove]
+    [offset, remove, isDisabled]
   );
 
   return columns;
