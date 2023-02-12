@@ -84,6 +84,7 @@ const DetailSecondTier = () => {
       {
         onSuccess: () => {
           navigate("/admin/mitra");
+
           notification.success({ message: "Berhasil update data" });
         },
         onError: (error: any) => {
