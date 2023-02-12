@@ -44,7 +44,9 @@ const FilterContainer = (
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onFind)} className="p-4 my-4 bg-white">
         <div>
-          <h4 className="text-sm tracking-wide uppercase font-bold">{title}</h4>
+          <h4 className="text-sm tracking-wide uppercase font-bold mb-4">
+            {title}
+          </h4>
           <Row className="w-full" gutter={[16, 16]}>
             <Col span={24}>
               <Row className="w-full" gutter={[10, 10]}>

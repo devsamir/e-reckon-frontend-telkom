@@ -164,9 +164,9 @@ const Template: React.FC<Props> = () => {
               <Menu.Item key={mapMenu["/admin/commerce/item-price"][1]}>
                 <Link to={"/admin/commerce/item-price"}>Item Price</Link>
               </Menu.Item>
-              {/* <Menu.Item key={mapMenu["/admin/commerce/order"][1]}>
-              <Link to={"/admin/commerce/order"}>Order</Link>
-            </Menu.Item> */}
+              <Menu.Item key={mapMenu["/admin/commerce/order"][1]}>
+                <Link to={"/admin/commerce/order"}>Order</Link>
+              </Menu.Item>
             </Menu.SubMenu>
           )}
 

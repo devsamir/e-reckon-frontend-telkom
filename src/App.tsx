@@ -6,6 +6,7 @@ import { Spin } from "antd";
 import Template from "./components/Template";
 import { AuthContext } from "./contexts/AuthContext";
 import ItemPrice from "./pages/Admin/Commerce/ItemPrice";
+import CommerceOrder from "./pages/Admin/Commerce/List";
 import JobType from "./pages/Admin/Common/JobType";
 import Unit from "./pages/Admin/Common/Unit";
 import Dashboard from "./pages/Admin/Dashboard";
@@ -83,6 +84,9 @@ const App: React.FC = () => {
           )}
           {["admin", "commerce"].includes(user?.role) && (
             <Route path="commerce/item-price" element={<ItemPrice />} />
+          )}
+          {["admin", "commerce"].includes(user?.role) && (
+            <Route path="commerce/order" element={<CommerceOrder />} />
           )}
           {/* COMMON */}
           {["admin"].includes(user?.role) && (
