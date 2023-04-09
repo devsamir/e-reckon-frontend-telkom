@@ -68,8 +68,9 @@ export const createUserSchema = (formStatus) => {
       ? {
           username: yup
             .string()
-            .typeError("Username lengkap harus diisi")
-            .required("Username lengkap harus diisi"),
+            .typeError("Email lengkap harus diisi")
+            .required("Email lengkap harus diisi")
+            .email("Email tidak valid"),
           role: yup
             .string()
             .typeError("Role harus diisi")

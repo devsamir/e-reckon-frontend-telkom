@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useContext, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 
 import { Footer } from "antd/lib/layout/layout";
 
@@ -16,6 +16,7 @@ import {
   AuditOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, Image, Dropdown } from "antd";
+import { BASE_URL } from "src/services/ApiCall";
 
 import { AuthContext } from "../contexts/AuthContext";
 
@@ -43,6 +44,7 @@ const mapMenu = {
 
 const Template: React.FC<Props> = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { logout, user } = useContext(AuthContext);
 
   const isMobile = useMediaQuery({ query: "(max-width:767px)" });
@@ -57,6 +59,15 @@ const Template: React.FC<Props> = () => {
         items={[
           {
             key: "1",
+            label: "My Profile",
+            icon: <UserOutlined />,
+            onClick: () => {
+              navigate("/admin/profile");
+              setSelectedKeys(undefined);
+            },
+          },
+          {
+            key: "2",
             label: "Logout",
             icon: <LogoutOutlined />,
             onClick: logout,
@@ -70,7 +81,6 @@ const Template: React.FC<Props> = () => {
   useEffect(() => {
     setCollapsed(isMobile);
   }, [isMobile]);
-
   // useEffect(() => {
   //   setSelectedKeys(mapMenu[location.pathname]);
   // }, [location.pathname]);
@@ -212,16 +222,21 @@ const Template: React.FC<Props> = () => {
                   {user.role.replaceAll("_", " ")}
                 </span>
               </div>
-              <img
-                src={require("../assets/me.jpg")}
-                alt="foto admin"
-                className="rounded-full w-12 h-12"
-              />
+              <div
+                className="rounded-full w-12 h-12 bg-center bg-cover bg-no-repeat"
+                style={{
+                  backgroundImage: `url(${
+                    user.avatar
+                      ? `${BASE_URL}${user.avatar}`
+                      : require("../assets/me.jpg")
+                  })`,
+                }}
+              ></div>
             </button>
           </Dropdown>
         </Header>
-        <Content style={{ margin: isMobile ? "0 16px 0 96px" : "0 16px" }}>
-          <div style={{ minHeight: 360, padding: 16 }}>
+        <Content style={{ margin: isMobile ? "0 0 0 80px" : "0" }}>
+          <div style={{ minHeight: 360, padding: "16px 8px" }}>
             <Outlet />
           </div>
         </Content>
