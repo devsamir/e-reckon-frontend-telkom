@@ -12,6 +12,7 @@ import Unit from "./pages/Admin/Common/Unit";
 import Dashboard from "./pages/Admin/Dashboard";
 import DetailFirstTier from "./pages/Admin/FirstTier/DetailFirstTier/DetailFirstTier";
 import FirstTierList from "./pages/Admin/FirstTier/List";
+import Profile from "./pages/Admin/Profile/Profile";
 import DetailSecondTier from "./pages/Admin/SecondTier/DetailSecondTier/DetailSecondTier";
 import SecondTierList from "./pages/Admin/SecondTier/List";
 import TlSektor from "./pages/Admin/TlSektor";
@@ -98,6 +99,7 @@ const App: React.FC = () => {
           {["admin"].includes(user?.role) && (
             <Route path="user" element={<User />} />
           )}
+          <Route path="/admin/profile" element={<Profile />} />
         </Route>
       )}
     </Routes>
