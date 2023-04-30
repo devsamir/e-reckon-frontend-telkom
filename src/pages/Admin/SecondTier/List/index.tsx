@@ -19,7 +19,7 @@ const SecondTier = () => {
     domain: [
       ...domain,
       ...(!showAll ? [["on_tier", "=", "Mitra"]] : []),
-      ...(user.role !== "admin" ? [["assigned_mitra", "=", user?.id]] : []),
+      ...(user.role !== "admin" ? [["assigned_mitra.id", "=", user?.id]] : []),
     ],
     sort,
     include: ["assigned_mitra", "datel_id", "job_type_id"],
@@ -33,7 +33,7 @@ const SecondTier = () => {
         <Breadcrumb.Item>Admin</Breadcrumb.Item>
         <Breadcrumb.Item>Tier 2</Breadcrumb.Item>
       </Breadcrumb>
-      <FilterSecondTier setDomain={pagination.setDomain} />
+      <FilterSecondTier setDomain={pagination.setDomain} showAll={showAll} />
       <div className="flex items-center gap-4 flex-wrap mb-4">
         <Pagination
           page={pagination.page}

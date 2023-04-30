@@ -80,10 +80,9 @@ export const useFirstTierColumn = () => {
           title: "Status",
           width: 150,
           render: (_, record) => {
-            if (record.on_tier === "Tier 1")
-              return <span>{record.status_tier_1}</span>;
             if (record.on_tier === "Mitra")
               return <span>{record.status_tier_2}</span>;
+            return <span>{record.status_tier_1}</span>;
           },
         },
         {

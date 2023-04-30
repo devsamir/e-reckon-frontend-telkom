@@ -81,9 +81,9 @@ const Template: React.FC<Props> = () => {
   useEffect(() => {
     setCollapsed(isMobile);
   }, [isMobile]);
-  // useEffect(() => {
-  //   setSelectedKeys(mapMenu[location.pathname]);
-  // }, [location.pathname]);
+  useEffect(() => {
+    setSelectedKeys(mapMenu[location.pathname]);
+  }, [location.pathname]);
   return (
     <Layout style={{ minHeight: "100vh", position: "relative" }}>
       <Sider

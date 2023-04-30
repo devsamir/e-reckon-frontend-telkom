@@ -20,7 +20,6 @@ const DatelSelector: React.FC<Props> = ({ name, ...props }) => {
   const { watch } = useFormContext();
 
   const value = watch(name);
-
   const searchedData = useDatelSearchRead({
     fields: ["id", "name"],
     limit: 20,

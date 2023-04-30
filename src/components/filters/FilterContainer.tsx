@@ -13,6 +13,8 @@ import * as yup from "yup";
 
 interface FilterFields {
   label: string;
+  required?: boolean;
+  hidden?: boolean;
   component:
     | JSX.Element
     | ((form: UseFormReturn<FieldValues, any>) => JSX.Element);
@@ -23,13 +25,15 @@ interface Props {
   filterFields: FilterFields[];
   title?: string;
   onFind: any;
+  initialValue?: any;
 }
 
 const FilterContainer = (
-  { schema, filterFields, title = "Filter", onFind }: Props,
+  { schema, filterFields, title = "Filter", onFind, initialValue }: Props,
   ref: React.Ref<any>
 ) => {
   const form = useForm({
+    defaultValues: initialValue || {},
     resolver: schema ? yupResolver(schema) : yupResolver(yup.object({})),
   });
   const [expand, setExpand] = useState(false);
@@ -37,6 +41,9 @@ const FilterContainer = (
   useImperativeHandle(ref, () => ({
     resetForm: () => {
       form.reset(null);
+    },
+    setFormValue: (values) => {
+      form.reset(values);
     },
   }));
 
@@ -50,24 +57,33 @@ const FilterContainer = (
           <Row className="w-full" gutter={[16, 16]}>
             <Col span={24}>
               <Row className="w-full" gutter={[10, 10]}>
-                {filterFields.map((filterField, index) => {
-                  return (
-                    <Col
-                      span={24}
-                      md={8}
-                      style={{
-                        display: index > 2 && !expand ? "none" : "flex",
-                      }}
-                      className="flex-col gap-1"
-                      key={index}
-                    >
-                      <span>{filterField.label}</span>
-                      {typeof filterField.component === "function"
-                        ? filterField.component(form)
-                        : filterField.component}
-                    </Col>
-                  );
-                })}
+                {filterFields
+                  .filter((f) => !f.hidden)
+                  .map((filterField, index) => {
+                    return (
+                      <Col
+                        span={24}
+                        md={8}
+                        style={{
+                          display: index > 2 && !expand ? "none" : "flex",
+                        }}
+                        className="flex-col gap-1"
+                        key={index}
+                      >
+                        <span>
+                          {filterField.label}
+                          {filterField.required ? (
+                            <span className="text-red-500 ml-1">*</span>
+                          ) : (
+                            ""
+                          )}
+                        </span>
+                        {typeof filterField.component === "function"
+                          ? filterField.component(form)
+                          : filterField.component}
+                      </Col>
+                    );
+                  })}
               </Row>
             </Col>
             <Col span={24}>

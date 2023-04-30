@@ -1,4 +1,5 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import DatelSelector from "src/components/filters/DatelSelector";
 import FilterContainer from "src/components/filters/FilterContainer";
@@ -15,17 +16,28 @@ interface Props {
 }
 
 const FilterTLSektor: React.FC<Props> = ({ setDomain }) => {
+  const filterRef = useRef(null);
+  const [params] = useSearchParams();
+  const on_tier = params.get("on_tier");
+  const status = params.get("status");
+  const datel_id = params.get("datel_id");
+
   const handleSearch = (values) => {
     const newValues = { ...values };
     if (newValues.on_tier) {
-      if (newValues.on_tier === "Tier 1")
+      if (newValues.on_tier === "Tier 1") {
         newValues[`status_tier_1`] = values.status;
+        if (values.status === "Closed") {
+          newValues["on_tier"] = "Commerce";
+        }
+      }
       if (newValues.on_tier === "Mitra")
         newValues[`status_tier_2`] = values.status;
     }
+
     const newDomain = generateDomain({
       domain: omit(newValues, ["status"]),
-      like: ["incident_code", "incident"],
+      like: ["incident_code", "incident", "status_tier_1", "status_tier_2"],
       dateRange: ["open_at", "close_at"],
       relations: [
         ["datel_id", "id"],
@@ -160,8 +172,31 @@ const FilterTLSektor: React.FC<Props> = ({ setDomain }) => {
     [optOnTier, optStatus]
   );
 
+  useEffect(() => {
+    if (filterRef.current?.setFormValue) {
+      filterRef.current?.setFormValue({
+        on_tier,
+        status,
+        datel_id: Number(datel_id),
+      });
+
+      setDomain(
+        generateDomain({
+          domain: {
+            status_tier_1: on_tier === "Tier 1" ? status : null,
+            status_tier_2: on_tier === "Mitra" ? status : null,
+            datel_id: Number(datel_id),
+          },
+          like: ["status_tier_1", "status_tier_2"],
+          relations: [["datel_id", "id"]],
+        })
+      );
+    }
+  }, [status, datel_id, filterRef, setDomain]);
+
   return (
     <FilterContainer
+      ref={filterRef}
       title="Filter Form TL Sektor"
       onFind={handleSearch}
       filterFields={filterFields}

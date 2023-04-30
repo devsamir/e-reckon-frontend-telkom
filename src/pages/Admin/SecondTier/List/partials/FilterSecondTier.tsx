@@ -1,4 +1,5 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import DatelSelector from "src/components/filters/DatelSelector";
 import FilterContainer from "src/components/filters/FilterContainer";
@@ -12,17 +13,36 @@ import { omit } from "src/helpers/utils";
 
 interface Props {
   setDomain: any;
+  showAll: boolean;
 }
 
-const FilterSecondTier: React.FC<Props> = ({ setDomain }) => {
+const FilterSecondTier: React.FC<Props> = ({ setDomain, showAll }) => {
+  const filterRef = useRef(null);
+  const [params] = useSearchParams();
+  const on_tier = params.get("on_tier");
+  const status = params.get("status");
+  const datel_id = params.get("datel_id");
+
   const handleSearch = (values) => {
     const newValues = { ...values };
-    if (values.status) {
+    if (newValues.on_tier) {
+      if (newValues.on_tier === "Tier 1")
+        newValues[`status_tier_1`] = values.status;
+
+      if (newValues.on_tier === "Mitra") {
+        newValues[`status_tier_2`] = values.status;
+        if (values.status === "Closed") {
+          newValues["on_tier"] = "Commerce";
+        }
+      }
+    }
+    if (newValues.status && !showAll) {
       newValues[`status_tier_2`] = values.status;
     }
+
     const newDomain = generateDomain({
       domain: omit(newValues, ["status"]),
-      like: ["incident_code", "incident"],
+      like: ["incident_code", "incident", "status_tier_1", "status_tier_2"],
       dateRange: ["open_at", "close_at"],
       relations: [
         ["datel_id", "id"],
@@ -33,25 +53,47 @@ const FilterSecondTier: React.FC<Props> = ({ setDomain }) => {
     setDomain(newDomain);
   };
 
-  const optStatus = useMemo(
+  const optOnTier = useMemo(
     () => [
       {
-        label: "Open",
-        value: "Open",
+        value: "Tier 1",
+        label: "Tier 1",
       },
       {
-        label: "Mitra Done",
-        value: "Mitra Done",
-      },
-      {
-        label: "Closed Pekerjaan",
-        value: "Closed Pekerjaan",
-      },
-      {
-        label: "Return by Tier 1",
-        value: "Return by Tier 1",
+        value: "Mitra",
+        label: "Mitra",
       },
     ],
+    []
+  );
+
+  const optStatus = useMemo(
+    () => ({
+      "Tier 1": [
+        {
+          label: "Open",
+          value: "Open",
+        },
+        {
+          label: "Mitra Done",
+          value: "Mitra Done",
+        },
+      ],
+      Mitra: [
+        {
+          label: "Open",
+          value: "Open",
+        },
+        {
+          label: "Return by Tier 1",
+          value: "Return by Tier 1",
+        },
+        {
+          label: "Closed Pekerjaan",
+          value: "Closed",
+        },
+      ],
+    }),
     []
   );
 
@@ -81,15 +123,45 @@ const FilterSecondTier: React.FC<Props> = ({ setDomain }) => {
       },
       {
         label: "Status",
+        hidden: showAll,
         component: (
           <FSelect
             className="flex-1"
             name="status"
             placeholder="Select"
-            options={optStatus || []}
+            options={optStatus?.["Mitra"] || []}
             allowClear
           />
         ),
+      },
+      {
+        label: "Posisi & Status",
+        hidden: !showAll,
+        component: (form) => {
+          const onTier = form.watch("on_tier");
+          return (
+            <div className="w-full flex gap-2 items-center">
+              <FSelect
+                className="flex-1"
+                name="on_tier"
+                placeholder="Select"
+                options={optOnTier}
+                allowClear
+                onChange={() => {
+                  form.setValue("status", null);
+                }}
+              />
+              <FSelect
+                className="flex-1"
+                name="status"
+                placeholder="Select"
+                options={optStatus?.[onTier] || []}
+                disabled={!onTier}
+                allowClear
+              />
+            </div>
+          );
+        },
       },
       {
         label: "Mitra",
@@ -104,11 +176,46 @@ const FilterSecondTier: React.FC<Props> = ({ setDomain }) => {
         component: <FRangePicker name="close_at" />,
       },
     ],
-    [optStatus]
+    [optStatus, optOnTier, showAll]
   );
+
+  useEffect(() => {
+    if (filterRef.current?.resetForm) {
+      filterRef.current?.resetForm();
+      setDomain([]);
+    }
+  }, [showAll]);
+
+  useEffect(() => {
+    if (filterRef.current?.setFormValue) {
+      filterRef.current?.setFormValue({ status, datel_id: Number(datel_id) });
+      if (showAll) {
+        setDomain(
+          generateDomain({
+            domain: {
+              status_tier_1: on_tier === "Tier 1" ? status : null,
+              status_tier_2: on_tier === "Mitra" ? status : null,
+              datel_id: Number(datel_id),
+            },
+            like: ["status_tier_1", "status_tier_2"],
+            relations: [["datel_id", "id"]],
+          })
+        );
+      } else {
+        setDomain(
+          generateDomain({
+            domain: { status_tier_2: status, datel_id: Number(datel_id) },
+            like: ["status_tier_2"],
+            relations: [["datel_id", "id"]],
+          })
+        );
+      }
+    }
+  }, [status, datel_id, filterRef, setDomain, on_tier]);
 
   return (
     <FilterContainer
+      ref={filterRef}
       title="Filter Mitra"
       onFind={handleSearch}
       filterFields={filterFields}

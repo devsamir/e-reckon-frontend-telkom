@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import type { ColumnsType } from "antd/es/table";
 
 import Button from "antd-button-color";
-import { format, differenceInDays, differenceInHours } from "date-fns";
+import { format } from "date-fns";
 
 export const useSecondTierColumns = () => {
   const columns = useMemo(
@@ -79,8 +79,7 @@ export const useSecondTierColumns = () => {
           render: (_, record) => {
             if (record.on_tier === "Tier 1")
               return <span>{record.status_tier_1}</span>;
-            if (record.on_tier === "Mitra")
-              return <span>{record.status_tier_2}</span>;
+            return <span>{record.status_tier_2}</span>;
           },
         },
 

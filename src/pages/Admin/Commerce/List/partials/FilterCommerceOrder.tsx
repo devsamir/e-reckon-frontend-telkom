@@ -1,4 +1,5 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import DatelSelector from "src/components/filters/DatelSelector";
 import FilterContainer from "src/components/filters/FilterContainer";
@@ -15,6 +16,11 @@ interface Props {
 }
 
 const FilterCommerceOrder: React.FC<Props> = ({ setDomain }) => {
+  const filterRef = useRef(null);
+
+  const [params] = useSearchParams();
+  const status = params.get("status");
+  const datel_id = params.get("datel_id");
   const handleSearch = (values) => {
     const newValues = { ...values };
     if (newValues.on_tier) {
@@ -24,7 +30,7 @@ const FilterCommerceOrder: React.FC<Props> = ({ setDomain }) => {
         newValues[`status_tier_2`] = values.status;
     }
     const newDomain = generateDomain({
-      domain: omit(newValues, ["status"]),
+      domain: omit(newValues, ["status", "commerce_code"]),
       like: ["incident_code", "incident"],
       dateRange: ["open_at", "close_at"],
       relations: [
@@ -33,6 +39,15 @@ const FilterCommerceOrder: React.FC<Props> = ({ setDomain }) => {
         ["assigned_mitra", "id"],
       ],
     });
+
+    if (newValues.commerce_code) {
+      if (newValues.commerce_code === "filled") {
+        newDomain.push(["commerce_code", "!=", null]);
+      }
+      if (newValues.commerce_code === "not_filled") {
+        newDomain.push(["commerce_code", "=", null]);
+      }
+    }
     setDomain(newDomain);
   };
 
@@ -94,6 +109,30 @@ const FilterCommerceOrder: React.FC<Props> = ({ setDomain }) => {
 
   const filterFields = useMemo(
     () => [
+      {
+        label: "Commerce Code",
+        component: (
+          <FSelect
+            className="flex-1"
+            name="commerce_code"
+            placeholder="Select"
+            options={[
+              {
+                label: "Semua",
+                value: "all",
+              },
+              {
+                label: "Sudah Diisi",
+                value: "filled",
+              },
+              {
+                label: "Belum Diisi",
+                value: "not_filled",
+              },
+            ]}
+          />
+        ),
+      },
       {
         label: "Datel",
         component: (
@@ -160,8 +199,32 @@ const FilterCommerceOrder: React.FC<Props> = ({ setDomain }) => {
     [optOnTier, optStatus]
   );
 
+  useEffect(() => {
+    if (filterRef.current?.setFormValue) {
+      filterRef.current?.setFormValue({
+        commerce_code: status || "all",
+        datel_id: Number(datel_id),
+      });
+      const domain = generateDomain({
+        domain: { datel_id: Number(datel_id) },
+        relations: [["datel_id", "id"]],
+      });
+      if (status) {
+        if (status === "filled") {
+          domain.push(["commerce_code", "!=", null]);
+        }
+        if (status === "not_filled") {
+          domain.push(["commerce_code", "=", null]);
+        }
+      }
+      setDomain(domain);
+    }
+  }, [status, datel_id, filterRef, setDomain]);
+
   return (
     <FilterContainer
+      ref={filterRef}
+      initialValue={{ commerce_code: "all" }}
       title="Filter Commerce Order"
       onFind={handleSearch}
       filterFields={filterFields}

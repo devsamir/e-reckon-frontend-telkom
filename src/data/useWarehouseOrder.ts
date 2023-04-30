@@ -11,11 +11,13 @@ interface Params {
   fields?: string[];
   options?: UseQueryOptions<any>;
   include?: string[];
+  show_all?: boolean;
 }
 
 const useWarehouseOrder = (params: Params) => {
   const [cookies] = useCookies();
-  const { domain, fields, limit, offset, sort, options, include } = params;
+  const { domain, fields, limit, offset, sort, options, include, show_all } =
+    params;
   const queryKey = [
     `getWarehouseOrder`,
     domain,
@@ -24,6 +26,7 @@ const useWarehouseOrder = (params: Params) => {
     sort,
     fields,
     include,
+    show_all,
   ];
 
   const query = useQuery(
@@ -38,6 +41,7 @@ const useWarehouseOrder = (params: Params) => {
           offset,
           sort,
           include,
+          show_all,
         },
         {
           headers: { token: cookies?.["token"] },

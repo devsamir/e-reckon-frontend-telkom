@@ -19,6 +19,7 @@ interface Props {
     x?: string | number | true;
     y?: string | number;
   };
+  summary?: any;
 }
 
 const TableExtended: React.FC<Props> = ({
@@ -33,6 +34,7 @@ const TableExtended: React.FC<Props> = ({
   size = "small",
   scroll = { x: "100%", y: "70vh" },
   loading,
+  summary,
 }) => {
   const fixData = dataSource.map((item) => ({ ...item, key: item?.[rowKey] }));
 
@@ -71,6 +73,7 @@ const TableExtended: React.FC<Props> = ({
             },
           }
         : {})}
+      summary={summary}
     />
   );
 };
